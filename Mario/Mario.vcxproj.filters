@@ -32,5 +32,8 @@
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ai.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

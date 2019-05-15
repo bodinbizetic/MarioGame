@@ -1,6 +1,10 @@
 #ifndef map_h
 #define map_h
 
+/*!	\file map.h
+*	\brief Contains declarations and constants for map
+*/
+
 #define MAP_HEIGHT 15
 #define MAP_WIDTH 15
 #define MAP_SEGMENTS_NUMBER 10

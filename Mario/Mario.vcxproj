@@ -126,6 +126,7 @@
     <ClCompile Include="map.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ai.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="main_menu.h" />
   </ItemGroup>
