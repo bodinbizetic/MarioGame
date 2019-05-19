@@ -8,6 +8,7 @@
 #include "main_menu.h"
 #include "settings.h"
 
+//za settings
 int showSettings() {
 	return 0;
 }
