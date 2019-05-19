@@ -5,9 +5,9 @@
 *	\brief Contains declarations and constants for map
 */
 
-#define MAP_HEIGHT 15
-#define MAP_WIDTH 15
-#define MAP_SEGMENTS_NUMBER 10
+#define MAP_HEIGHT 10
+#define MAP_WIDTH 10
+#define MAP_SEGMENTS_NUMBER 1
 
 #define AI_NUMBER 9
 #define AI_MAX_NUMBER 10
@@ -20,12 +20,14 @@ enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Pla
 /*!
 *		\brief Main structure that cantains all active AI's and all blocks on the map
 */
-typedef struct MAP {
+typedef struct {
 	void *ai_Matrix[AI_NUMBER][AI_MAX_NUMBER];
 	int map_Matrix[MAP_HEIGHT][MAP_WIDTH * MAP_SEGMENTS_NUMBER];
 }Map;
 
 Map* initMap();
+//Citanje sacuvane mape
+Map* LoadMap();
 
 void  destroyMap(Map *map);
 
