@@ -24,6 +24,12 @@
     <ClCompile Include="map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mario_man.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="New_game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main_menu.h">
@@ -33,6 +39,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ai.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario_man.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="New_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
