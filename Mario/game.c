@@ -8,60 +8,68 @@
 #include "main_menu.h"
 
 #define TILE_SIZE 16
+//blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
+Pair_xy blok;
 //DrawScreen crta na ekranu
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
+
+	
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
-	for (i = 0; i < 10; i++) {
-		for (j = 0; j < 10; j++) {
+	for (i = 0; i < MAP_HEIGHT; i++) {
+		for (j = 0; j <= MAP_WIDTH; j++) {
 			//Belo nebo
-			rect.x = x;
-			rect.y = y;
-			if (map->map_Matrix[i][j] == 0) {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+			rect.x = j*blok.x;
+			rect.y = i*blok.y;
+			rect.w = blok.x;
+			rect.h = blok.y;
+			if (map->map_Matrix[i][j] == sky) {
+				SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 				SDL_RenderFillRect(renderer, &rect);
 			}
 			//Crn pod
-			else  {
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			else if(map->map_Matrix[i][j] == ground)  {
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);
 			}
-			if (x == mario->coordinates.x && y == mario->coordinates.y) {
+			/*if (x == mario->coordinates.x && y == mario->coordinates.y) {
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);
 				SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 				SDL_RenderFillRect(renderer, &rect);
 				
-			}
-			x+= TILE_SIZE;
+			}*/
 		}
-		x = 0;
-		y += TILE_SIZE;
 	}
 	SDL_RenderPresent(renderer);
 }
 //igranje igre
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
+	blok.x = SCREEN_WIDTH / MAP_WIDTH;
+	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
+
 	Map *mapa;
 	Mario *probni_mario;
 	probni_mario = malloc(sizeof(Mario));
-	probni_mario->size.x = TILE_SIZE;
-	probni_mario->size.y = TILE_SIZE;
-	probni_mario->coordinates.x = 3*TILE_SIZE;
-	probni_mario->coordinates.y = 3*TILE_SIZE;
+	probni_mario->size.x = blok.x;
+	probni_mario->size.y = blok.y;
+	probni_mario->coordinates.x = 3* blok.x;
+	probni_mario->coordinates.y = 3*blok.y;
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
-	mapa = malloc(sizeof(map));
+	//postoji funkcija koja inicijalizuje mapu
+	mapa = initMap();
+	
 	int i, j, x = 0, y = 0;
-	for (i = 0; i < 10; i++)
+	/*for (i = 0; i < 10; i++)
 		for (j = 0; j < 10; j++) {
 			if (i == 9)
 				mapa->map_Matrix[i][j] = 0;
 			else
 				mapa->map_Matrix[i][j] = 1;
-		}
+		}*/
 
 	//Running for game loop
 	int Running = 1;
