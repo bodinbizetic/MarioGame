@@ -5,9 +5,9 @@
 *	\brief Contains declarations and constants for map
 */
 
-#define MAP_HEIGHT 10
-#define MAP_WIDTH 10
-#define MAP_SEGMENTS_NUMBER 1
+#define MAP_HEIGHT 15
+#define MAP_WIDTH 15
+#define MAP_SEGMENTS_NUMBER 10
 
 #define AI_NUMBER 9
 #define AI_MAX_NUMBER 10

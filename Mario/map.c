@@ -9,9 +9,9 @@ Map* initMap() {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
 		printf_s("Failed to Initialize Map");
-	for (int i = 0; i < MAP_HEIGHT - 1; i++)
-		for (int j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER - 1; j++)
-			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 2) ? ground : sky;
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++)
+			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 1) ? ground : sky;
 	return map;
 }
 Map* LoadMap() {
