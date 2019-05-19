@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL_ttf.h>
-
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 720
 
@@ -11,7 +10,6 @@
 #define NUMBER_OF_OPTIONS 5
 #define OPTION_HEIGHT 80
 #define OPTION_WIDTH 300
-int Game_running=1;
 //Vraca koju opciju smo uzeli,da bismo to mogli da koristimo u main.c
 int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	//Init TTF
@@ -47,13 +45,13 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	int index_Selected = 0;
 
 	//Event init
+	//vraca NUMBER_OF_OPTIONS AKO JE KRAJ PROGRAMA (EXIT,QUIT)
 	SDL_Event event;
 	while (Menu_Running != 0) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
-				Game_running = 0;
-				return;
+				return  NUMBER_OF_OPTIONS - 1;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
 				case SDLK_UP:
@@ -69,11 +67,8 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 					}
 					break;
 				case SDLK_ESCAPE:
-					Game_running = 0;
-					return ;
+					return  NUMBER_OF_OPTIONS - 1;
 				case SDLK_RETURN:
-					if (index_Selected == NUMBER_OF_OPTIONS-1)
-						Game_running = 0;
 					Menu_Running = 0;
 					return index_Selected;
 				}

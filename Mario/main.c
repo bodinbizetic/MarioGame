@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "main_menu.h"
 #include <SDL.h>
-#include "map.h"
+
 #include "Mario_man.h"
+#include "main_menu.h"
+#include "map.h"
+#include "New_game.h"
+
 #define NUMBER_OF_OPTIONS 5
 int main(int argc, char *argv[]) {
 	int option;
-	Map *map;
-	Mario *mario;
+	Map *map=NULL;
+	Mario *mario=NULL;
 	int Game_Running = 1;
 	//Init SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -32,20 +35,25 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
 		return 0;
 	}
+	//chosing option
+	option = show_menu(window, renderer);
 	//game loop
 	while (Game_Running) {
-
-		option = show_menu(window, renderer);
+		//Option New Game
 		if (option == 0) {
+			//create map
+			map = initMap();
+			//start new game
+			newGame(window, renderer, map,mario);
+
 		}
 		if (option = NUMBER_OF_OPTIONS - 1)
 			Game_Running = 0;
-		SDL_RenderPresent(renderer);
-		SDL_Delay(20);
 	}
 
 	//Destroying stuff
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+	return 1;
 }
