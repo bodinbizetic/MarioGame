@@ -24,10 +24,16 @@
     <ClCompile Include="map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mario_man.c">
+    <ClCompile Include="mario.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="New_game.c">
+    <ClCompile Include="game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="highscore.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +47,16 @@
     <ClInclude Include="ai.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mario_man.h">
+    <ClInclude Include="mario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="New_game.h">
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

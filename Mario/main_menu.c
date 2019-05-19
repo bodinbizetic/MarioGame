@@ -45,13 +45,15 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	int index_Selected = 0;
 
 	//Event init
-	//vraca NUMBER_OF_OPTIONS AKO JE KRAJ PROGRAMA (EXIT,QUIT)
+	//vraca NUMBER_OF_OPTIONS-1 AKO JE KRAJ PROGRAMA (EXIT,QUIT)
 	SDL_Event event;
 	while (Menu_Running != 0) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
-				return  NUMBER_OF_OPTIONS - 1;
+				Menu_Running = 0;
+				return  NUMBER_OF_OPTIONS;
+				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
 				case SDLK_UP:
@@ -67,10 +69,13 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 					}
 					break;
 				case SDLK_ESCAPE:
-					return  NUMBER_OF_OPTIONS - 1;
+					Menu_Running = 0;
+					return  NUMBER_OF_OPTIONS;
+					break;
 				case SDLK_RETURN:
 					Menu_Running = 0;
-					return index_Selected;
+					return index_Selected+1;
+					break;
 				}
 			case SDL_KEYUP:
 

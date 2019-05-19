@@ -26,6 +26,8 @@ typedef struct MAP {
 }Map;
 
 Map* initMap();
+//Citanje sacuvane mape
+Map* LoadMap();
 
 void  destroyMap(Map *map);
 

@@ -14,6 +14,9 @@ Map* initMap() {
 			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 2) ? ground : sky;
 	return map;
 }
+Map* LoadMap() {
+	;
+}
 
 /*!
 *		\brief Deletes Map structure

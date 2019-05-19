@@ -2,17 +2,20 @@
 #include <stdlib.h>
 #include <SDL.h>
 
-#include "Mario_man.h"
+#include "mario.h"
 #include "main_menu.h"
 #include "map.h"
-#include "New_game.h"
+#include "game.h"
+#include "highscore.h"
+#include "settings.h"
 
 #define NUMBER_OF_OPTIONS 5
 int main(int argc, char *argv[]) {
-	int option;
+	//GameState,u kom smo stanju trenutno(0-meni,1-novoj igri,2-staroj igri,3-highscore,4-settings,5(NUMBER_OF_OPTIONS)-kraj programa)
+	//Fje treba da vracaju u skladu sa ovim brojevima
+	int Game_State,Game_Running;
 	Map *map=NULL;
 	Mario *mario=NULL;
-	int Game_Running = 1;
 	//Init SDL
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		fprintf(stderr, "Could not initialize sdl2: %s\n", SDL_GetError());
@@ -35,22 +38,40 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
 		return 0;
 	}
-	//chosing option
-	option = show_menu(window, renderer);
 	//game loop
-	while (Game_Running) {
+	Game_Running = 1;
+	//Pocinje u meniju
+	Game_State = 0;
+	while (Game_Running ) {
+		//Sa Game_State biramo gde idemo,sve funkcije ce biti int i lako cemo videti u koje stanje idemo
+		if (Game_State == 0) 
+			Game_State = show_menu(window, renderer);
 		//Option New Game
-		if (option == 0) {
+		if (Game_State == 1) {
 			//create map
 			map = initMap();
 			//start new game
-			newGame(window, renderer, map,mario);
+			Game_State=Game(window, renderer, map, mario);
+		}
+		//Option New Game
+		if (Game_State == 2) {
+			//Loading map
+			map = LoadMap();
+			//start game with
+			Game_State=Game(window, renderer, map, mario);
+		}
+		if (Game_State == 3) {
+			Game_State=showHighscore();
+		}
+		if (Game_State == 4) {
+			Game_State=showSettings();
 
 		}
-		if (option = NUMBER_OF_OPTIONS - 1)
+		if (Game_State == 5) 
 			Game_Running = 0;
-	}
 
+	}
+	
 	//Destroying stuff
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
