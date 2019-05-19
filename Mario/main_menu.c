@@ -11,15 +11,16 @@
 #define NUMBER_OF_OPTIONS 5
 #define OPTION_HEIGHT 80
 #define OPTION_WIDTH 300
-int Game_running = 1;
-void show_menu(SDL_Window *window, SDL_Renderer *renderer) {
+int Game_running=1;
+//Vraca koju opciju smo uzeli,da bismo to mogli da koristimo u main.c
+int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	//Init TTF
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
 	}
 
 	//Menu square init
-	int i;
+	int i,Menu_Running=1;
 	char *text[NUMBER_OF_OPTIONS] = { "New game", "Continue",  "High Score", "Settings",  "Quit" };
 	//Settings for TTF text
 	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 80);
@@ -47,7 +48,7 @@ void show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 
 	//Event init
 	SDL_Event event;
-	while (Game_running != 0) {
+	while (Menu_Running != 0) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
@@ -69,16 +70,12 @@ void show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 					break;
 				case SDLK_ESCAPE:
 					Game_running = 0;
-					return;
+					return ;
 				case SDLK_RETURN:
-					switch (index_Selected) {
-					case NUMBER_OF_OPTIONS - 1:
+					if (index_Selected == NUMBER_OF_OPTIONS-1)
 						Game_running = 0;
-						exit(1);
-
-					}
-				default:
-					break;
+					Menu_Running = 0;
+					return index_Selected;
 				}
 			case SDL_KEYUP:
 
@@ -88,8 +85,6 @@ void show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 		}
 
 		//Draw rect && text	
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, 0, 200, 200, 255);
 		SDL_RenderFillRect(renderer, &menu_square);
 
@@ -111,6 +106,7 @@ void show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 		//render_game(renderer, &game);
 		//Drawing everything
 		SDL_RenderPresent(renderer);
+		SDL_Delay(20);
 	}
 	TTF_CloseFont(font);
 	TTF_Quit();

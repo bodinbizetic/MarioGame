@@ -7,5 +7,5 @@
 #define SCREEN_HEIGHT 720
 #define Game_running 1
 
-void show_menu(SDL_Window *window, SDL_Renderer *renderer);
+int show_menu(SDL_Window *window, SDL_Renderer *renderer);
 #endif 
