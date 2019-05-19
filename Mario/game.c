@@ -46,6 +46,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	Map *mapa;
 	Mario *probni_mario;
+	int update = 0;;
 	probni_mario = malloc(sizeof(Mario));
 	probni_mario->size.x = TILE_SIZE;
 	probni_mario->size.y = TILE_SIZE;
@@ -65,6 +66,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	//Running for game loop
 	int Running = 1;
+	drawScreen(window, renderer, mapa, probni_mario);
 	SDL_Event eventgame;
 	while (Running) {
 		while (SDL_PollEvent(&eventgame)) {
@@ -73,48 +75,26 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			case SDL_KEYDOWN:
 				switch (eventgame.key.keysym.sym) {
 				case SDLK_RIGHT:
-					mario->direction = 1;
-					if (mario->speed.x <= 16)
-						mario->speed.x += 2;
-					mario->coordinates.x += mario->speed.x;
+					update = 0;
 					break;
 				case SDLK_LEFT:
-					mario->direction = 0;
-					if (mario->speed.x >= -16)
-						mario->speed.x -= 2;
-					mario->coordinates.x += mario->speed.x;
+					update = 1;
 					break;
-				case SDLK_UP:
-					if (mario->speed.x  -16)
-						mario->speed.x -= 2;
-					mario->coordinates.x += mario->speed.x;
+				/*case SDLK_UP:
+					update = 2;
+					break;*/
 				case SDLK_ESCAPE:
 					Running = 0;
 					return  0;
 					break;
 				}
 			case SDL_KEYUP: {
-				while (mario->speed.x>0) {
-					mario->speed.x -= 2;
-					mario->coordinates.x += mario->speed.x;
-				}
-				while (mario->speed.x < 0) {
-					mario->speed.x += 2;
-					mario->coordinates.x += mario->speed.x;
-				}
-				/*while (uslov da nije na podu) {
-					mario->speed.y -= 2;
-					mario->coordinates.y += mario->speed.y;
-				}
-				if (uslov da je na podu) {
-					mario->speed.y = 0;
-				}
-				*/
-
+				update = 3;
+				break;
 			}
 			default: {}
 			}
 		}
-		drawScreen(window, renderer, mapa, probni_mario);
+		updateMario(window,renderer,mapa,probni_mario,update);
 	}
 }
