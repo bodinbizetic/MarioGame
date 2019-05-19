@@ -106,7 +106,6 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 		//render_game(renderer, &game);
 		//Drawing everything
 		SDL_RenderPresent(renderer);
-		SDL_Delay(20);
 	}
 	TTF_CloseFont(font);
 	TTF_Quit();
