@@ -11,6 +11,22 @@
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
 //DrawScreen crta na ekranu
+int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2) {
+	Pair_xy c1,c2;
+	int dx, dy;
+	c1.x = (coord1.x + dim1.x / 2);
+	c1.y = (coord1.y + dim1.y / 2);
+	c2.x = (coord2.x + dim2.x / 2);
+	c2.y = (coord2.y + dim2.y / 2);
+	dx = abs(c1.x - c2.x);
+	dy = abs(c1.y - c2.y);
+	if (dx <= (dim1.x + dim2.x) / 2)
+		return 1;
+	if (dy <= (dim1.y + dim2.y) / 2)
+		return 2;
+	return 0;
+}
+
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	
@@ -43,7 +59,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			}*/
 		}
 	}
-	SDL_RenderPresent(renderer);
+	
 }
 //igranje igre
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
@@ -52,7 +68,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	Map *mapa;
 	Mario *probni_mario;
-	int update = 0;;
+	Pair_xy update = { 0,0 };
 	probni_mario = malloc(sizeof(Mario));
 	probni_mario->size.x = blok.x;
 	probni_mario->size.y = blok.y;
@@ -74,35 +90,48 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	//Running for game loop
 	int Running = 1;
-	drawScreen(window, renderer, mapa, probni_mario);
 	SDL_Event eventgame;
 	while (Running) {
 		while (SDL_PollEvent(&eventgame)) {
 			switch (eventgame.type) {
 			case SDL_QUIT:
+				Running = 0;
+				return NUMBER_OF_OPTIONS;
 			case SDL_KEYDOWN:
+			{
 				switch (eventgame.key.keysym.sym) {
-				case SDLK_RIGHT:
-					update = 0;
-					break;
-				case SDLK_LEFT:
-					update = 1;
-					break;
-				/*case SDLK_UP:
-					update = 2;
-					break;*/
 				case SDLK_ESCAPE:
 					Running = 0;
 					return  0;
 					break;
 				}
-			case SDL_KEYUP: {
-				update = 3;
 				break;
 			}
-			default: {}
+			case SDL_KEYUP: {
+				break;
+			}
+			default:{}
 			}
 		}
+		Uint8 *state = SDL_GetKeyboardState(NULL);
+		if (state[SDL_SCANCODE_UP]) {
+			update.y = 1;
+		}
+		else
+			update.y = 2;
+		if (state[SDL_SCANCODE_LEFT]) {
+			update.x = 1;
+		}
+		else if (state[SDL_SCANCODE_RIGHT]) {
+			update.x = 0;
+		}
+		else
+			update.x = 2;
+
+	
+		drawScreen(window, renderer, mapa, probni_mario);
 		updateMario(window,renderer,mapa,probni_mario,update);
+		SDL_RenderPresent(renderer);
+
 	}
 }

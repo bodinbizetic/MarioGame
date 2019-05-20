@@ -3,6 +3,8 @@
 #include "ai.h"
 #include "map.h"
 
+#define G 1
+
 typedef struct {
 	
 	Pair_xy coordinates, size, speed;
@@ -13,5 +15,5 @@ typedef struct {
 	int animation_Stage;
 }Mario;
 //Update govori koja je komanda
-void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,int update);
+void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update);
 #endif

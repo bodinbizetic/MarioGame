@@ -75,4 +75,7 @@ typedef struct HIDDEN {
 	int animation_Stage;
 }ai_Hidden;
 
+typedef struct STOCK_FLOOR {
+	Pair_xy coordinate, dimension;
+}Ground;
 #endif

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include "mario.h"
 #include "main_menu.h"
@@ -13,6 +14,15 @@
 int main(int argc, char *argv[]) {
 	//GameState,u kom smo stanju trenutno(0-meni,1-novoj igri,2-staroj igri,3-highscore,4-settings,5(NUMBER_OF_OPTIONS)-kraj programa)
 	//Fje treba da vracaju u skladu sa ovim brojevima
+	IMG_Init(IMG_INIT_PNG);
+	SDL_Surface *surface = IMG_Load("mario.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		
+	}
+
+
 	int Game_State,Game_Running;
 	Map *map=NULL;
 	Mario *mario=NULL;

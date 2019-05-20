@@ -9,13 +9,13 @@
 #define MAP_WIDTH 15
 #define MAP_SEGMENTS_NUMBER 10
 
-#define AI_NUMBER 9
-#define AI_MAX_NUMBER 10
+#define AI_NUMBER 17
+#define AI_MAX_NUMBER 50
 //Ako je malo slovo - podrazumeva mapId, a veliko aiId
 //IZMENA!Zamenio sam floor sa ground jer je pravio problem sa fjom floor iz math.h,zamenio sam i u map.c
 enum mapId { sky, ground, basic, question, hidden, pipetunnel, pipe, flag, castle, pikes, mario, projectile, shroom, star, turtle, devil, plantie };
 
-enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Plantie};
+//enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Plantie};
 
 /*!
 *		\brief Main structure that cantains all active AI's and all blocks on the map
@@ -23,6 +23,7 @@ enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Pla
 typedef struct {
 	void *ai_Matrix[AI_NUMBER][AI_MAX_NUMBER];
 	int map_Matrix[MAP_HEIGHT][MAP_WIDTH * MAP_SEGMENTS_NUMBER];
+	int ai_counter[AI_NUMBER];
 }Map;
 
 Map* initMap();

@@ -3,42 +3,82 @@
 #include "map.h"
 #include <SDL.h>
 #include "ai.h"
-typedef struct {
-
-	Pair_xy coordinates, size, speed;
-	int direction;
-	int lives;
-	int immortality;
-	int projectileTimer;
-	int animation_Stage;
-}Mario;
-
-void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,int update) {
+#include "main_menu.h"
+#include "mario.h"
+enum col{NO_COLLISION, YES_COLLISION};
+int detectGravityCollide(Map *map, Mario *mario) {
+	for (int i = 0; i < map->ai_counter[ground]; i++) {
+		Ground *g = (Ground *)map->ai_Matrix[ground][i];
+		Pair_xy new_coordinates;
+		new_coordinates.x = mario->coordinates.x + mario->speed.x;
+		new_coordinates.y = mario->coordinates.y + mario->speed.y;
+		if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
+			return g->coordinate.y;
+	}
+	return NO_COLLISION;
+}
+void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;
 	rect.w = mario->size.x;
-	if (update == 0) {
+	//update gleda strelicu
+	//0 je desno
+	if (update.x == 0) {
+		//direction 1 desno
+		//x=0 ide desno
 		mario->direction = 1;
 		if (mario->speed.x <= 16)
 			mario->speed.x += 2;
-		mario->coordinates.x += mario->speed.x;
 	}
-	else if (update == 1) {
+	//1 je levo
+	//x=1 ide levo
+	else if (update.x == 1) {
 		mario->direction = 0;
 		if (mario->speed.x >= -16)
 			mario->speed.x -= 2;
-		mario->coordinates.x += mario->speed.x;
 	}
-	else if (update == 2) {
-		if (mario->speed.x - 16)
+	else if (update.x == 2) {
+		if (mario->speed.x > 0)
 			mario->speed.x -= 2;
-		mario->coordinates.x += mario->speed.x;
+		else if (mario->speed.x < 0)
+			mario->speed.x += 2;
 	}
-	else if (update == 3) {
-		if (mario->speed.x - 16)
-			mario->speed.x -= 2;
-		mario->coordinates.x += mario->speed.x;
+	//y=1  je gore
+	if (update.y == 1) {
+		if (mario->speed.y >= -16)
+			mario->speed.y -= 2;
 	}
+	//y=0 je dole 
+	else if (update.y == 0) {
+		if (mario->speed.y <= 16)
+			mario->speed.y += 2;
+		
+	}
+	/*else if (update.y == 2) {
+		if (mario->speed.y > 0)
+			mario->speed.y -= 2;
+		else if (mario->speed.y < 0)
+			mario->speed.y += 2;
+	}*/
+	int collision_Check = detectGravityCollide(map, mario);
+	if (collision_Check > 0) {
+		if (mario->speed.y > 0)
+			mario->speed.y = 0;
+		mario->coordinates.y = collision_Check - mario->size.y;
+	}
+	else
+		mario->speed.y += G;
+	
+	mario->coordinates.y += mario->speed.y;
+	mario->coordinates.x += mario->speed.x;
+	/*if (mario->coordinates.x + mario->size.x <= SCREEN_WIDTH && mario->speed.x>0)
+		mario->coordinates.x += mario->speed.x;
+	if (mario->coordinates.x >=0 && mario->speed.x<0)
+		mario->coordinates.x += mario->speed.x;
+	if (mario->coordinates.y + mario->size.y <= SCREEN_HEIGHT && mario->speed.y>0)
+		mario->coordinates.y += mario->speed.y;
+	if (mario->coordinates.y >= 0 && mario->speed.y<0)
+		mario->coordinates.y += mario->speed.y;*/
 	rect.x = mario->coordinates.x;
 	rect.y = mario->coordinates.y;
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
