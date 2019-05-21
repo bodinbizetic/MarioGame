@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 			Game_State=showHighscore();
 		}
 		if (Game_State == 4) {
-			Game_State=showSettings();
+			Game_State=showSettings(renderer);
 
 		}
 		if (Game_State == 5) 
