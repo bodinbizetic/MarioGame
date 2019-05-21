@@ -50,6 +50,10 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);
 			}
+			else if (map->map_Matrix[i][j] == basic) {
+				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);
+			}
 			/*if (x == mario->coordinates.x && y == mario->coordinates.y) {
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);

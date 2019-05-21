@@ -59,5 +59,8 @@
     <ClInclude Include="highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="map_Segments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -134,6 +134,7 @@
     <ClInclude Include="highscore.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="main_menu.h" />
+    <ClInclude Include="map_Segments.h" />
     <ClInclude Include="mario.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="settings.h" />

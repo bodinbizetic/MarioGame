@@ -4,6 +4,7 @@
 #include "ai.h"
 #include "main_menu.h"
 #include "game.h"
+#include "map_Segments.h"
 /*!
 *		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
 */
@@ -28,10 +29,41 @@ Map* initMap() {
 			}
 		}
 
+	srand(time(0));
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++)
+			printf_s("%d ", map_Segment[0][i][j]);
+		putchar('\n');
+	}
+	generate_Map(map);
 	return map;
 }
 Map* LoadMap() {
 	;
+}
+/*!
+*		\brief Function that copies map segment into map
+*		\param Map map Addres of map that containts map_Matrix that is destination
+*		\param int x Coordinate of top most left corner
+*		\param int seg_id Id of source matrix in map_Segment matrix
+*/
+int copy_Map(Map *map, int x, int seg_id) {
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = x; j < x + MAP_WIDTH; j++)
+			map->map_Matrix[i][j] = map_Segment[seg_id][i][j - x];
+	return 0;
+}
+
+/*!
+*		\brief Function that generetes whole
+*		\param Map map Addres of map that containts map_Matrix that needs to be generated
+*/
+int generate_Map(Map *map) {
+	for (int i = 0; i < MAP_SEGMENTS_NUMBER; i++) {
+		int rand_num = rand();
+		rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER;
+		copy_Map(map, MAP_WIDTH * i, rand_num);
+	}
 }
 
 /*!

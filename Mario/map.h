@@ -9,6 +9,7 @@
 #define MAP_WIDTH 15
 #define MAP_SEGMENTS_NUMBER 10
 
+
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 50
 //Ako je malo slovo - podrazumeva mapId, a veliko aiId
@@ -31,6 +32,9 @@ Map* initMap();
 Map* LoadMap();
 
 void  destroyMap(Map *map);
+
+
+
 
 #endif
 
