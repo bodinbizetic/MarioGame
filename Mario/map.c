@@ -35,6 +35,18 @@ Map* initMap() {
 				temp->dimension = blok;
 				map->ai_Matrix[basic][map->ai_counter[basic]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == devil) {
+				ai_Devil *temp = malloc(sizeof(ai_Devil));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension = blok;
+				temp->animation_Stage = 0;
+				temp->isAlive = 1;
+				temp->type = 1;
+				temp->speed.x = DEVIL_SPEED;
+				temp->speed.y = 0;
+				map->ai_Matrix[devil][map->ai_counter[devil]++] = temp;
+			}
 		}
 
 	

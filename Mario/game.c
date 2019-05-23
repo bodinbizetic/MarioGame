@@ -136,6 +136,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	
 		drawScreen(window, renderer, mapa, probni_mario);
 		updateMario(window,renderer,mapa,probni_mario,update);
+		updateAI(mapa);
+		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
 
 	}
