@@ -4,8 +4,11 @@
 /*!	\file ai.h
 *	\brief Contains declarations and constants for AIs
 */
-
+#include "SDL.h"
 #include "map.h"
+
+
+#define DEVIL_SPEED -1
 
 /*!
 *	\brief Contains pair of 2d coordinates
@@ -74,8 +77,14 @@ typedef struct HIDDEN {
 	int coins_Left;
 	int animation_Stage;
 }ai_Hidden;
-
+/*!
+*	\brief Structure representing non-interactable ground
+*/
 typedef struct STOCK_FLOOR {
 	Pair_xy coordinate, dimension;
 }Ground;
+
+int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map);
+
+int updateAI(Map *map);
 #endif

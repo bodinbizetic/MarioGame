@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ai.c" />
     <ClCompile Include="highscore.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="main_menu.c" />

@@ -5,6 +5,7 @@
 
 #define G 1
 
+enum col { NO_COLLISION, YES_COLLISION };
 typedef struct {
 	
 	Pair_xy coordinates, size, speed;
