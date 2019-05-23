@@ -17,7 +17,8 @@ Map* initMap() {
 		for (int j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++)
 			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 1) ? ground : sky;
 	for (int i = 0; i < AI_NUMBER; i++) map->ai_counter[i] = 0;
-
+	srand(time(0));
+	generate_Map(map);
 	for(int i=0; i< MAP_HEIGHT; i++)
 		for (int j = 0; j <= MAP_WIDTH; j++) {
 			if (map->map_Matrix[i][j] == ground) {
@@ -27,15 +28,22 @@ Map* initMap() {
 				temp->dimension = blok;
 				map->ai_Matrix[ground][map->ai_counter[ground]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == basic) {
+				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension = blok;
+				map->ai_Matrix[basic][map->ai_counter[basic]++] = temp;
+			}
 		}
 
-	srand(time(0));
-	for (int i = 0; i < MAP_HEIGHT; i++) {
+	
+	/*for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++)
 			printf_s("%d ", map_Segment[0][i][j]);
 		putchar('\n');
-	}
-	generate_Map(map);
+	}*/
+	
 	return map;
 }
 Map* LoadMap() {

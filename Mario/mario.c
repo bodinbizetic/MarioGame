@@ -5,18 +5,53 @@
 #include "ai.h"
 #include "main_menu.h"
 #include "mario.h"
+
 enum col{NO_COLLISION, YES_COLLISION};
+
 int detectGravityCollide(Map *map, Mario *mario) {
-	for (int i = 0; i < map->ai_counter[ground]; i++) {
-		Ground *g = (Ground *)map->ai_Matrix[ground][i];
+	for(int j=0; j<sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
+	for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
+
 		Pair_xy new_coordinates;
 		new_coordinates.x = mario->coordinates.x + mario->speed.x;
 		new_coordinates.y = mario->coordinates.y + mario->speed.y;
-		if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
-			return g->coordinate.y;
+		switch (gravity_Blocks[j])
+		{
+		case ground: {
+			Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
+				return g->coordinate.y;
+			break;
+		}
+		case basic: {
+			ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
+				return g->coordinate.y;
+			break;
+		}
+		case question: {
+			ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
+				return g->coordinate.y;
+			break;
+		}
+		case hidden: {
+			ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
+				return g->coordinate.y;
+			break;
+		}
+		default:
+			break;
+		}
+		
+		
+		
+		
 	}
 	return NO_COLLISION;
 }
+
 void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;

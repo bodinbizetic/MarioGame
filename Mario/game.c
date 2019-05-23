@@ -10,7 +10,6 @@
 #define TILE_SIZE 16
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
-//DrawScreen crta na ekranu
 int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2) {
 	Pair_xy c1,c2;
 	int dx, dy;
@@ -20,13 +19,15 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2) {
 	c2.y = (coord2.y + dim2.y / 2);
 	dx = abs(c1.x - c2.x);
 	dy = abs(c1.y - c2.y);
-	if (dx <= (dim1.x + dim2.x) / 2)
-		return 1;
-	if (dy <= (dim1.y + dim2.y) / 2)
+	if (dx <= (dim1.x + dim2.x) / 2 && dy <= (dim1.y + dim2.y) / 2)
 		return 2;
+	/*if (dy <= (dim1.y + dim2.y) / 2) {
+		
+			return 2;
+	}*/
 	return 0;
 }
-
+//DrawScreen crta na ekranu
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	
