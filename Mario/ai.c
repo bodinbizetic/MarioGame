@@ -144,7 +144,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 int updateAI(Map *map) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
-
+			if (i == map->ai_counter[ai_id[j]]) printf_s("Jednako");
 			Pair_xy new_coordinates;
 			SDL_Rect rect;
 			switch (ai_id[j])
@@ -167,7 +167,15 @@ int updateAI(Map *map) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				
+				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+				if (temp_col > 0) {
+					g->speed.y = 0;
+					g->coordinate.y = temp_col - g->dimension.y;
+				}
+				else g->speed.y += G;
+
+				g->coordinate.x += g->speed.x;
+				g->coordinate.y += g->speed.y;
 				break;
 			}
 			case devil: {
@@ -177,7 +185,7 @@ int updateAI(Map *map) {
 					g->speed.y = 0;
 					g->coordinate.y = temp_col - g->dimension.y;
 				}
-				else g->speed.y = 6;
+				else g->speed.y += G;
 
 				g->coordinate.x += g->speed.x;
 				g->coordinate.y += g->speed.y;
@@ -191,9 +199,6 @@ int updateAI(Map *map) {
 			default:
 				break;
 			}
-
-
-
 
 		}
 }

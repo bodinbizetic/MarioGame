@@ -37,6 +37,73 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	SDL_RenderClear(renderer);
 	for (i = 0; i < MAP_HEIGHT; i++) {
 		for (j = 0; j <= MAP_WIDTH; j++) {
+			rect.x = j * blok.x;
+			rect.y = i * blok.y;
+			rect.w = blok.x;
+			rect.h = blok.y;
+			SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+			SDL_RenderFillRect(renderer, &rect);
+		}
+	}
+
+	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
+		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
+
+			Pair_xy new_coordinates;
+			new_coordinates.x = mario->coordinates.x;
+			new_coordinates.y = mario->coordinates.y + mario->speed.y;
+			switch (gravity_Blocks[j])
+			{
+			case ground: {
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			case basic: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			case question: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			case hidden: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			default:
+				break;
+			}
+
+
+
+
+		}
+	/*for (i = 0; i < MAP_HEIGHT; i++) {
+		for (j = 0; j <= MAP_WIDTH; j++) {
 			//Belo nebo
 			rect.x = j*blok.x;
 			rect.y = i*blok.y;
@@ -55,15 +122,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
 				SDL_RenderFillRect(renderer, &rect);
 			}
-			/*if (x == mario->coordinates.x && y == mario->coordinates.y) {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-				SDL_RenderFillRect(renderer, &rect);
-				SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-				SDL_RenderFillRect(renderer, &rect);
-				
-			}*/
+			
 		}
-	}
+	}*/
 	
 }
 //igranje igre
@@ -76,11 +137,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	Pair_xy update = { 0,0 };
 	probni_mario = malloc(sizeof(Mario));
 	probni_mario->size.x = blok.x;
-	probni_mario->size.y = blok.y;
+	probni_mario->size.y = 2*blok.y;
 	probni_mario->coordinates.x = 3* blok.x;
 	probni_mario->coordinates.y = 3*blok.y;
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
+	probni_mario->lives = 2;
 	//postoji funkcija koja inicijalizuje mapu
 	mapa = initMap();
 	

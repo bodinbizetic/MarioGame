@@ -5,8 +5,67 @@
 #include "ai.h"
 #include "main_menu.h"
 #include "mario.h"
+#include "game.h"
+
+int lose_Life(Mario *mario) {
+	if (mario->lives > 1) {
+		mario->lives = 1;
+		mario->size.y = blok.y;
+	}
+
+	return 0;
+}
+int detectAiCollide(Map *map, Mario *mario) {
+	for (int j = 1; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
+		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
+			switch (ai_id[j])
+			{
+			case shroom: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
+				
+
+				break;
+			}
+			case star: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
+				
+
+				break;
+			}
+			case turtle: {
+				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
+
+				break;
+			}
+			case devil: {
+				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates) == 2) {
+					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
+						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+						g->isAlive = 0;
+						free(g);
+						map->score += ENEMY_KILL;
+						mario->speed.y *= -1;
+					}
+					else lose_Life(mario);
+				}
+				break;
+			}
+			case plantie: {
+				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
+
+				break;
+			}
+			default:
+				break;
+			}
 
 
+
+
+		}
+	return 0;
+}
 int detectGravityCollide(Map *map, Mario *mario) {
 	for(int j=0; j<sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 	for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -54,7 +113,7 @@ int detectGravityCollide(Map *map, Mario *mario) {
 	}
 	return NO_COLLISION;
 }
-//Detektuje udarac u plafon
+//Detektuje udarac u plafon i vraca kordinate udarca po y osi
 int detectCellingCollide(Map *map, Mario *mario) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -74,8 +133,14 @@ int detectCellingCollide(Map *map, Mario *mario) {
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate) == 2)
-					if (g->coordinate.y  <= new_coordinates.y)
+					if (g->coordinate.y <= new_coordinates.y) {
+						if (mario->lives > 1) {
+							map->ai_Matrix[gravity_Blocks[j]][i] = map->ai_Matrix[gravity_Blocks[j]][--map->ai_counter[gravity_Blocks[j]]];
+							free(g);
+							map->score += BLOCK_KILL;
+						}
 						return new_coordinates.y;
+					}
 				break;
 			}
 			case question: {
@@ -146,15 +211,17 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		else if (mario->speed.y < 0)
 			mario->speed.y += 2;
 	}*/
+	detectAiCollide(map, mario);
 	int collision_Check = detectCellingCollide(map, mario);
+	detectCellingCollide(map, mario);
 	if (collision_Check > 0) {
 		if (mario->speed.y < 0)
 			mario->speed.y *= -1;
-		printf_s("Celling");
 		mario->coordinates.y = collision_Check;
 
 	}
 	collision_Check = detectGravityCollide(map, mario);
+
 	if (collision_Check > 0) {
 		if (mario->speed.y > 0)
 			mario->speed.y = 0;

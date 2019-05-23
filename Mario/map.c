@@ -47,6 +47,18 @@ Map* initMap() {
 				temp->speed.y = 0;
 				map->ai_Matrix[devil][map->ai_counter[devil]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == turtle) {
+				ai_Devil *temp = malloc(sizeof(ai_Devil));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension = blok;
+				temp->animation_Stage = 0;
+				temp->isAlive = 1;
+				temp->type = 1;
+				temp->speed.x = TURTLE_SPEED;
+				temp->speed.y = 0;
+				map->ai_Matrix[devil][map->ai_counter[devil]++] = temp;
+			}
 		}
 
 	
@@ -55,7 +67,7 @@ Map* initMap() {
 			printf_s("%d ", map_Segment[0][i][j]);
 		putchar('\n');
 	}*/
-	
+	map->score = 0;
 	return map;
 }
 Map* LoadMap() {
