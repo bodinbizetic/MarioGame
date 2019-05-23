@@ -27,6 +27,7 @@ typedef struct {
 	void *ai_Matrix[AI_NUMBER][AI_MAX_NUMBER];
 	int map_Matrix[MAP_HEIGHT][MAP_WIDTH * MAP_SEGMENTS_NUMBER];
 	int ai_counter[AI_NUMBER];
+	int score;
 }Map;
 
 Map* initMap();
