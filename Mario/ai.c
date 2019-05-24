@@ -88,8 +88,67 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 
 
 		}
+
 	return -1;
 }
+
+int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
+	for (int j = 1; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
+		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
+			switch (ai_id[j])
+			{
+			case shroom: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
+
+
+				break;
+			}
+			case star: {
+				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
+
+
+				break;
+			}
+			case turtle: {
+				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
+				if (collision(g->dimension, g->coordinate, dim, coord, speed) > 0) {
+					if (g->isAlive) {
+						
+							map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+							g->isAlive = 0;
+							free(g);
+							map->score += ENEMY_KILL;
+						
+					}
+				}
+				break;
+			}
+			case devil: {
+				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
+				if (collision(g->dimension, g->coordinate, dim, coord, speed) > 0) {
+					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+					g->isAlive = 0;
+					free(g);
+					map->score += ENEMY_KILL;
+				}
+				break;
+			}
+			case plantie: {
+				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
+
+				break;
+			}
+			default:
+				break;
+			}
+
+
+
+
+		}
+	return 0;
+}
+
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -152,7 +211,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 0, 210, 0, 255);
+					SDL_SetRenderDrawColor(renderer, 0, 210, 100, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
 
@@ -194,6 +253,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 		}
 	return 0;
 }
+
 int updateAI(Map *map) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -226,6 +286,11 @@ int updateAI(Map *map) {
 				}
 				else g->speed.y += G;
 				
+				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+				if (temp_col > 2)
+					g->speed.x *= -1;
+				if (g->isAlive == 0)
+					projectileCollision(map, g->coordinate, g->dimension, g->speed);
 				g->coordinate.x += g->speed.x;
 				g->coordinate.y += g->speed.y;
 				break;
@@ -242,8 +307,6 @@ int updateAI(Map *map) {
 				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 				if (temp_col > 2 )
 					g->speed.x *= -1;
-				//else if (temp_col == 4 && g->speed.x < 0)
-					//g->speed.x *= -1;
 
 				g->coordinate.x += g->speed.x;
 				g->coordinate.y += g->speed.y;

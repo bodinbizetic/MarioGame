@@ -34,7 +34,8 @@ int detectAiCollide(Map *map, Mario *mario) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed) > 0) {
+				int t;
+				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed), t > 0) {
 					if (g->isAlive) {
 						if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 							g->isAlive = 0;

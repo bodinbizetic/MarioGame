@@ -9,7 +9,7 @@
 
 
 #define DEVIL_SPEED -2
-#define TURTLE_SPEED -1
+#define TURTLE_SPEED 2
 #define ENEMY_KILL 100//score za enemija
 #define BLOCK_KILL 100
 /*!
