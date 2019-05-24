@@ -60,8 +60,18 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-				SDL_RenderFillRect(renderer, &rect);
+				// ground 
+				SDL_Surface *brick = IMG_Load("Slike/ground.png");
+				if (brick == NULL) {
+					printf("%s\n", SDL_GetError());
+					exit(1);
+				}
+				SDL_Texture *object = SDL_CreateTextureFromSurface(renderer, brick);
+				SDL_FreeSurface(brick);
+				SDL_RenderCopy(renderer, object, NULL, &rect);
+				SDL_DestroyTexture(object);
+				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &rect);*/
 				break;
 			}
 			case basic: {
@@ -143,6 +153,87 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
 	probni_mario->lives = 2;
+
+
+	// mario animations - nazalost moralo je sve rucno...
+	probni_mario->animation_Stage = 0;
+	probni_mario->facing = 0;
+	probni_mario->time = 0;
+
+	// red mario
+	SDL_Surface *surface = IMG_Load("Slike/marioStandRight.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[0][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/marioMoveRight.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[0][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/marioStandLeft.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[0][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/marioMoveLeft.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[0][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	// green mario
+	surface = IMG_Load("Slike/gmarioStandRight.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[1][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/gmarioMoveRight.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[1][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/gmarioStandLeft.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[1][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	surface = IMG_Load("Slike/gmarioMoveLeft.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	probni_mario->animation[1][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
 	//postoji funkcija koja inicijalizuje mapu
 	mapa = initMap();
 	
@@ -188,9 +279,11 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			update.y = 2;
 		if (state[SDL_SCANCODE_LEFT]) {
 			update.x = 1;
+			probni_mario->facing = 1;
 		}
 		else if (state[SDL_SCANCODE_RIGHT]) {
 			update.x = 0;
+			probni_mario->facing = 0;
 		}
 		else
 			update.x = 2;

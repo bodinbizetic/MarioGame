@@ -12,6 +12,7 @@
 //za settings
 #define NUMBER_OF_SETTINGS_OPTIONS 2 
 short sound = 1; // GAME SOUND
+short marioCharacter = 0; // green or red character
 
 int showSettings(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {
@@ -64,8 +65,8 @@ int showSettings(SDL_Renderer *renderer) {
 	
 	// character select
 	IMG_Init(IMG_INIT_PNG);
-	SDL_Surface *mRed = IMG_Load("MarioRed.png");
-	SDL_Surface *mGreen = IMG_Load("MarioGreen.png");
+	SDL_Surface *mRed = IMG_Load("Slike/MarioRed.png");
+	SDL_Surface *mGreen = IMG_Load("Slike/MarioGreen.png");
 	if (mRed == NULL && mGreen==NULL)
 	{
 		printf("%s\n", SDL_GetError());
@@ -77,7 +78,7 @@ int showSettings(SDL_Renderer *renderer) {
 	SDL_FreeSurface(mRed);
 	SDL_FreeSurface(mGreen);
 
-	SDL_Rect characterRect = { SCREEN_WIDTH / 2 + OPTION_WIDTH / 2,SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - 2)*(OPTION_HEIGHT + 15) + 150, 16,32 };
+	SDL_Rect characterRect = { SCREEN_WIDTH / 2 + OPTION_WIDTH / 2,SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - 2)*(OPTION_HEIGHT + 15) + 150, 70,60 };
 
 
 
@@ -113,8 +114,8 @@ int showSettings(SDL_Renderer *renderer) {
 						else sound = sound_status = 1;
 					}
 					else {  // promeniti u else if ako se dodaje jos neka opcija u settings
-						if (selectedCharacter == 0) selectedCharacter = 1;
-						else selectedCharacter = 0;
+						if (selectedCharacter == 0) marioCharacter=selectedCharacter = 1;
+						else marioCharacter=selectedCharacter = 0;
 					}
 					break;
 				}

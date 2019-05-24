@@ -168,6 +168,7 @@ int detectCellingCollide(Map *map, Mario *mario) {
 	return NO_COLLISION;
 }
 
+extern short marioCharacter;
 void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;
@@ -245,6 +246,19 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		mario->coordinates.y += mario->speed.y;*/
 	rect.x = mario->coordinates.x;
 	rect.y = mario->coordinates.y;
-	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-	SDL_RenderFillRect(renderer, &rect);
+
+	// swaping animation - ovo smenjuje animacije
+	mario->time++;
+	if (mario->time % 5 == 0) {
+		if (mario->speed.x != 0 && mario->speed.y == 0) {
+			if (mario->animation_Stage == 0) mario->animation_Stage = 1;
+			else mario->animation_Stage = 0;
+		}
+	}
+
+	// drawing mario - crtanje maria (kao slika ne kao kockica)
+	SDL_RenderCopy(renderer, mario->animation[marioCharacter][mario->facing][mario->animation_Stage], NULL, &rect);
+
+	/*SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+	SDL_RenderFillRect(renderer, &rect);*/
 }
