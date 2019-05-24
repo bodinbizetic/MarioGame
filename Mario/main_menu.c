@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
+
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 720
 
@@ -44,6 +46,12 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	selected[0] = 1;
 	int index_Selected = 0;
 
+	for (i = 0; i < NUMBER_OF_OPTIONS; i++) {
+		options[i].x = SCREEN_WIDTH / 2 - OPTION_WIDTH / 2;
+		options[i].y = SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - i - 1)*(OPTION_HEIGHT + 15) + 150;
+		options[i].h = OPTION_HEIGHT;
+		options[i].w = OPTION_WIDTH;
+	}
 	//Event init
 	//vraca NUMBER_OF_OPTIONS-1 AKO JE KRAJ PROGRAMA (EXIT,QUIT)
 	SDL_Event event;
@@ -89,18 +97,12 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 		SDL_RenderFillRect(renderer, &menu_square);
 
 		for (i = 0; i < NUMBER_OF_OPTIONS; i++) {
-			options[i].x = SCREEN_WIDTH / 2 - OPTION_WIDTH / 2;
-			options[i].y = SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - i - 1)*(OPTION_HEIGHT + 15) + 150;
-			options[i].h = OPTION_HEIGHT;
-			options[i].w = OPTION_WIDTH;
-
 
 			surfaceMessage = TTF_RenderText_Blended(font, text[i], selected[i] ? Red : White);
 			Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+			SDL_FreeSurface(surfaceMessage);
 			SDL_RenderCopy(renderer, Message, NULL, &options[i]);
 			SDL_DestroyTexture(Message);
-			SDL_FreeSurface(surfaceMessage);
-
 
 		}
 		//render_game(renderer, &game);
@@ -109,4 +111,31 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	}
 	TTF_CloseFont(font);
 	TTF_Quit();
+}
+
+// pause game
+void pause_game() // pauzira igricu pritiskom na p 
+{
+	SDL_Event event;
+	int pause_runing = 1;
+	while (pause_runing) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+			case SDL_KEYDOWN:
+			{
+				switch (event.key.keysym.sym) {
+				case SDLK_p:
+					pause_runing = 0;
+					break;
+				}
+				break;
+			}
+			case SDL_KEYUP: {
+				break;
+			}
+			default: {}
+			}
+		}
+	}
+	IMG_Quit();
 }

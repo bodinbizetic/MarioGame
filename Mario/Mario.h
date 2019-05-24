@@ -14,7 +14,7 @@ typedef struct {
 	int animation_Stage;
 	int facing;
 	int time;
-	SDL_Texture *animation[2][2][2];
+	SDL_Texture *animation[2][2][3];
 }Mario;
 //Update govori koja je komanda
 void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update);
