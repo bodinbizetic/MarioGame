@@ -6,11 +6,15 @@
 #include "map.h"
 #include "mario.h"
 #include "main_menu.h"
-
+#include <math.h>
 #define TILE_SIZE 16
+#define EPSILON 1
+
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
-int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2) {
+int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1) {
+	
+	
 	Pair_xy c1,c2;
 	int dx, dy;
 	c1.x = (coord1.x + dim1.x / 2);
@@ -19,8 +23,47 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2) {
 	c2.y = (coord2.y + dim2.y / 2);
 	dx = abs(c1.x - c2.x);
 	dy = abs(c1.y - c2.y);
-	if (dx <= (dim1.x + dim2.x) / 2 && dy <= (dim1.y + dim2.y) / 2)
-		return 2;
+	if (dx < (dim1.x + dim2.x) / 2 && dy < (dim1.y + dim2.y) / 2) {
+		//return 2;
+		int player_bottom = coord1.y + dim1.y;
+		int tiles_bottom = coord2.y + dim2.y;
+		int player_right = coord1.x + dim1.x;
+		int tiles_right = coord2.x + dim2.x;
+
+		int b_collision = tiles_bottom - coord1.y;
+		int t_collision = player_bottom - coord2.y;
+		int l_collision = player_right - coord2.x;
+		int r_collision = tiles_right - coord1.x;
+
+		/*if (dx < (dim1.x + dim2.x) / 2 && dy + (abs(speed1.y)) ? abs(speed1.y) : 0 >= (dim1.y + dim2.y) / 2)
+			if (c1.y < c2.y)
+				return 2;
+			else if (c2.y > c1.y)
+				return 1;
+			else printf_s("Error: jednake koordinate");*/
+		if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision)
+		{
+			//Top collision
+			return 2;
+		}
+		if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)
+		{
+			//bottom collision
+			return 1;
+		}
+		if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
+		{
+			//Left collision
+			return 3;
+		}
+		if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision)
+		{
+			//Right collision
+			return 4;
+		}
+	
+	}
+
 	/*if (dy <= (dim1.y + dim2.y) / 2) {
 		
 			return 2;

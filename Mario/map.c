@@ -57,7 +57,7 @@ Map* initMap() {
 				temp->type = 1;
 				temp->speed.x = TURTLE_SPEED;
 				temp->speed.y = 0;
-				map->ai_Matrix[devil][map->ai_counter[devil]++] = temp;
+				map->ai_Matrix[turtle][map->ai_counter[turtle]++] = temp;
 			}
 		}
 
