@@ -156,83 +156,121 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 
 	// mario animations - nazalost moralo je sve rucno...
-	probni_mario->animation_Stage = 0;
-	probni_mario->facing = 0;
-	probni_mario->time = 0;
-
-	// red mario
-	SDL_Surface *surface = IMG_Load("Slike/marioStandRight.png");
-	if (surface == NULL)
 	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[0][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		probni_mario->animation_Stage = 0;
+		probni_mario->facing = 0;
+		probni_mario->time = 0;
 
-	surface = IMG_Load("Slike/marioMoveRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[0][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		// red mario
+		SDL_Surface *surface = IMG_Load("Slike/marioStandRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	surface = IMG_Load("Slike/marioStandLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[0][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		surface = IMG_Load("Slike/marioMoveRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	surface = IMG_Load("Slike/marioMoveLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[0][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		surface = IMG_Load("Slike/marioJumpRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	// green mario
-	surface = IMG_Load("Slike/gmarioStandRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[1][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		surface = IMG_Load("Slike/marioStandLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	surface = IMG_Load("Slike/gmarioMoveRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[1][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		surface = IMG_Load("Slike/marioMoveLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	surface = IMG_Load("Slike/gmarioStandLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	probni_mario->animation[1][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+		surface = IMG_Load("Slike/marioJumpLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[0][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 
-	surface = IMG_Load("Slike/gmarioMoveLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
+		// green mario
+		surface = IMG_Load("Slike/gmarioStandRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/gmarioMoveRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/gmarioJumpRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/gmarioStandLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/gmarioMoveLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/gmarioJumpLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
 	}
-	probni_mario->animation[1][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
 
 	//postoji funkcija koja inicijalizuje mapu
 	mapa = initMap();
@@ -260,7 +298,10 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 				switch (eventgame.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					Running = 0;
-					return  0;
+					break;
+					//return  0; zbog ovog je curila memorija??		
+				case SDLK_p:
+					pause_game();
 					break;
 				}
 				break;
@@ -296,4 +337,15 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		SDL_RenderPresent(renderer);
 
 	}
+
+	// free memory 
+	for (int i = 0; i < 2; i++)
+		for (int j = 0; j < 2; j++)
+			for (int k = 0; k < 3; k++)
+				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
+	free(probni_mario);
+	// treba AI free da se doda !!!
+	// mapa - pomocna mapa , treba da se zameni u free(map)
+	destroyMap(mapa);
+	return 0;
 }

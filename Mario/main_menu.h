@@ -13,4 +13,5 @@
 #define OPTION_WIDTH 300
 
 int show_menu(SDL_Window *window, SDL_Renderer *renderer);
+void pause_game();
 #endif 

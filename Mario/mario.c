@@ -249,7 +249,9 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	// swaping animation - ovo smenjuje animacije
 	mario->time++;
-	if (mario->time % 5 == 0) {
+	if (mario->speed.y != 0) mario->animation_Stage = 2;
+	else if (mario->speed.x == 0) mario->animation_Stage = 0;
+	else if (mario->time % 5 == 0) {
 		if (mario->speed.x != 0 && mario->speed.y == 0) {
 			if (mario->animation_Stage == 0) mario->animation_Stage = 1;
 			else mario->animation_Stage = 0;
