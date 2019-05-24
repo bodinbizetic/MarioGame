@@ -291,14 +291,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	}
 	
-	collision_Check = detectGravityCollide(map, mario);
-	if (collision_Check > 0) {
-		if (mario->speed.y > 0)
-			mario->speed.y = 0;
-		mario->coordinates.y = collision_Check - mario->size.y;
-	}
-	else
-		mario->speed.y += G;
+	
 
 	collision_Check = detectSideCollide(map, mario);
 	if (collision_Check == 3) {
@@ -311,6 +304,14 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 			mario->speed.x = 0;
 	}
 
+	collision_Check = detectGravityCollide(map, mario);
+	if (collision_Check > 0) {
+		if (mario->speed.y > 0)
+			mario->speed.y = 0;
+		mario->coordinates.y = collision_Check - mario->size.y + 1;
+	}
+	else
+		mario->speed.y += G;
 
 	
 
@@ -330,7 +331,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	// swaping animation - ovo smenjuje animacije
 	mario->time++;
-	if (mario->speed.y != 0) mario->animation_Stage = 2;
+	if (collision_Check == 0 ) mario->animation_Stage = 2;
 	else if (mario->speed.x == 0) mario->animation_Stage = 0;
 	else if (mario->time % 5 == 0) {
 		if (mario->speed.x != 0 && mario->speed.y == 0) {
