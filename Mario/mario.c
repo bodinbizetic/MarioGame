@@ -136,8 +136,8 @@ int detectSideCollide(Map *map, Mario *mario) {
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
-			new_coordinates.x = mario->coordinates.x;
-			new_coordinates.y = mario->coordinates.y + mario->speed.y;
+			new_coordinates.x = mario->coordinates.x + mario->speed.x;
+			new_coordinates.y = mario->coordinates.y ;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
@@ -152,8 +152,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
-					if (g->coordinate.y > new_coordinates.y)
-						return t;
+						return g->coordinate.x * ((t==3) ? -1 : 1);
 				break;
 			}
 			case question: {
@@ -288,20 +287,27 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		if (mario->speed.y < 0)
 			mario->speed.y *= -1;
 		mario->coordinates.y = collision_Check;
+		
 
 	}
 	
-	
-
 	collision_Check = detectSideCollide(map, mario);
-	if (collision_Check == 3) {
+	//ide u levo i udara u block
+	if (collision_Check < 0) {
 		if (mario->speed.x > 0)
 			mario->speed.x = 0;
+		if(mario->speed.x == 0) 
+			mario->coordinates.x = -collision_Check - mario->size.x;
+		
 		
 	}
-	else if (collision_Check == 4) {
+	//ide u desno i udara u block
+	else if (collision_Check > 0) {
 		if (mario->speed.x < 0)
 			mario->speed.x = 0;
+		if (mario->speed.x == 0)
+			mario->coordinates.x = collision_Check + blok.x;
+		
 	}
 
 	collision_Check = detectGravityCollide(map, mario);
@@ -309,12 +315,16 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		if (mario->speed.y > 0)
 			mario->speed.y = 0;
 		mario->coordinates.y = collision_Check - mario->size.y + 1;
+		
 	}
 	else
 		mario->speed.y += G;
 
 	
-
+	if (mario->coordinates.x < 0)
+		mario->coordinates.x = 0;
+	if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)
+		mario->coordinates.x = SCREEN_WIDTH - mario->size.x;
 	
 	mario->coordinates.y += mario->speed.y;
 	mario->coordinates.x += mario->speed.x;

@@ -61,7 +61,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 			//Right collision
 			return 4;
 		}
-		return 5;
+		//return 5;
 	
 	}
 
