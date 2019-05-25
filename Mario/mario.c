@@ -346,6 +346,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	}
 	else
 		mario->speed.y += G;
+	//Ogranicavanje brzine 
 	if (mario->speed.y < -MAXSPEED)
 		mario->speed.y = -MAXSPEED;
 	if (mario->speed.x < -MAXSPEED)
