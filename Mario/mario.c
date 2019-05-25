@@ -208,6 +208,7 @@ int detectCellingCollide(Map *map, Mario *mario) {
 
 			Pair_xy new_coordinates;
 			new_coordinates.x = mario->coordinates.x;
+
 			new_coordinates.y = mario->coordinates.y + mario->speed.y;
 			switch (gravity_Blocks[j])
 			{
