@@ -5,6 +5,7 @@
 #include "main_menu.h"
 #include "game.h"
 #include "map_Segments.h"
+#include "camera.h"
 /*!
 *		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
 */
@@ -13,6 +14,7 @@ Map* initMap() {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
 		printf_s("Failed to Initialize Map");
+	map->x_passed = 0;
 	for (int i = 0; i < MAP_HEIGHT; i++)
 		for (int j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++)
 			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 1) ? ground : sky;

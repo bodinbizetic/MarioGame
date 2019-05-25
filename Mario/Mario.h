@@ -2,7 +2,7 @@
 #define mario_h
 #include "ai.h"
 #include "map.h"
-
+#define MAXSPEED 8
 #define G 1
 typedef struct {
 	

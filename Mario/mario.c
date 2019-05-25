@@ -161,7 +161,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 
 			Pair_xy new_coordinates;
 			new_coordinates.x = mario->coordinates.x + mario->speed.x;
-			new_coordinates.y = mario->coordinates.y ;
+			new_coordinates.y = mario->coordinates.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
@@ -219,6 +219,7 @@ int detectCellingCollide(Map *map, Mario *mario) {
 
 			Pair_xy new_coordinates;
 			new_coordinates.x = mario->coordinates.x;
+
 			new_coordinates.y = mario->coordinates.y + mario->speed.y;
 			switch (gravity_Blocks[j])
 			{
@@ -348,15 +349,24 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	}
 	else
 		mario->speed.y += G;
-
-	//Da ne izlazi sa ekrana: Samo za debugovanje
+	if (mario->speed.y < -MAXSPEED)
+		mario->speed.y = -MAXSPEED;
+	if (mario->speed.x < -MAXSPEED)
+		mario->speed.x = -MAXSPEED;
+	if (mario->speed.x > MAXSPEED)
+		mario->speed.x = MAXSPEED;
+	//Da ne izlazi sa ekrana: Samo za debugovanje	
+	mario->coordinates.y += mario->speed.y;
+	mario->coordinates.x += mario->speed.x;
 	if (mario->coordinates.x < 0)
 		mario->coordinates.x = 0;
 	if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)
 		mario->coordinates.x = SCREEN_WIDTH - mario->size.x;
-	
-	mario->coordinates.y += mario->speed.y;
-	mario->coordinates.x += mario->speed.x;
+	if (mario->coordinates.y < 0)
+		mario->coordinates.y = 0;
+	if (mario->coordinates.y > SCREEN_HEIGHT - mario->size.x)
+		mario->coordinates.y = SCREEN_HEIGHT - mario->size.x;
+	map->x_passed = - mario->coordinates.x+SCREEN_WIDTH/2;
 	/*if (mario->coordinates.x + mario->size.x <= SCREEN_WIDTH && mario->speed.x>0)
 		mario->coordinates.x += mario->speed.x;
 	if (mario->coordinates.x >=0 && mario->speed.x<0)
@@ -365,7 +375,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		mario->coordinates.y += mario->speed.y;
 	if (mario->coordinates.y >= 0 && mario->speed.y<0)
 		mario->coordinates.y += mario->speed.y;*/
-	rect.x = mario->coordinates.x;
+	rect.x = mario->coordinates.x + map->x_passed;
 	rect.y = mario->coordinates.y;
 
 	// swaping animation - ovo smenjuje animacije
