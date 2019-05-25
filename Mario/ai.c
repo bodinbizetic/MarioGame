@@ -243,7 +243,16 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
+					SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+					SDL_RenderFillRect(renderer, &rect);
+				}
+				for (int i = 0; i < map->ai_counter[pipe]; i++) {
+					Ground *g = (Ground *)map->ai_Matrix[pipe][i];
+					rect.x = g->coordinate.x;
+					rect.y = g->coordinate.y;
+					rect.w = g->dimension.x;
+					rect.h = g->dimension.y;
+					SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
 
@@ -336,6 +345,26 @@ int updateAI(Map *map) {
 			}
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
+				if (g->timer_Sleep != 0)
+					g->timer_Sleep--;
+				else {
+					if (g->isAlive == 0) {
+						g->isAlive = 1;
+						g->coordinate.y -= 10;
+					}
+					if (-g->additional_Height >= 2 * blok.y) {
+						g->speed.y *= -1;
+					}
+					else if (-g->additional_Height < 0) {
+						g->speed.y *= -1;
+						g->timer_Sleep = PLANTIE_SLEEP;
+						g->isAlive = 0;
+						g->coordinate.y += 10;
+					}
+					g->coordinate.y += g->speed.y;
+					g->additional_Height += g->speed.y;
+				}
+
 				
 				break;
 			}

@@ -76,7 +76,18 @@ int detectAiCollide(Map *map, Mario *mario) {
 			}
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
-
+				
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed) > 0) {
+					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y && g->isAlive == 1) {
+						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+						g->isAlive = 0;
+						free(g);
+						map->score += ENEMY_KILL;
+						mario->speed.y *= -1;
+					}
+					else lose_Life(mario);
+				}
+				break;
 				break;
 			}
 			default:

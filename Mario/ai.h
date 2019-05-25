@@ -14,6 +14,8 @@
 #define BLOCK_KILL 100
 #define TURTLE_ACCELERATION 1
 #define TURTLE_TIMER 20
+#define PLANTIE_SPEED 2
+#define PLANTIE_SLEEP 100
 
 /*!
 *	\brief Contains pair of 2d coordinates
@@ -42,6 +44,7 @@ typedef struct PLANTIE {
 	int isAlive;
 	int timer_Sleep;
 	int animation_Stage;
+	int additional_Height;
 }ai_Plantie;
 
 /*!
