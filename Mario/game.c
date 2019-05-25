@@ -9,7 +9,7 @@
 #include <math.h>
 #define TILE_SIZE 16
 #define EPSILON 1
-
+#define MAX_MAP_WIDTH 100000
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
 int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1) {
@@ -74,7 +74,6 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 //DrawScreen crta na ekranu
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
-	
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -90,17 +89,18 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 		}
 	}
 
+
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
-			new_coordinates.x = mario->coordinates.x;
+			new_coordinates.x = mario->coordinates.x + map->x_passed;
 			new_coordinates.y = mario->coordinates.y + mario->speed.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				rect.x = g->coordinate.x;
+				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -120,7 +120,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-				rect.x = g->coordinate.x;
+				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -130,7 +130,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			}
 			case question: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-				rect.x = g->coordinate.x;
+				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -140,7 +140,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			}
 			case hidden: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-				rect.x = g->coordinate.x;
+				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -151,7 +151,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			case pipe: {
 				//Zovi kad budes iscrtavao pipe
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				rect.x = g->coordinate.x;
+				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -386,6 +386,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	
 		drawScreen(window, renderer, mapa, probni_mario);
+		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
 		updateMario(window,renderer,mapa,probni_mario,update);
 		updateAI(mapa);
 		drawAI(window, renderer, mapa);

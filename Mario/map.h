@@ -1,6 +1,6 @@
 #ifndef map_h
 #define map_h
-
+#include "SDL.h"
 /*!	\file map.h
 *	\brief Contains declarations and constants for map
 */
@@ -31,6 +31,7 @@ typedef struct {
 	int map_Matrix[MAP_HEIGHT][MAP_WIDTH * MAP_SEGMENTS_NUMBER];
 	int ai_counter[AI_NUMBER];
 	int score;
+	int x_passed;
 }Map;
 
 Map* initMap();

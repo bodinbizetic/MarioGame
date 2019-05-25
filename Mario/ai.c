@@ -168,7 +168,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -181,7 +181,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -194,7 +194,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -207,7 +207,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 0, 210, 30, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -215,7 +215,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				else {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 0, 210, 100, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -228,7 +228,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
@@ -241,7 +241,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				if (g->isAlive) {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
