@@ -12,6 +12,9 @@
 #define TURTLE_SPEED 2
 #define ENEMY_KILL 100//score za enemija
 #define BLOCK_KILL 100
+#define TURTLE_ACCELERATION 1
+#define TURTLE_TIMER 20
+
 /*!
 *	\brief Contains pair of 2d coordinates
 */

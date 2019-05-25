@@ -7,7 +7,7 @@ int detectGravityCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) 
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
-			new_coordinates.x = coord.x + speed.x;
+			new_coordinates.x = coord.x;
 			new_coordinates.y = coord.y + speed.y;
 			switch (gravity_Blocks[j])
 			{
@@ -52,7 +52,7 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 
 			Pair_xy new_coordinates;
 			new_coordinates.x = coord.x + speed.x;
-			new_coordinates.y = coord.y + speed.y;
+			new_coordinates.y = coord.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
@@ -282,15 +282,31 @@ int updateAI(Map *map) {
 				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
 				if (temp_col > 0) {
 					g->speed.y = 0;
-					g->coordinate.y = temp_col - g->dimension.y;
+					g->coordinate.y = temp_col - g->dimension.y + 1;
 				}
 				else g->speed.y += G;
 				
 				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 				if (temp_col > 2)
 					g->speed.x *= -1;
-				if (g->isAlive == 0)
+				
+			
+				static int turtle_timer = 0;
+				if (g->isAlive == 0) {
+					turtle_timer++;
+					turtle_timer %= TURTLE_TIMER + 1;
+				}
+
+				if (g->isAlive == 0 && g->speed.x != 0) {
 					projectileCollision(map, g->coordinate, g->dimension, g->speed);
+					
+					if(turtle_timer == TURTLE_TIMER)
+					if (g->speed.x > 0) {
+						g->speed.x -= TURTLE_ACCELERATION;
+					}
+					else g->speed.x += TURTLE_ACCELERATION;
+					
+				}
 				g->coordinate.x += g->speed.x;
 				g->coordinate.y += g->speed.y;
 				break;

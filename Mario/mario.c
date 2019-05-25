@@ -11,6 +11,7 @@ int lose_Life(Mario *mario) {
 	if (mario->lives > 1) {
 		mario->lives = 1;
 		mario->size.y = blok.y;
+		mario->coordinates.y += blok.y;
 	}
 
 	return 0;
@@ -46,10 +47,15 @@ int detectAiCollide(Map *map, Mario *mario) {
 						else lose_Life(mario);
 					}
 					else if (g->speed.x != 0) {
-						lose_Life(mario);
+
+						
+						//lose_Life(mario);
+						//mario->speed.y *= -1;
 					}
 					else {
-						g->speed.x = mario->speed.x;
+						if(mario->speed.y != 0 || mario->speed.x != 0)
+						g->speed.x = (abs(mario->speed.x) + 5 * TURTLE_SPEED) * ((mario->speed.x >= 0) ? 1 : -1);
+						//mario->speed.y *= -1;
 					}
 				}
 				break;
