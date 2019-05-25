@@ -64,17 +64,31 @@ Map* initMap() {
 			else if (map->map_Matrix[i][j] == pipe) {
 				//Pipe se sastoji iz dva dela: cevka i onaj poklopac
 				Ground *temp = malloc(sizeof(Ground));
-				temp->coordinate.x = j * (blok.x );
+				temp->coordinate.x = j * (blok.x) + blok.x * PIPE_WIDTH / 400;
 				temp->coordinate.y = (i-1) * blok.y;
 				temp->dimension.x = 2 * blok.x * PIPE_WIDTH / 100;
 				temp->dimension.y = 2 * blok.y;
 				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp;
 				Ground *temp2 = malloc(sizeof(Ground));
-				temp2->coordinate.x = j * blok.x - ((100 - PIPE_WIDTH) * blok.x / 100) - 1;
+				temp2->coordinate.x = j * blok.x;
 				temp2->coordinate.y = (i - 1) * blok.y;
 				temp2->dimension.x = 2 * blok.x;
 				temp2->dimension.y = 2 * blok.y * PIPE_HEIGHT / 100;
 				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp2;
+			}
+			else if (map->map_Matrix[i][j] == plantie) {
+				ai_Plantie *temp = malloc(sizeof(ai_Plantie));
+				temp->coordinate.x = j * blok.x + blok.x * PLANTIE_POS * 3/ 200;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension.x = blok.x * PLANTIE_POS / 100;
+				temp->dimension.y = blok.y * 2;
+				temp->animation_Stage = 0;
+				temp->isAlive = 1;
+				temp->speed.y = -PLANTIE_SPEED;
+				temp->speed.x = 0;
+				temp->timer_Sleep = PLANTIE_SLEEP;
+				temp->additional_Height = 0;
+				map->ai_Matrix[plantie][map->ai_counter[plantie]++] = temp;
 			}
 		}
 
