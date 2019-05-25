@@ -384,7 +384,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		else
 			update.x = 2;
 
-	
+		updateMapItems(mapa);
 		drawScreen(window, renderer, mapa, probni_mario);
 		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
 		updateMario(window,renderer,mapa,probni_mario,update);

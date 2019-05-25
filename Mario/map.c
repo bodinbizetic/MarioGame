@@ -14,11 +14,13 @@ Map* initMap() {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
 		printf_s("Failed to Initialize Map");
+
 	map->x_passed = 0;
 	for (int i = 0; i < MAP_HEIGHT; i++)
 		for (int j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++)
 			map->map_Matrix[i][j] = (i == MAP_HEIGHT - 1) ? ground : sky;
 	for (int i = 0; i < AI_NUMBER; i++) map->ai_counter[i] = 0;
+
 	srand(time(0));
 	generate_Map(map);
 	for(int i=0; i< MAP_HEIGHT; i++)
@@ -90,6 +92,7 @@ Map* initMap() {
 				temp->additional_Height = 0;
 				map->ai_Matrix[plantie][map->ai_counter[plantie]++] = temp;
 			}
+			map->map_Matrix[i][j] = sky;
 		}
 
 	
@@ -101,6 +104,14 @@ Map* initMap() {
 	map->score = 0;
 	return map;
 }
+
+int updateMapItems(Map *map) {
+	int left = map->x_passed / MAP_WIDTH;
+	int right = left + MAP_WIDTH;
+
+	return 0;
+}
+
 Map* LoadMap() {
 	;
 }

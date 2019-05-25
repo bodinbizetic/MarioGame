@@ -168,8 +168,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
-					if (g->coordinate.y > new_coordinates.y)
-						return t;
+					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case basic: {
@@ -183,16 +182,14 @@ int detectSideCollide(Map *map, Mario *mario) {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
-					if (g->coordinate.y > new_coordinates.y)
-						return t;
+					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
-					if (g->coordinate.y > new_coordinates.y)
-						return g->coordinate.x * ((t == 3) ? -1 : 1);
+					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case pipe: {
@@ -355,17 +352,17 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		mario->speed.x = -MAXSPEED;
 	if (mario->speed.x > MAXSPEED)
 		mario->speed.x = MAXSPEED;
-	//Da ne izlazi sa ekrana: Samo za debugovanje	
+	
 	mario->coordinates.y += mario->speed.y;
 	mario->coordinates.x += mario->speed.x;
 	if (mario->coordinates.x < 0)
 		mario->coordinates.x = 0;
-	if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)
-		mario->coordinates.x = SCREEN_WIDTH - mario->size.x;
+	/*if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)
+		mario->coordinates.x = SCREEN_WIDTH - mario->size.x;*/
 	if (mario->coordinates.y < 0)
 		mario->coordinates.y = 0;
-	if (mario->coordinates.y > SCREEN_HEIGHT - mario->size.x)
-		mario->coordinates.y = SCREEN_HEIGHT - mario->size.x;
+	/*if (mario->coordinates.y > SCREEN_HEIGHT - mario->size.x)
+		mario->coordinates.y = SCREEN_HEIGHT - mario->size.x;*/
 	map->x_passed = - mario->coordinates.x+SCREEN_WIDTH/2;
 	/*if (mario->coordinates.x + mario->size.x <= SCREEN_WIDTH && mario->speed.x>0)
 		mario->coordinates.x += mario->speed.x;

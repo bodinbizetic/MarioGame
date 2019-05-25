@@ -39,6 +39,7 @@ Map* initMap();
 //Citanje sacuvane mape
 Map* LoadMap();
 
+int updateMapItems(Map *map);
 void  destroyMap(Map *map);
 
 
