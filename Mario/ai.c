@@ -254,7 +254,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 				}
 				for (int i = 0; i < map->ai_counter[pipe]; i++) {
 					Ground *g = (Ground *)map->ai_Matrix[pipe][i];
-					rect.x = g->coordinate.x;
+					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
 					rect.w = g->dimension.x;
 					rect.h = g->dimension.y;
