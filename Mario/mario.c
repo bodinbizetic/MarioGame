@@ -367,6 +367,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	/*if (mario->coordinates.x + mario->size.x <= SCREEN_WIDTH && mario->speed.x>0)
 		mario->coordinates.x += mario->speed.x;
 	if (mario->coordinates.x >=0 && mario->speed.x<0)
+
 		mario->coordinates.x += mario->speed.x;
 	if (mario->coordinates.y + mario->size.y <= SCREEN_HEIGHT && mario->speed.y>0)
 		mario->coordinates.y += mario->speed.y;
