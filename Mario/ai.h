@@ -86,6 +86,7 @@ typedef struct HIDDEN {
 *	\brief Structure representing non-interactable ground
 */
 typedef struct STOCK_FLOOR {
+	//ground, pipe
 	Pair_xy coordinate, dimension;
 }Ground;
 

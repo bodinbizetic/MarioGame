@@ -148,6 +148,17 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
+			case pipe: {
+				//Zovi kad budes iscrtavao pipe
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
 			default:
 				break;
 			}

@@ -80,6 +80,12 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 					return g->coordinate.x;
 				break;
 			}
+			case pipe: {
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) > 2)
+					return g->coordinate.x;
+				break;
+			}
 			default:
 				break;
 			}

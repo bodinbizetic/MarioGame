@@ -59,6 +59,21 @@ Map* initMap() {
 				temp->speed.y = 0;
 				map->ai_Matrix[turtle][map->ai_counter[turtle]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == pipe) {
+				//Pipe se sastoji iz dva dela: cevka i onaj poklopac
+				Ground *temp = malloc(sizeof(Ground));
+				temp->coordinate.x = j * (blok.x );
+				temp->coordinate.y = (i-1) * blok.y;
+				temp->dimension.x = 2 * blok.x * PIPE_WIDTH / 100;
+				temp->dimension.y = 2 * blok.y;
+				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp;
+				Ground *temp2 = malloc(sizeof(Ground));
+				temp2->coordinate.x = j * blok.x - ((100 - PIPE_WIDTH) * blok.x / 100) - 1;
+				temp2->coordinate.y = (i - 1) * blok.y;
+				temp2->dimension.x = 2 * blok.x;
+				temp2->dimension.y = 2 * blok.y * PIPE_HEIGHT / 100;
+				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp2;
+			}
 		}
 
 	

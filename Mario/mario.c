@@ -126,6 +126,13 @@ int detectGravityCollide(Map *map, Mario *mario) {
 					return g->coordinate.y;
 			break;
 		}
+		case pipe: {
+			Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
+				if (g->coordinate.y > new_coordinates.y)
+					return g->coordinate.y;
+			break;
+		}
 		default:
 			break;
 		}
@@ -158,7 +165,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
-						return g->coordinate.x * ((t==3) ? -1 : 1);
+					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case question: {
@@ -174,7 +181,14 @@ int detectSideCollide(Map *map, Mario *mario) {
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
 					if (g->coordinate.y > new_coordinates.y)
-						return t;
+						return g->coordinate.x * ((t == 3) ? -1 : 1);
+				break;
+			}
+			case pipe: {
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				int t;
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+					return ((t == 3) ?  g->coordinate.x - mario->size.x: g->coordinate.x + g->dimension.x);
 				break;
 			}
 			default:
@@ -228,6 +242,13 @@ int detectCellingCollide(Map *map, Mario *mario) {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
 					if (g->coordinate.y < new_coordinates.y)
+						return new_coordinates.y;
+				break;
+			}
+			case pipe: {
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
+					
 						return new_coordinates.y;
 				break;
 			}
@@ -298,21 +319,12 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	}
 	
 	collision_Check = detectSideCollide(map, mario);
-	//ide u levo i udara u block
-	if (collision_Check < 0) {
-		if (mario->speed.x > 0)
-			mario->speed.x = 0;
-		if(mario->speed.x == 0) 
-			mario->coordinates.x = -collision_Check - mario->size.x;
-		
-		
-	}
-	//ide u desno i udara u block
-	else if (collision_Check > 0) {
-		if (mario->speed.x < 0)
+	//ide u desno ili u levo i udara u block
+	if (collision_Check > 0) {
+		//if (mario->speed.x < 0)
 			mario->speed.x = 0;
 		if (mario->speed.x == 0)
-			mario->coordinates.x = collision_Check + blok.x;
+			mario->coordinates.x = collision_Check;
 		
 	}
 
@@ -326,7 +338,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	else
 		mario->speed.y += G;
 
-	
+	//Da ne izlazi sa ekrana: Samo za debugovanje
 	if (mario->coordinates.x < 0)
 		mario->coordinates.x = 0;
 	if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)

@@ -12,7 +12,10 @@
 
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 50
-//Ako je malo slovo - podrazumeva mapId, a veliko aiId
+
+#define PIPE_WIDTH 80
+#define PIPE_HEIGHT 20
+
 //IZMENA!Zamenio sam floor sa ground jer je pravio problem sa fjom floor iz math.h,zamenio sam i u map.c
 enum mapId { sky, ground, basic, question, hidden, pipetunnel, pipe, flag, castle, pikes, mario_id, projectile, shroom, star, turtle, devil, plantie };
 //Gravity defying blocks
