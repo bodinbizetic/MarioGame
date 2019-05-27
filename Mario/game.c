@@ -119,7 +119,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	SDL_FreeSurface(surfaceMessage);
 	SDL_RenderCopy(renderer, Message, NULL, &score_square);
 	SDL_DestroyTexture(Message);
-
+	TTF_CloseFont(font);
 
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
