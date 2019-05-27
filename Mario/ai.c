@@ -320,7 +320,14 @@ int updateAI(Map *map, Mario *mario) {
 							g->animation_Stage = 2;
 							else g->animation_Stage = 0;
 					}
-
+					else {
+						g->time++;
+						if (g->time % 8 == 0 && g->isAlive!=0)
+								if (g->animation_Stage == 0) g->animation_Stage = 1;
+								else if (g->animation_Stage == 1) g->animation_Stage = 0;
+								else if (g->animation_Stage == 2) g->animation_Stage = 3;
+								else g->animation_Stage = 2;
+					}
 
 					static int turtle_timer = 0;
 					if (g->isAlive == 0) {
@@ -356,7 +363,10 @@ int updateAI(Map *map, Mario *mario) {
 					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 2)
 						g->speed.x *= -1;
-
+					g->time++;
+					if (g->time % 8 == 0)
+						if (g->animation_Stage == 0) g->animation_Stage = 1;
+						else g->animation_Stage = 0;
 					g->coordinate.x += g->speed.x;
 					g->coordinate.y += g->speed.y;
 				}
