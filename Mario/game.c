@@ -75,7 +75,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	return 0;
 }
 //DrawScreen crta na ekranu
-void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[]) {
+void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[AI_NUMBER][5]) {
 	//Init TTF
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
@@ -98,9 +98,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderClear(renderer);
-	for (i = 0; i < MAP_HEIGHT; i++) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // ovo visak ?
+	SDL_RenderClear(renderer);                       // ovo visak ?
+	/*for (i = 0; i < MAP_HEIGHT; i++) {
 		for (j = 0; j <= MAP_WIDTH; j++) {
 			rect.x = j * blok.x;
 			rect.y = i * blok.y;
@@ -109,7 +109,11 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 			SDL_RenderFillRect(renderer, &rect);
 		}
-	}
+	}*/
+
+	SDL_Rect background = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+	SDL_RenderCopy(renderer, blok_Texture[sky][0], NULL, &background);
+
 	surfaceMessage = TTF_RenderText_Blended(font, text1, White);
 	Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 	SDL_FreeSurface(surfaceMessage);
@@ -131,8 +135,8 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				// ground 
-				SDL_RenderCopy(renderer, blok_Texture[ground], NULL, &rect);
+				// ground block
+				SDL_RenderCopy(renderer, blok_Texture[ground][0], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -143,9 +147,10 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
-				
-				SDL_RenderFillRect(renderer, &rect);
+				// basic block
+				SDL_RenderCopy(renderer, blok_Texture[basic][0], NULL, &rect);
+				/*SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);*/
 				break;
 			}
 			case question: {
@@ -222,7 +227,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
-	SDL_Texture *block_Texture[AI_NUMBER];
+	SDL_Texture *block_Texture[AI_NUMBER][5]; // 5 animacija ili manje (zavisi od AI-a)
 
 	Map *mapa;
 	Mario *probni_mario;
@@ -361,21 +366,104 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		probni_mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
-
-	// blokovi
-		SDL_Surface *brick = IMG_Load("Slike/ground.png");
-		if (brick == NULL) {
+		//	AI
+		//turtle
+		surface = IMG_Load("Slike/turtleStandRight.png");
+		if (surface == NULL) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		SDL_Texture *object_Ground = SDL_CreateTextureFromSurface(renderer, brick);
-		SDL_FreeSurface(brick);
-		block_Texture[ground] = object_Ground;
+		block_Texture[turtle][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleMoveRight.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleStandLeft.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleMoveLeft.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][3] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleShield.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][4] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devil1.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devil2.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devilDeath.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+			// blocks 
+		// basic
+		surface = IMG_Load("Slike/basic.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[basic][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		
+		// ground
+		surface = IMG_Load("Slike/ground.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[ground][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		
+		surface = IMG_Load("Slike/background.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[sky][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
 
 	}
 
 	//postoji funkcija koja inicijalizuje mapu
-	mapa = initMap();
+	mapa = initMap(block_Texture);
 	
 	int i, j, x = 0, y = 0;
 	/*for (i = 0; i < 10; i++)

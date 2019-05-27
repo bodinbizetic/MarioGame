@@ -216,16 +216,18 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 0, 210, 30, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+					/*SDL_SetRenderDrawColor(renderer, 0, 210, 30, 255);
+					SDL_RenderFillRect(renderer, &rect);*/
 				}
 				else {
 					rect.h = g->dimension.y;
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 0, 210, 100, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+					/*SDL_SetRenderDrawColor(renderer, 0, 210, 100, 255);
+					SDL_RenderFillRect(renderer, &rect);*/
 				}
 
 				break;
@@ -237,8 +239,9 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+					/*SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
+					SDL_RenderFillRect(renderer, &rect);*/
 				}
 
 				break;
@@ -310,8 +313,13 @@ int updateAI(Map *map, Mario *mario) {
 					else g->speed.y += G;
 
 					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-					if (temp_col > 2)
+					if (temp_col > 2) {
 						g->speed.x *= -1;
+						if (g->animation_Stage != 4)
+							if(g->animation_Stage==0 || g->animation_Stage==1)
+							g->animation_Stage = 2;
+							else g->animation_Stage = 0;
+					}
 
 
 					static int turtle_timer = 0;

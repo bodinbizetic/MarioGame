@@ -21,7 +21,7 @@ static int ai_id[] = { projectile, shroom, star, turtle, devil, plantie };
 
 
 
-Map* initMap();
+Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]);
 //Citanje sacuvane mape
 Map* LoadMap();
 
