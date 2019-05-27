@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <SDL.h>
 #include <SDL_image.h>
-
 #include "mario.h"
 #include "main_menu.h"
 #include "map.h"
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
 			//start new game
 			Game_State=Game(window, renderer, map, mario);
 		}
-		//Option New Game
+		//Option Continue Game
 		if (Game_State == 2) {
 			//Loading map
 			map = LoadMap();
@@ -71,7 +70,7 @@ int main(int argc, char *argv[]) {
 			Game_State=Game(window, renderer, map, mario);
 		}
 		if (Game_State == 3) {
-			Game_State=showHighscore();
+			//Game_State=showHighscore();
 		}
 		if (Game_State == 4) {
 			Game_State=showSettings(renderer);

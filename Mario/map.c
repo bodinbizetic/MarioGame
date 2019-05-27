@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "map.h"
 #include "ai.h"
 #include "main_menu.h"
 #include "game.h"

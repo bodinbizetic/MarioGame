@@ -1,6 +1,5 @@
 #ifndef settings_h
 #define settings_h
-
-int showHighscore();
+int showHighscore(Map *map, Mario *mario);
 
 #endif

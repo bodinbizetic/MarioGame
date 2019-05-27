@@ -2,9 +2,12 @@
 #define all_h
 #include "SDL.h"
 
+#define SCORE_WIDTH 100
+#define SCORE_HEIGHT 60
+
 #define MAP_HEIGHT 15
 #define MAP_WIDTH 15
-#define MAP_SEGMENTS_NUMBER 10
+#define MAP_SEGMENTS_NUMBER 20
 
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 1000
@@ -106,8 +109,10 @@ typedef struct {
 	void *ai_Matrix[AI_NUMBER][AI_MAX_NUMBER];
 	int map_Matrix[MAP_HEIGHT][MAP_WIDTH * MAP_SEGMENTS_NUMBER];
 	int ai_counter[AI_NUMBER];
+	int x_score;
 	int score;
 	int x_passed;
+	int timer;
 }Map;
 
 #endif // !all_h

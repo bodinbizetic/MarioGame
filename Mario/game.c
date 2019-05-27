@@ -1,8 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL_ttf.h>
-
+#include <string.h>
 #include "map.h"
 #include "mario.h"
 #include "main_menu.h"
@@ -75,6 +76,25 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 }
 //DrawScreen crta na ekranu
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[]) {
+	//Init TTF
+	if (TTF_Init() < 0) {
+		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
+	}
+	//Surface for TTF text
+	SDL_Surface* surfaceMessage = NULL;
+	SDL_Texture* Message = NULL;
+	SDL_Color White = { 255, 255, 255 };
+	char text[30], text1[30] = "Score: ";
+	_itoa(map->x_score, text, 10);
+	strcat(text1, text);
+	//Text back rectangle
+	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 50);
+	SDL_Rect score_square;
+	score_square.x = SCREEN_WIDTH / 80;
+	score_square.y = SCREEN_HEIGHT / 80;
+	score_square.h = SCORE_HEIGHT;
+	score_square.w = SCORE_WIDTH;
+
 
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
@@ -90,6 +110,11 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			SDL_RenderFillRect(renderer, &rect);
 		}
 	}
+	surfaceMessage = TTF_RenderText_Blended(font, text1, White);
+	Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_FreeSurface(surfaceMessage);
+	SDL_RenderCopy(renderer, Message, NULL, &score_square);
+	//SDL_DestroyTexture(Message);
 
 
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
@@ -201,17 +226,21 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	Map *mapa;
 	Mario *probni_mario;
+
 	Pair_xy update = { 0,0 };
 	probni_mario = malloc(sizeof(Mario));
 	probni_mario->size.x = blok.x;
 	probni_mario->size.y = 2*blok.y;
-	probni_mario->coordinates.x = 3* blok.x;
+	probni_mario->coordinates.x = SCREEN_WIDTH / 2 + 2*blok.x;
 	probni_mario->coordinates.y = 3*blok.y;
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
 	probni_mario->lives = 2;
 	probni_mario->jump_timer = 0;
 	probni_mario->immortality_timer = 0;
+
+	map->x_passed = blok.x;
+	map->score = 0;
 	immortality_cheat = 0;
 	fly_cheat = 0;
 

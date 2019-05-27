@@ -301,7 +301,7 @@ int updateAI(Map *map, Mario *mario) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH) {
 					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);				
 					if (temp_col > 0) {
 						g->speed.y = 0;
@@ -337,7 +337,7 @@ int updateAI(Map *map, Mario *mario) {
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH  - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH ) {
 					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 0) {
 						g->speed.y = 0;
@@ -356,7 +356,7 @@ int updateAI(Map *map, Mario *mario) {
 			}
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
-				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH) {
 					if (g->timer_Sleep != 0)
 						g->timer_Sleep--;
 					else {

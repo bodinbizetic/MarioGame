@@ -8,6 +8,7 @@
 #include "main_menu.h"
 #include "highscore.h"
 //ispis Highscore,vraca 0 za povratak u meni,5
-int showHighscore() {
+int showHighscore(Map *map,Mario *mario) {
+
 	return 0;
 }

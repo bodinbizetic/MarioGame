@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "SDL_ttf.h"
 #include "map.h"
 #include <SDL.h>
 #include "ai.h"
 #include "main_menu.h"
 #include "mario.h"
 #include "game.h" 
+
 int fly_cheat = 0;
 int immortality_cheat = 0;
+
 int lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
@@ -376,14 +379,19 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	
 	mario->coordinates.y += mario->speed.y;
 	mario->coordinates.x += mario->speed.x;
-	if (mario->coordinates.x < 0)
-		mario->coordinates.x = 0;
+	if (map->x_score < mario->coordinates.x - (SCREEN_WIDTH / 2 + 2 * blok.x))
+		map->x_score = mario->coordinates.x - (SCREEN_WIDTH / 2 + 2 * blok.x);
+	if (mario->coordinates.x < blok.x)
+		mario->coordinates.x = blok.x;
+	if (mario->coordinates.x > SCREEN_WIDTH*MAP_SEGMENTS_NUMBER - blok.x)
+		mario->coordinates.x = SCREEN_WIDTH*MAP_SEGMENTS_NUMBER - blok.x;
 	/*if (mario->coordinates.x > SCREEN_WIDTH - mario->size.x)
 		mario->coordinates.x = SCREEN_WIDTH - mario->size.x;*/
 	if (mario->coordinates.y < 0)
 		mario->coordinates.y = 0;
 	/*if (mario->coordinates.y > SCREEN_HEIGHT - mario->size.x)
 		mario->coordinates.y = SCREEN_HEIGHT - mario->size.x;*/
+	if (mario->coordinates.x > SCREEN_WIDTH / 2 + blok.x && mario->coordinates.x<SCREEN_WIDTH*MAP_SEGMENTS_NUMBER -SCREEN_WIDTH/2-blok.x/8)
 	map->x_passed = - mario->coordinates.x+SCREEN_WIDTH/2;
 	/*if (mario->coordinates.x + mario->size.x <= SCREEN_WIDTH && mario->speed.x>0)
 		mario->coordinates.x += mario->speed.x;
