@@ -43,6 +43,8 @@ typedef struct DEVIL {
 	int isAlive;
 	int type;
 	int animation_Stage;
+	int time;
+	SDL_Texture *animation[3][2];
 }ai_Devil;
 
 /*!

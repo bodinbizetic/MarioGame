@@ -98,9 +98,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderClear(renderer);
-	for (i = 0; i < MAP_HEIGHT; i++) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // ovo visak ?
+	SDL_RenderClear(renderer);                       // ovo visak ?
+	/*for (i = 0; i < MAP_HEIGHT; i++) {
 		for (j = 0; j <= MAP_WIDTH; j++) {
 			rect.x = j * blok.x;
 			rect.y = i * blok.y;
@@ -109,7 +109,11 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 			SDL_RenderFillRect(renderer, &rect);
 		}
-	}
+	}*/
+
+	SDL_Rect background = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+	SDL_RenderCopy(renderer, blok_Texture[sky], NULL, &background);
+
 	surfaceMessage = TTF_RenderText_Blended(font, text1, White);
 	Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 	SDL_FreeSurface(surfaceMessage);
@@ -131,7 +135,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				// ground 
+				// ground block
 				SDL_RenderCopy(renderer, blok_Texture[ground], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
@@ -143,9 +147,10 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
-				
-				SDL_RenderFillRect(renderer, &rect);
+				// basic block
+				SDL_RenderCopy(renderer, blok_Texture[basic], NULL, &rect);
+				/*SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_RenderFillRect(renderer, &rect);*/
 				break;
 			}
 			case question: {
@@ -361,16 +366,43 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		probni_mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
-
-	// blokovi
-		SDL_Surface *brick = IMG_Load("Slike/ground.png");
-		if (brick == NULL) {
+		//	AI
+		//turtle
+		surface = IMG_Load("Slike/turtleStandRight.png");
+		if (surface == NULL) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		SDL_Texture *object_Ground = SDL_CreateTextureFromSurface(renderer, brick);
-		SDL_FreeSurface(brick);
-		block_Texture[ground] = object_Ground;
+		block_Texture[turtle] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+			// blocks 
+		// basic
+		surface = IMG_Load("Slike/basic.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[basic] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		
+		// ground
+		surface = IMG_Load("Slike/ground.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[ground] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		
+		surface = IMG_Load("Slike/background.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[sky] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
 
 	}
 
