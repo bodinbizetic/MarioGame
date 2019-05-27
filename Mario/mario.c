@@ -76,8 +76,8 @@ int detectAiCollide(Map *map, Mario *mario) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
-						g->animation_Stage = 2;
-						if(g->time%50==0)
+						/*g->animation_Stage = 2; ne radi ovo kad umre
+						if(g->time%50==0)*/
 						free(g);
 						map->score += ENEMY_KILL;
 						mario->speed.y *= -1;

@@ -75,7 +75,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	return 0;
 }
 //DrawScreen crta na ekranu
-void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[AI_NUMBER][5]) {
+void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	//Init TTF
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
@@ -112,14 +112,14 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	}*/
 
 	SDL_Rect background = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
-	SDL_RenderCopy(renderer, blok_Texture[sky][0], NULL, &background);
+	SDL_RenderCopy(renderer, block_Texture[sky][0], NULL, &background);
 
 	surfaceMessage = TTF_RenderText_Blended(font, text1, White);
 	Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 	SDL_FreeSurface(surfaceMessage);
 	SDL_RenderCopy(renderer, Message, NULL, &score_square);
-	//SDL_DestroyTexture(Message);
-
+	SDL_DestroyTexture(Message);
+	TTF_CloseFont(font);
 
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -136,7 +136,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				// ground block
-				SDL_RenderCopy(renderer, blok_Texture[ground][0], NULL, &rect);
+				SDL_RenderCopy(renderer, block_Texture[ground][0], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -148,7 +148,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				// basic block
-				SDL_RenderCopy(renderer, blok_Texture[basic][0], NULL, &rect);
+				SDL_RenderCopy(renderer, block_Texture[basic][0], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -218,7 +218,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			
 		}
 	}*/
-	
+
 }
 
 
@@ -541,6 +541,19 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
+
+	for (int i = 0; i < AI_NUMBER; i++) {
+		if (i == devil) {
+			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == turtle) {
+			for (int j = 0; j < 5; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+	}
+	SDL_DestroyTexture(block_Texture[sky][0]);
+	SDL_DestroyTexture(block_Texture[ground][0]);
+	SDL_DestroyTexture(block_Texture[basic][0]); // ovo ubaciti gore u for kad se naprave svi blokovi i ai-ovi
+
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
 	// treba AI free da se doda !!!
