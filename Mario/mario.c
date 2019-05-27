@@ -5,15 +5,21 @@
 #include "ai.h"
 #include "main_menu.h"
 #include "mario.h"
-#include "game.h"
-
+#include "game.h" 
+int fly_cheat = 0;
+int immortality_cheat = 0;
 int lose_Life(Mario *mario) {
-	if (mario->lives > 1) {
-		mario->lives = 1;
-		mario->size.y = blok.y;
-		mario->coordinates.y += blok.y;
+	if (mario->immortality_timer == 0) {
+		if (mario->lives > 1) {
+			mario->lives = 1;
+			mario->size.y = blok.y;
+			mario->coordinates.y += blok.y;
+			mario->immortality_timer = MAX_IMORTAL;
+		}
+		else
+			if (mario->lives == 1)
+				mario->lives = 0;
 	}
-
 	return 0;
 }
 int detectAiCollide(Map *map, Mario *mario) {
@@ -300,9 +306,13 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 			mario->speed.x += 2;
 	}
 	//y=1  je gore
-	if (update.y == 1) {
+	if (update.y == 1 && mario->jump_timer < MAX_JUMP) {
+		if (fly_cheat == 0) 
+			mario->jump_timer += 1;
 		if (mario->speed.y >= -16)
 			mario->speed.y -= 2;
+
+		
 	}
 	//y=0 je dole 
 	else if (update.y == 0) {
@@ -316,6 +326,15 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		else if (mario->speed.y < 0)
 			mario->speed.y += 2;
 	}*/
+	if (immortality_cheat) {
+		if (mario->immortality_timer != 0)
+			mario->immortality_timer--;
+		else
+			mario->immortality_timer = MAX_IMORTAL;
+	}
+	else
+	if (mario->immortality_timer)
+		mario->immortality_timer--;
 	detectAiCollide(map, mario);
 	int collision_Check = detectCellingCollide(map, mario);
 	detectCellingCollide(map, mario);
@@ -339,6 +358,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	collision_Check = detectGravityCollide(map, mario);
 	if (collision_Check > 0) {
+		mario->jump_timer = 0;
 		if (mario->speed.y > 0)
 			mario->speed.y = 0;
 		mario->coordinates.y = collision_Check - mario->size.y + 1;
@@ -389,6 +409,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	}
 
 	// drawing mario - crtanje maria (kao slika ne kao kockica)
+	if(mario->immortality_timer % 8 != 1)
 	SDL_RenderCopy(renderer, mario->animation[marioCharacter][mario->facing][mario->animation_Stage], NULL, &rect);
 
 	/*SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);

@@ -6,7 +6,8 @@
 #include "map.h"
 #include "mario.h"
 #include "main_menu.h"
-#include <math.h>
+extern int fly_cheat;
+extern int immortality_cheat;
 #define TILE_SIZE 16
 #define EPSILON 1
 #define MAX_MAP_WIDTH 100000
@@ -41,16 +42,6 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 			else if (c2.y > c1.y)
 				return 1;
 			else printf_s("Error: jednake koordinate");*/
-		if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision)
-		{
-			//Top collision
-			return 2;
-		}
-		if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)
-		{
-			//bottom collision
-			return 1;
-		}
 		if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
 		{
 			//Left collision
@@ -61,6 +52,17 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 			//Right collision
 			return 4;
 		}
+		if (t_collision <= b_collision && t_collision <= l_collision && t_collision <= r_collision)
+		{
+			//Top collision
+			return 2;
+		}
+		if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)
+		{
+			//bottom collision
+			return 1;
+		}
+		
 		//return 5;
 	
 	}
@@ -72,7 +74,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	return 0;
 }
 //DrawScreen crta na ekranu
-void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
+void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[]) {
 
 	int i, j, x = 0, y = 0;
 	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
@@ -105,15 +107,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				// ground 
-				SDL_Surface *brick = IMG_Load("Slike/ground.png");
-				if (brick == NULL) {
-					printf("%s\n", SDL_GetError());
-					exit(1);
-				}
-				SDL_Texture *object = SDL_CreateTextureFromSurface(renderer, brick);
-				SDL_FreeSurface(brick);
-				SDL_RenderCopy(renderer, object, NULL, &rect);
-				SDL_DestroyTexture(object);
+				SDL_RenderCopy(renderer, blok_Texture[ground], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -125,6 +119,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
@@ -133,8 +128,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
-				rect.h = g->dimension.y;
+
 				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
@@ -145,6 +141,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
@@ -156,6 +153,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+				
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
@@ -192,10 +190,14 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	}*/
 	
 }
+
+
 //igranje igre
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
+
+	SDL_Texture *block_Texture[AI_NUMBER];
 
 	Map *mapa;
 	Mario *probni_mario;
@@ -208,6 +210,10 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
 	probni_mario->lives = 2;
+	probni_mario->jump_timer = 0;
+	probni_mario->immortality_timer = 0;
+	immortality_cheat = 0;
+	fly_cheat = 0;
 
 
 	// mario animations - nazalost moralo je sve rucno...
@@ -325,6 +331,18 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		}
 		probni_mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
+
+
+	// blokovi
+		SDL_Surface *brick = IMG_Load("Slike/ground.png");
+		if (brick == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		SDL_Texture *object_Ground = SDL_CreateTextureFromSurface(renderer, brick);
+		SDL_FreeSurface(brick);
+		block_Texture[ground] = object_Ground;
+
 	}
 
 	//postoji funkcija koja inicijalizuje mapu
@@ -343,6 +361,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	int Running = 1;
 	SDL_Event eventgame;
 	while (Running) {
+		if (probni_mario->lives == 0) break; 
 		while (SDL_PollEvent(&eventgame)) {
 			switch (eventgame.type) {
 			case SDL_QUIT:
@@ -351,6 +370,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			case SDL_KEYDOWN:
 			{
 				switch (eventgame.key.keysym.sym) {
+				case SDLK_f:
+					fly_cheat = !fly_cheat;
+					break;
+				case SDLK_i:
+					immortality_cheat = !immortality_cheat;
+					break;
 				case SDLK_ESCAPE:
 					Running = 0;
 					break;
@@ -384,11 +409,11 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		else
 			update.x = 2;
 
-		updateMapItems(mapa);
-		drawScreen(window, renderer, mapa, probni_mario);
+		//updateMapItems(mapa);
+		drawScreen(window, renderer, mapa, probni_mario, block_Texture);
 		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
 		updateMario(window,renderer,mapa,probni_mario,update);
-		updateAI(mapa);
+		updateAI(mapa, probni_mario);
 		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
 
@@ -400,6 +425,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
 	free(probni_mario);
+	//SDL_DestroyTexture(object_Ground);
 	// treba AI free da se doda !!!
 	// mapa - pomocna mapa , treba da se zameni u free(map)
 	destroyMap(mapa);

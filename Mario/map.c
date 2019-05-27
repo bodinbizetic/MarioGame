@@ -24,7 +24,7 @@ Map* initMap() {
 	srand(time(0));
 	generate_Map(map);
 	for(int i=0; i< MAP_HEIGHT; i++)
-		for (int j = 0; j <= MAP_WIDTH; j++) {
+		for (int j = 0; j <= MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
 			if (map->map_Matrix[i][j] == ground) {
 				Ground *temp = malloc(sizeof(Ground));
 				temp->coordinate.x = j*blok.x;

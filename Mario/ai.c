@@ -1,6 +1,7 @@
 #include "SDL.h"
 #include "ai.h"
 #include "game.h"
+#include "main_menu.h"
 
 int detectGravityCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
@@ -275,7 +276,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 	return 0;
 }
 
-int updateAI(Map *map) {
+int updateAI(Map *map, Mario *mario) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
 			Pair_xy new_coordinates;
@@ -300,77 +301,82 @@ int updateAI(Map *map) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
-				if (temp_col > 0) {
-					g->speed.y = 0;
-					g->coordinate.y = temp_col - g->dimension.y + 1;
-				}
-				else g->speed.y += G;
-				
-				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-				if (temp_col > 2)
-					g->speed.x *= -1;
-				
-			
-				static int turtle_timer = 0;
-				if (g->isAlive == 0) {
-					turtle_timer++;
-					turtle_timer %= TURTLE_TIMER + 1;
-				}
-
-				if (g->isAlive == 0 && g->speed.x != 0) {
-					projectileCollision(map, g->coordinate, g->dimension, g->speed);
-					
-					if(turtle_timer == TURTLE_TIMER)
-					if (g->speed.x > 0) {
-						g->speed.x -= TURTLE_ACCELERATION;
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);				
+					if (temp_col > 0) {
+						g->speed.y = 0;
+						g->coordinate.y = temp_col - g->dimension.y + 1;
 					}
-					else g->speed.x += TURTLE_ACCELERATION;
-					
+					else g->speed.y += G;
+
+					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 2)
+						g->speed.x *= -1;
+
+
+					static int turtle_timer = 0;
+					if (g->isAlive == 0) {
+						turtle_timer++;
+						turtle_timer %= TURTLE_TIMER + 1;
+					}
+
+					if (g->isAlive == 0 && g->speed.x != 0) {
+						projectileCollision(map, g->coordinate, g->dimension, g->speed);
+
+						if (turtle_timer == TURTLE_TIMER)
+							if (g->speed.x > 0) {
+								g->speed.x -= TURTLE_ACCELERATION;
+							}
+							else g->speed.x += TURTLE_ACCELERATION;
+
+					}
+					g->coordinate.x += g->speed.x;
+					g->coordinate.y += g->speed.y;
 				}
-				g->coordinate.x += g->speed.x;
-				g->coordinate.y += g->speed.y;
 				break;
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
-				if (temp_col > 0) {
-					g->speed.y = 0;
-					g->coordinate.y = temp_col - g->dimension.y;
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 0) {
+						g->speed.y = 0;
+						g->coordinate.y = temp_col - g->dimension.y;
+					}
+					else g->speed.y += G;
+
+					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 2)
+						g->speed.x *= -1;
+
+					g->coordinate.x += g->speed.x;
+					g->coordinate.y += g->speed.y;
 				}
-				else g->speed.y += G;
-
-				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-				if (temp_col > 2 )
-					g->speed.x *= -1;
-
-				g->coordinate.x += g->speed.x;
-				g->coordinate.y += g->speed.y;
 				break;
 			}
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
-				if (g->timer_Sleep != 0)
-					g->timer_Sleep--;
-				else {
-					if (g->isAlive == 0) {
-						g->isAlive = 1;
-						g->coordinate.y -= 10;
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH / 2 - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH / 2) {
+					if (g->timer_Sleep != 0)
+						g->timer_Sleep--;
+					else {
+						if (g->isAlive == 0) {
+							g->isAlive = 1;
+							g->coordinate.y -= 10;
+						}
+						if (-g->additional_Height >= 2 * blok.y) {
+							g->speed.y *= -1;
+						}
+						else if (-g->additional_Height < 0) {
+							g->speed.y *= -1;
+							g->timer_Sleep = PLANTIE_SLEEP;
+							g->isAlive = 0;
+							g->coordinate.y += 10;
+						}
+						g->coordinate.y += g->speed.y;
+						g->additional_Height += g->speed.y;
 					}
-					if (-g->additional_Height >= 2 * blok.y) {
-						g->speed.y *= -1;
-					}
-					else if (-g->additional_Height < 0) {
-						g->speed.y *= -1;
-						g->timer_Sleep = PLANTIE_SLEEP;
-						g->isAlive = 0;
-						g->coordinate.y += 10;
-					}
-					g->coordinate.y += g->speed.y;
-					g->additional_Height += g->speed.y;
 				}
-
 				
 				break;
 			}
