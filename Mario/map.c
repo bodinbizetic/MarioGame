@@ -9,7 +9,7 @@
 *		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
 */
 
-Map* initMap() {
+Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
 		printf_s("Failed to Initialize Map");
@@ -48,6 +48,9 @@ Map* initMap() {
 				temp->type = 1;
 				temp->speed.x = DEVIL_SPEED;
 				temp->speed.y = 0;
+				for (int k = 0; k < 3; k++)
+					temp->animation[k] = block_Texture[devil][k];
+				temp->time = 0;
 				map->ai_Matrix[devil][map->ai_counter[devil]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == turtle) {
@@ -60,6 +63,9 @@ Map* initMap() {
 				temp->type = 1;
 				temp->speed.x = TURTLE_SPEED;
 				temp->speed.y = 0;
+				for (int k = 0; k < 5; k++)
+					temp->animation[k] = block_Texture[turtle][k];
+				temp->time = 0;
 				map->ai_Matrix[turtle][map->ai_counter[turtle]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == pipe) {

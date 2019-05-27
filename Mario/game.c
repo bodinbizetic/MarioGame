@@ -75,7 +75,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	return 0;
 }
 //DrawScreen crta na ekranu
-void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[]) {
+void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[AI_NUMBER][5]) {
 	//Init TTF
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
@@ -112,7 +112,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	}*/
 
 	SDL_Rect background = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
-	SDL_RenderCopy(renderer, blok_Texture[sky], NULL, &background);
+	SDL_RenderCopy(renderer, blok_Texture[sky][0], NULL, &background);
 
 	surfaceMessage = TTF_RenderText_Blended(font, text1, White);
 	Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -136,7 +136,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				// ground block
-				SDL_RenderCopy(renderer, blok_Texture[ground], NULL, &rect);
+				SDL_RenderCopy(renderer, blok_Texture[ground][0], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -148,7 +148,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
 				// basic block
-				SDL_RenderCopy(renderer, blok_Texture[basic], NULL, &rect);
+				SDL_RenderCopy(renderer, blok_Texture[basic][0], NULL, &rect);
 				/*SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
 				SDL_RenderFillRect(renderer, &rect);*/
 				break;
@@ -227,7 +227,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
-	SDL_Texture *block_Texture[AI_NUMBER];
+	SDL_Texture *block_Texture[AI_NUMBER][5]; // 5 animacija ili manje (zavisi od AI-a)
 
 	Map *mapa;
 	Mario *probni_mario;
@@ -373,7 +373,63 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		block_Texture[turtle] = SDL_CreateTextureFromSurface(renderer, surface);
+		block_Texture[turtle][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleMoveRight.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleStandLeft.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleMoveLeft.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][3] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/turtleShield.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[turtle][4] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devil1.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devil2.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/devilDeath.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[devil][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
 			// blocks 
@@ -383,7 +439,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		block_Texture[basic] = SDL_CreateTextureFromSurface(renderer, surface);
+		block_Texture[basic][0] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 		
 		// ground
@@ -392,7 +448,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		block_Texture[ground] = SDL_CreateTextureFromSurface(renderer, surface);
+		block_Texture[ground][0] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 		
 		surface = IMG_Load("Slike/background.png");
@@ -400,14 +456,14 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			printf("%s\n", SDL_GetError());
 			exit(1);
 		}
-		block_Texture[sky] = SDL_CreateTextureFromSurface(renderer, surface);
+		block_Texture[sky][0] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
 
 	}
 
 	//postoji funkcija koja inicijalizuje mapu
-	mapa = initMap();
+	mapa = initMap(block_Texture);
 	
 	int i, j, x = 0, y = 0;
 	/*for (i = 0; i < 10; i++)

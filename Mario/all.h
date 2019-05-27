@@ -44,7 +44,7 @@ typedef struct DEVIL {
 	int type;
 	int animation_Stage;
 	int time;
-	SDL_Texture *animation[3][2];
+	SDL_Texture *animation[5];
 }ai_Devil;
 
 /*!
