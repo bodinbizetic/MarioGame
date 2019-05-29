@@ -133,6 +133,19 @@ int spawnShroom(Map *map, Pair_xy coord) {
 	return 0;
 }
 
+int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed) {
+	ai_Projectile *temp = malloc(sizeof(ai_Projectile));
+	temp->coordinate = coord;
+	temp->dimension.y = blok.y * PROJECTILE_SIZE / 100;
+	temp->dimension.x = blok.x * PROJECTILE_SIZE / 100;
+	temp->isAlive = 1;
+	temp->speed.x = PROJECTILE_SPEED * (orientation ? -1 : 1) + speed;
+	temp->speed.y = 0;
+	temp->nubmer_Of_Bounces = PROJECTILE_BOUNCE;
+	map->ai_Matrix[projectile][map->ai_counter[projectile]++] = temp;
+	return 0;
+}
+
 Map* LoadMap() {
 	;
 }

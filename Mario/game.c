@@ -260,6 +260,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	probni_mario->lives = 2;
 	probni_mario->jump_timer = 0;
 	probni_mario->immortality_timer = 0;
+	probni_mario->projectileTimer = 0;
 
 	/*map->x_passed = blok.x;
 	map->score = 0;*/
@@ -514,10 +515,25 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 					Running = 0;
 					break;
 					//return  0; zbog ovog je curila memorija??		
-				case SDLK_p:
+				case SDLK_p: { 
 					pause_game();
 					break;
 				}
+				
+				case SDLK_SPACE: {
+					if (probni_mario->lives > 2) {
+						Pair_xy coord;
+						coord.x = probni_mario->coordinates.x + (!probni_mario->direction ? 0 : probni_mario->size.x);
+						coord.y = probni_mario->coordinates.y + probni_mario->size.y / 2;
+						if (probni_mario->projectileTimer == 0) {
+ 							spawnProjectile(mapa, coord, !probni_mario->direction, probni_mario->speed.x);
+							probni_mario->projectileTimer++;
+						}
+					}
+					break;
+				}
+				
+			}
 				break;
 			}
 			case SDL_KEYUP: {

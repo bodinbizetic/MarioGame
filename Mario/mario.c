@@ -14,9 +14,12 @@ Pair_xy zeroSpeed = { 0,0 };
 int lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
-			mario->lives = 1;
-			mario->size.y = blok.y;
-			mario->coordinates.y += blok.y;
+			mario->lives --;
+			if (mario->lives == 1) {
+				mario->size.y = blok.y;
+				mario->coordinates.y += blok.y;
+			}
+				
 			mario->immortality_timer = MAX_IMORTAL;
 		}
 		else
@@ -78,8 +81,8 @@ int detectAiCollide(Map *map, Mario *mario) {
 					}
 					else if (g->speed.x != 0) {
 
-						
-						//lose_Life(mario);
+						if(g->type == 0)
+							lose_Life(mario);
 						//mario->speed.y *= -1;
 					}
 					else {
@@ -367,6 +370,10 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	else
 	if (mario->immortality_timer)
 		mario->immortality_timer--;
+	if (mario->projectileTimer != 0)
+		mario->projectileTimer++;
+	if (mario->projectileTimer % PROJECTILE_TIMER == 0)
+		mario->projectileTimer = 0;
 
 	int collision_Check = 0;
 	detectAiCollide(map, mario);

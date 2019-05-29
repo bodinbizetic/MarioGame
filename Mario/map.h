@@ -28,6 +28,7 @@ Map* LoadMap();
 int updateMapItems(Map *map);
 void  destroyMap(Map *map);
 int spawnShroom(Map *map, Pair_xy coord);
+int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed);
 
 
 

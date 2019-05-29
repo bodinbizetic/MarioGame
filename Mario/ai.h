@@ -24,6 +24,10 @@
 #define SHROOM_SPEED 6
 #define SHROOM_SCORE 1000
 
+#define PROJECTILE_SPEED 8
+#define PROJECTILE_BOUNCE 3
+#define PROJECTILE_SIZE 20
+
 
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map);
 

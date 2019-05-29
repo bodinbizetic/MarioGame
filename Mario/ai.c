@@ -124,7 +124,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, dim, coord, speed, g->speed) > 0) {
+				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0) {
 					if (g->isAlive) {
 						
 							map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
@@ -133,22 +133,37 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 							map->score += ENEMY_KILL;
 						
 					}
+					return 1;
 				}
+				
 				break;
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, dim, coord, speed, g->speed) > 0) {
+				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0) {
 					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 					g->isAlive = 0;
 					free(g);
 					map->score += ENEMY_KILL;
+					return 1;
 				}
+				
 				break;
 			}
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
+				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0)  {
+					if (g->isAlive) {
 
+						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+						g->isAlive = 0;
+						free(g);
+						map->score += ENEMY_KILL;
+
+					}
+					return 1;
+				}
+				
 				break;
 			}
 			default:
@@ -177,7 +192,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
+					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
 
@@ -288,7 +303,29 @@ int updateAI(Map *map, Mario *mario) {
 			{
 			case projectile: {
 				ai_Projectile *g = (ai_Projectile *)map->ai_Matrix[ai_id[j]][i];
+				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+				if (temp_col > 0) {
+					g->speed.y *= -1;
+					g->coordinate.y = temp_col - g->dimension.y;
+					g->nubmer_Of_Bounces--;
+				}
+				else g->speed.y += G;
+
+				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+				if (temp_col > 0 || g->nubmer_Of_Bounces == 0) {
+					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+					g->isAlive = 0;
+					free(g);
+				}
+				temp_col = projectileCollision(map, g->coordinate, g->dimension, g->speed);
 				
+				g->coordinate.x += g->speed.x;
+				g->coordinate.y += g->speed.y;
+				if (temp_col) {
+					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+					g->isAlive = 0;
+					free(g);
+				}
 
 				break;
 			}
@@ -313,7 +350,6 @@ int updateAI(Map *map, Mario *mario) {
 					g->coordinate.y += g->speed.y;
 				}
 				break;
-				break;
 			}
 			case star: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
@@ -333,6 +369,7 @@ int updateAI(Map *map, Mario *mario) {
 					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 2) {
 						g->speed.x *= -1;
+						g->type = 0;
 						if (g->animation_Stage != 4)
 							if(g->animation_Stage==0 || g->animation_Stage==1)
 							g->animation_Stage = 2;
@@ -346,7 +383,8 @@ int updateAI(Map *map, Mario *mario) {
 								else if (g->animation_Stage == 2) g->animation_Stage = 3;
 								else g->animation_Stage = 2;
 					}
-
+					if (g->speed.x == 0 && g->speed.y == 0)
+						g->type = 1;
 					static int turtle_timer = 0;
 					if (g->isAlive == 0) {
 						turtle_timer++;
