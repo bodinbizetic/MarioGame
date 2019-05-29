@@ -10,7 +10,7 @@
 
 int fly_cheat = 0;
 int immortality_cheat = 0;
-
+Pair_xy zeroSpeed = { 0,0 };
 int lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
@@ -45,7 +45,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				int t;
-				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed), t > 0) {
+				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed), t > 0) {
 					if (g->isAlive) {
 						if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 							g->isAlive = 0;
@@ -72,7 +72,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed) > 0) {
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
@@ -89,7 +89,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
 				
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, mario->speed) > 0) {
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y && g->isAlive == 1) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
@@ -118,41 +118,36 @@ int detectGravityCollide(Map *map, Mario *mario) {
 
 		Pair_xy new_coordinates;
 		new_coordinates.x = mario->coordinates.x;
-		new_coordinates.y = mario->coordinates.y + mario->speed.y;
+		new_coordinates.y = mario->coordinates.y;
 		switch (gravity_Blocks[j])
 		{
 		case ground: {
 			Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
-				if(g->coordinate.y > new_coordinates.y)
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 2)
 				return g->coordinate.y;
 			break;
 		}
 		case basic: {
 			ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
-				if (g->coordinate.y  > new_coordinates.y)
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 			break;
 		}
 		case question: {
 			ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
-			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
-				if (g->coordinate.y > new_coordinates.y)
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 			break;
 		}
 		case hidden: {
 			ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
-			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
-				if (g->coordinate.y > new_coordinates.y)
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 			break;
 		}
 		case pipe: {
 			Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 2)
-				if (g->coordinate.y > new_coordinates.y)
+			if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 			break;
 		}
@@ -172,42 +167,42 @@ int detectSideCollide(Map *map, Mario *mario) {
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
-			new_coordinates.x = mario->coordinates.x + mario->speed.x;
+			new_coordinates.x = mario->coordinates.x;
 			new_coordinates.y = mario->coordinates.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
 					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
 					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case question: {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
 					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
 					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
 				break;
 			}
 			case pipe: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed), t > 2)
+				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
 					return ((t == 3) ?  g->coordinate.x - mario->size.x: g->coordinate.x + g->dimension.x);
 				break;
 			}
@@ -229,47 +224,45 @@ int detectCellingCollide(Map *map, Mario *mario) {
 			Pair_xy new_coordinates;
 			new_coordinates.x = mario->coordinates.x;
 
-			new_coordinates.y = mario->coordinates.y + mario->speed.y;
+			new_coordinates.y = mario->coordinates.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
-					if (g->coordinate.y < new_coordinates.y)
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1)
 						return new_coordinates.y;
 				break;
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
-					if (g->coordinate.y <= new_coordinates.y) {
-						if (mario->lives > 1) {
-							map->ai_Matrix[gravity_Blocks[j]][i] = map->ai_Matrix[gravity_Blocks[j]][--map->ai_counter[gravity_Blocks[j]]];
-							free(g);
-							map->score += BLOCK_KILL;
-						}
-						return new_coordinates.y;
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
+
+					if (mario->lives > 1 && mario->speed.y < 0) {
+						
+						map->ai_Matrix[gravity_Blocks[j]][i] = map->ai_Matrix[gravity_Blocks[j]][--map->ai_counter[gravity_Blocks[j]]];
+						free(g);
+						map->score += BLOCK_KILL;
 					}
+					return new_coordinates.y;
+				}
 				break;
 			}
 			case question: {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
-					if (g->coordinate.y < new_coordinates.y)
-						return new_coordinates.y;
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1)
+					return new_coordinates.y;
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
-					if (g->coordinate.y < new_coordinates.y)
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1)
+					
 						return new_coordinates.y;
 				break;
 			}
 			case pipe: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed) == 1)
-					
+				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1)
 						return new_coordinates.y;
 				break;
 			}
@@ -341,37 +334,51 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	else
 	if (mario->immortality_timer)
 		mario->immortality_timer--;
-	detectAiCollide(map, mario);
-	int collision_Check = detectCellingCollide(map, mario);
-	detectCellingCollide(map, mario);
-	if (collision_Check > 0) {
-		if (mario->speed.y < 0)
-			mario->speed.y *= -1;
-		mario->coordinates.y = collision_Check;
-		
 
+	int collision_Check = 0;
+	detectAiCollide(map, mario);
+
+	int celling_Check = detectCellingCollide(map, mario);
+	detectCellingCollide(map, mario);
+	if (celling_Check > 0) {
+		if (mario->speed.y < 0) {
+			mario->speed.y *= -1;
+			mario->coordinates.y = celling_Check;
+		}
+		
+		
 	}
 	
-	collision_Check = detectSideCollide(map, mario);
-	//ide u desno ili u levo i udara u block
-	if (collision_Check > 0) {
-		//if (mario->speed.x < 0)
-			mario->speed.x = 0;
-		if (mario->speed.x == 0)
-			mario->coordinates.x = collision_Check;
-		
-	}
+	
 
-	collision_Check = detectGravityCollide(map, mario);
-	if (collision_Check > 0) {
+	static int gravity_Check; 
+	gravity_Check = detectGravityCollide(map, mario);
+	/*if (gravity_Check > 0 && mario->speed.y >= 0)
+		gravity_Check2 = gravity_Check;
+	else {
+		gravity_Check = 0;
+	}*/
+	if (gravity_Check > 0) {
+		//gravity_Check = gravity_Check2;
 		mario->jump_timer = 0;
-		if (mario->speed.y > 0)
+		if (mario->speed.y > 0) {
 			mario->speed.y = 0;
-		mario->coordinates.y = collision_Check - mario->size.y + 1;
+			mario->coordinates.y = gravity_Check - mario->size.y;
+		}
 		
 	}
 	else
 		mario->speed.y += G;
+
+	int side_Check = detectSideCollide(map, mario);
+	//ide u desno ili u levo i udara u block
+	if (side_Check > 0) {
+
+		mario->speed.x = 0;
+		if (mario->speed.x == 0)
+			mario->coordinates.x = side_Check;
+
+	}
 	//Ogranicavanje brzine 
 	if (mario->speed.y < -MAXSPEED)
 		mario->speed.y = -MAXSPEED;
@@ -410,7 +417,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	// swaping animation - ovo smenjuje animacije
 	mario->time++;
-	if (collision_Check == 0 ) mario->animation_Stage = 2;
+	if (gravity_Check == 0 ) mario->animation_Stage = 2;
 	else if (mario->speed.x == 0) mario->animation_Stage = 0;
 	else if (mario->time % 5 == 0) {
 		if (mario->speed.x != 0 && mario->speed.y == 0) {

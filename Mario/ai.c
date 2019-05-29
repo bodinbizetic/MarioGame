@@ -2,43 +2,43 @@
 #include "ai.h"
 #include "game.h"
 #include "main_menu.h"
-
+extern Pair_xy zeroSpeed;
 int detectGravityCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
 			new_coordinates.x = coord.x;
-			new_coordinates.y = coord.y + speed.y;
+			new_coordinates.y = coord.y;
 			switch (gravity_Blocks[j])
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) == 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 				break;
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) == 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 				break;
 			}
 			case question: {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) == 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) == 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 				break;
 			}
 			case pipe: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) == 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) == 2)
 					return g->coordinate.y;
 				break;
 			}
@@ -64,32 +64,32 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) > 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
 					return g->coordinate.x;
 				break;
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
-				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed), t > 2)
+				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
 					return g->coordinate.x;
 				break;
 			}
 			case question: {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) > 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
 					return g->coordinate.x;
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) > 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
 					return g->coordinate.x;
 				break;
 			}
 			case pipe: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed) > 2)
+				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
 					return g->coordinate.x;
 				break;
 			}
@@ -124,7 +124,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			}
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, dim, coord, speed) > 0) {
+				if (collision(g->dimension, g->coordinate, dim, coord, speed, g->speed) > 0) {
 					if (g->isAlive) {
 						
 							map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
@@ -138,7 +138,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, dim, coord, speed) > 0) {
+				if (collision(g->dimension, g->coordinate, dim, coord, speed, g->speed) > 0) {
 					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 					g->isAlive = 0;
 					free(g);
@@ -308,7 +308,7 @@ int updateAI(Map *map, Mario *mario) {
 					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);				
 					if (temp_col > 0) {
 						g->speed.y = 0;
-						g->coordinate.y = temp_col - g->dimension.y + 1;
+						g->coordinate.y = temp_col - g->dimension.y;
 					}
 					else g->speed.y += G;
 

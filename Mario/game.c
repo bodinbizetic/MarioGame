@@ -10,22 +10,32 @@
 extern int fly_cheat;
 extern int immortality_cheat;
 #define TILE_SIZE 16
-#define EPSILON 1
+#define EPSILON 3
 #define MAX_MAP_WIDTH 100000
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
-int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1) {
+int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2) {
 	
-	
+	Pair_xy relSpeed;
+	relSpeed.x = speed1.x - speed2.x;
+	relSpeed.y = speed1.y - speed2.y;
 	Pair_xy c1,c2;
 	int dx, dy;
-	c1.x = (coord1.x + dim1.x / 2);
-	c1.y = (coord1.y + dim1.y / 2);
-	c2.x = (coord2.x + dim2.x / 2);
-	c2.y = (coord2.y + dim2.y / 2);
+	c1.x = (2 * coord1.x + dim1.x + 2 * speed1.x);
+	c1.y = (2 * coord1.y + dim1.y + 2 * speed1.y);
+	c2.x = (2 * coord2.x + dim2.x + 2 * speed2.x);
+	c2.y = (2 * coord2.y + dim2.y + 2 * speed2.y);
+	//c1.x += relSpeed.x;
+	//c1.y += relSpeed.y;
 	dx = abs(c1.x - c2.x);
 	dy = abs(c1.y - c2.y);
-	if (dx < (dim1.x + dim2.x) / 2 && dy < (dim1.y + dim2.y) / 2) {
+	if (dx <= (dim1.x + dim2.x) && dy <= (dim1.y + dim2.y)) {
+		/*if (relSpeed.y < 0)
+			return 2;
+		if (relSpeed.y > 0)
+			return 1;
+		return 2;*/
+		
 		//return 2;
 		int player_bottom = coord1.y + dim1.y;
 		int tiles_bottom = coord2.y + dim2.y;
@@ -37,13 +47,20 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 		int l_collision = player_right - coord2.x;
 		int r_collision = tiles_right - coord1.x;
 
-		/*if (dx < (dim1.x + dim2.x) / 2 && dy + (abs(speed1.y)) ? abs(speed1.y) : 0 >= (dim1.y + dim2.y) / 2)
-			if (c1.y < c2.y)
-				return 2;
-			else if (c2.y > c1.y)
-				return 1;
-			else printf_s("Error: jednake koordinate");*/
-		if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
+		if (relSpeed.y >= 0 && player_bottom <= coord2.y && player_bottom + relSpeed.y >= coord2.y && dx < (dim1.x + dim2.x))
+			//bot
+			return 2;
+
+		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y < tiles_bottom && dx < (dim1.x + dim2.x))
+			//top
+			return 1;
+		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x > coord2.x && dy < (dim1.y + dim2.y))
+			//right 
+			return 3;
+		if (relSpeed.x <= 0 && coord1.x >= tiles_right && coord1.x + relSpeed.x < tiles_right && dy < (dim1.y + dim2.y))
+			//left 
+			return 4;
+		/*if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
 		{
 			//Left collision
 			return 3;
@@ -62,7 +79,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 		{
 			//bottom collision
 			return 1;
-		}
+		}*/
 		
 		//return 5;
 	
@@ -244,8 +261,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	probni_mario->jump_timer = 0;
 	probni_mario->immortality_timer = 0;
 
-	map->x_passed = blok.x;
-	map->score = 0;
+	/*map->x_passed = blok.x;
+	map->score = 0;*/
 	immortality_cheat = 0;
 	fly_cheat = 0;
 
