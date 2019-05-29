@@ -97,6 +97,15 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->additional_Height = 0;
 				map->ai_Matrix[plantie][map->ai_counter[plantie]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == question) {
+				ai_Question *temp = malloc(sizeof(ai_Question));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension = blok;
+				temp->storage = 1;
+				temp->animation_Stage = 1;
+				map->ai_Matrix[question][map->ai_counter[question]++] = temp;
+			}
 			map->map_Matrix[i][j] = sky;
 		}
 
@@ -110,10 +119,17 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	return map;
 }
 
-int updateMapItems(Map *map) {
-	int left = map->x_passed / MAP_WIDTH;
-	int right = left + MAP_WIDTH;
-
+int spawnShroom(Map *map, Pair_xy coord) {
+	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+	temp->coordinate = coord;
+	temp->dimension.y = blok.y;
+	temp->dimension.x = blok.x * 2 / 3;
+	temp->animation_Stage = 0;
+	temp->isAlive = 1;
+	temp->type = 0;
+	temp->speed.x = SHROOM_SPEED;
+	temp->speed.y = 0;
+	map->ai_Matrix[shroom][map->ai_counter[shroom]++] = temp;
 	return 0;
 }
 

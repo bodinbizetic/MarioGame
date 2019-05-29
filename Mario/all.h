@@ -76,6 +76,7 @@ typedef struct SHROOM {
 	int isAlive;
 	int type;
 	int animation_Stage;
+	int time; //za animacije
 }ai_Shroom;
 
 /*!

@@ -171,12 +171,12 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				break;
 			}
 			case question: {
-				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 
-				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				SDL_SetRenderDrawColor(renderer, 255, 211, 0, 255);
 				
 				SDL_RenderFillRect(renderer, &rect);
 				break;

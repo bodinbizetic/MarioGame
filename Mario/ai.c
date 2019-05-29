@@ -190,7 +190,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 210, 0, 0, 255);
+					SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
 
@@ -294,7 +294,25 @@ int updateAI(Map *map, Mario *mario) {
 			}
 			case shroom: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
+				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH) {
+					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 0) {
+						g->speed.y = 0;
+						g->coordinate.y = temp_col - g->dimension.y;
+					}
+					else g->speed.y += G;
 
+					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 2)
+						g->speed.x *= -1;
+					g->time++;
+					if (g->time % 8 == 0)
+						if (g->animation_Stage == 0) g->animation_Stage = 1;
+						else g->animation_Stage = 0;
+					g->coordinate.x += g->speed.x;
+					g->coordinate.y += g->speed.y;
+				}
+				break;
 				break;
 			}
 			case star: {
