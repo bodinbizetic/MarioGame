@@ -48,7 +48,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			{
 			case shroom: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 					g->isAlive = 0;
 					free(g);
@@ -68,7 +68,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				int t;
-				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed), t > 0) {
+				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed), t > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (g->isAlive) {
 						if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 							g->isAlive = 0;
@@ -95,7 +95,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			}
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
@@ -112,7 +112,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			case plantie: {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
 				
-				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y + g->speed.y <= g->coordinate.y && g->isAlive == 1 && mario->speed.y > 0) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;

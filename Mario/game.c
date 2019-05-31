@@ -91,6 +91,25 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	}*/
 	return 0;
 }
+
+int simpleCollision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2) {
+	Pair_xy relSpeed;
+	relSpeed.x = speed1.x - speed2.x;
+	relSpeed.y = speed1.y - speed2.y;
+	Pair_xy c1, c2;
+	int dx, dy;
+	c1.x = (2 * coord1.x + dim1.x + 2 * speed1.x);
+	c1.y = (2 * coord1.y + dim1.y + 2 * speed1.y);
+	c2.x = (2 * coord2.x + dim2.x + 2 * speed2.x);
+	c2.y = (2 * coord2.y + dim2.y + 2 * speed2.y);
+	//c1.x += relSpeed.x;
+	//c1.y += relSpeed.y;
+	dx = abs(c1.x - c2.x);
+	dy = abs(c1.y - c2.y);
+	if (dx <= (dim1.x + dim2.x + EPSILON) && dy <= (dim1.y + dim2.y))
+		return 1;
+	return 0;
+}
 //DrawScreen crta na ekranu
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	//Init TTF
