@@ -86,7 +86,7 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 			else if (map->map_Matrix[i][j] == plantie) {
 				ai_Plantie *temp = malloc(sizeof(ai_Plantie));
 				temp->coordinate.x = j * blok.x + blok.x * PLANTIE_POS * 3/ 200;
-				temp->coordinate.y = i * blok.y;
+				temp->coordinate.y = i * blok.y - PLANTIE_EPSILON;
 				temp->dimension.x = blok.x * PLANTIE_POS / 100;
 				temp->dimension.y = blok.y * 2;
 				temp->animation_Stage = 0;

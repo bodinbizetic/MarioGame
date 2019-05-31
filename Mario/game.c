@@ -7,10 +7,10 @@
 #include "map.h"
 #include "mario.h"
 #include "main_menu.h"
+
 extern int fly_cheat;
 extern int immortality_cheat;
-#define TILE_SIZE 16
-#define EPSILON 3
+
 #define MAX_MAP_WIDTH 100000
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
@@ -29,7 +29,7 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	//c1.y += relSpeed.y;
 	dx = abs(c1.x - c2.x);
 	dy = abs(c1.y - c2.y);
-	if (dx <= (dim1.x + dim2.x) && dy <= (dim1.y + dim2.y)) {
+	if (dx <= (dim1.x + dim2.x + EPSILON) && dy <= (dim1.y + dim2.y)) {
 		/*if (relSpeed.y < 0)
 			return 2;
 		if (relSpeed.y > 0)
@@ -47,11 +47,11 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 		int l_collision = player_right - coord2.x;
 		int r_collision = tiles_right - coord1.x;
 
-		if (relSpeed.y >= 0 && player_bottom <= coord2.y && player_bottom + relSpeed.y >= coord2.y && dx < (dim1.x + dim2.x))
+		if (relSpeed.y >= 0 && player_bottom <= coord2.y && player_bottom + relSpeed.y >= coord2.y && dx < (dim1.x + dim2.x + EPSILON))
 			//bot
 			return 2;
 
-		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y < tiles_bottom && dx < (dim1.x + dim2.x))
+		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y < tiles_bottom && dx < (dim1.x + dim2.x + EPSILON))
 			//top
 			return 1;
 		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x > coord2.x && dy < (dim1.y + dim2.y))
@@ -114,7 +114,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 
 	int i, j, x = 0, y = 0;
-	SDL_Rect rect = { x,y,TILE_SIZE,TILE_SIZE };
+	SDL_Rect rect = { x,y,0, 0 };
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // ovo visak ?
 	SDL_RenderClear(renderer);                       // ovo visak ?
 	/*for (i = 0; i < MAP_HEIGHT; i++) {

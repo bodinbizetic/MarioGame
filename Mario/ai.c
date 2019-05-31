@@ -58,7 +58,7 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
 			Pair_xy new_coordinates;
-			new_coordinates.x = coord.x + speed.x;
+			new_coordinates.x = coord.x;
 			new_coordinates.y = coord.y;
 			switch (gravity_Blocks[j])
 			{
@@ -271,7 +271,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
-				for (int i = 0; i < map->ai_counter[pipe]; i++) {
+				/*for (int i = 0; i < map->ai_counter[pipe]; i++) {
 					Ground *g = (Ground *)map->ai_Matrix[pipe][i];
 					rect.x = g->coordinate.x + map->x_passed;
 					rect.y = g->coordinate.y;
@@ -279,7 +279,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.h = g->dimension.y;
 					SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
-				}
+				}*/
 
 				break;
 			}
@@ -436,7 +436,7 @@ int updateAI(Map *map, Mario *mario) {
 					else {
 						if (g->isAlive == 0) {
 							g->isAlive = 1;
-							g->coordinate.y -= 10;
+							g->coordinate.y -= 30;
 						}
 						if (-g->additional_Height >= 2 * blok.y) {
 							g->speed.y *= -1;
@@ -445,7 +445,7 @@ int updateAI(Map *map, Mario *mario) {
 							g->speed.y *= -1;
 							g->timer_Sleep = PLANTIE_SLEEP;
 							g->isAlive = 0;
-							g->coordinate.y += 10;
+							g->coordinate.y += 30;
 						}
 						g->coordinate.y += g->speed.y;
 						g->additional_Height += g->speed.y;

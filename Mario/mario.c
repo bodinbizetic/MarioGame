@@ -113,7 +113,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
 				
 				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0) {
-					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y && g->isAlive == 1) {
+					if (mario->coordinates.y + mario->size.y - mario->speed.y + g->speed.y <= g->coordinate.y && g->isAlive == 1 && mario->speed.y > 0) {
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
 						free(g);
@@ -206,7 +206,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed), t > 2)
-					return ((t == 3) ? g->coordinate.x - mario->size.x : g->coordinate.x + g->dimension.x);
+					return ((t == 3) ? g->coordinate.x - mario->size.x - EPSILON : g->coordinate.x + g->dimension.x + EPSILON);
 				break;
 			}
 			case question: {
@@ -378,6 +378,16 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	int collision_Check = 0;
 	detectAiCollide(map, mario);
 
+	int side_Check = detectSideCollide(map, mario);
+	//ide u desno ili u levo i udara u block
+	if (side_Check > 0) {
+
+		mario->speed.x = 0;
+		if (mario->speed.x == 0)
+			mario->coordinates.x = side_Check;
+
+	}
+
 	int celling_Check = detectCellingCollide(map, mario);
 	detectCellingCollide(map, mario);
 	if (celling_Check > 0) {
@@ -389,6 +399,8 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		
 	}
 	
+	
+
 	
 
 	static int gravity_Check; 
@@ -410,15 +422,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	else
 		mario->speed.y += G;
 
-	int side_Check = detectSideCollide(map, mario);
-	//ide u desno ili u levo i udara u block
-	if (side_Check > 0) {
-
-		mario->speed.x = 0;
-		if (mario->speed.x == 0)
-			mario->coordinates.x = side_Check;
-
-	}
+	
 	//Ogranicavanje brzine 
 	if (mario->speed.y < -MAXSPEED)
 		mario->speed.y = -MAXSPEED;

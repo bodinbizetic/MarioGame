@@ -1,13 +1,14 @@
 #ifndef all_h
 #define all_h
 #include "SDL.h"
+#define EPSILON 1
 
 #define SCORE_WIDTH 100
 #define SCORE_HEIGHT 60
 
 #define MAP_HEIGHT 15
 #define MAP_WIDTH 15
-#define MAP_SEGMENTS_NUMBER 20
+#define MAP_SEGMENTS_NUMBER 10
 
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 1000

@@ -20,6 +20,7 @@
 
 #define PLANTIE_SPEED 2
 #define PLANTIE_SLEEP 100
+#define PLANTIE_EPSILON -10
 
 #define SHROOM_SPEED 6
 #define SHROOM_SCORE 1000
