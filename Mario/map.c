@@ -86,7 +86,7 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 			else if (map->map_Matrix[i][j] == plantie) {
 				ai_Plantie *temp = malloc(sizeof(ai_Plantie));
 				temp->coordinate.x = j * blok.x + blok.x * PLANTIE_POS * 3/ 200;
-				temp->coordinate.y = i * blok.y - PLANTIE_EPSILON;
+				temp->coordinate.y = i * blok.y;
 				temp->dimension.x = blok.x * PLANTIE_POS / 100;
 				temp->dimension.y = blok.y * 2;
 				temp->animation_Stage = 0;
@@ -167,7 +167,11 @@ int copy_Map(Map *map, int x, int seg_id) {
 *		\param Map map Addres of map that containts map_Matrix that needs to be generated
 */
 int generate_Map(Map *map) {
-	for (int i = 0; i < MAP_SEGMENTS_NUMBER; i++) {
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
+			map->map_Matrix[i][j] = map_Start_Segment[i][j];
+
+	for (int i = 1; i < MAP_SEGMENTS_NUMBER; i++) {
 		int rand_num = rand();
 		rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER;
 		copy_Map(map, MAP_WIDTH * i, rand_num);

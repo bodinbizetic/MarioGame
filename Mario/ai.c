@@ -271,7 +271,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
 				}
-				/*for (int i = 0; i < map->ai_counter[pipe]; i++) {
+				for (int i = 0; i < map->ai_counter[pipe]; i++) {
 					Ground *g = (Ground *)map->ai_Matrix[pipe][i];
 					rect.x = g->coordinate.x + map->x_passed;
 					rect.y = g->coordinate.y;
@@ -279,7 +279,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.h = g->dimension.y;
 					SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 					SDL_RenderFillRect(renderer, &rect);
-				}*/
+				}
 
 				break;
 			}
