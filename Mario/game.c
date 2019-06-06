@@ -259,6 +259,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 
 //igranje igre
+extern int marioCharacter;
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
@@ -285,7 +286,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	map->score = 0;*/
 	immortality_cheat = 0;
 	fly_cheat = 0;
-
+	int deathAnimation = 1;
 
 	// mario animations - nazalost moralo je sve rucno...
 	{
@@ -573,6 +574,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 					break;
 				case SDLK_ESCAPE:
 					Running = 0;
+					deathAnimation = 0;
 					break;
 					//return  0; zbog ovog je curila memorija??		
 				case SDLK_p: { 
@@ -641,21 +643,26 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	//fclose(save);*/
 
 	// mario death
-	SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
-	SDL_Surface *sur = IMG_Load("Slike/marioDeath.png");
-	SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
-	SDL_FreeSurface(sur);
+	if (deathAnimation) {
+		SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
+		SDL_Surface *sur = NULL;
+		if (marioCharacter == 0) sur = IMG_Load("Slike/marioDeathRed.png");
+		else sur = IMG_Load("Slike/marioDeathGreen.png");
+		SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
+		SDL_FreeSurface(sur);
 
 
-	while (rect.y!=SCREEN_HEIGHT) {
-		rect.y++;
-		drawScreen(window, renderer, mapa, probni_mario, block_Texture);
-		drawAI(window, renderer, mapa);
-		SDL_RenderCopy(renderer, death, NULL, &rect);
+		while (rect.y != SCREEN_HEIGHT) {
+			rect.y++;
+			drawScreen(window, renderer, mapa, probni_mario, block_Texture);
+			drawAI(window, renderer, mapa);
+			SDL_RenderCopy(renderer, death, NULL, &rect);
 
-		SDL_RenderPresent(renderer);
+			SDL_RenderPresent(renderer);
+		}
+		SDL_DestroyTexture(death);
 	}
-	SDL_DestroyTexture(death);
+
 
 	// free memory 
 	for (int i = 0; i < 2; i++)
