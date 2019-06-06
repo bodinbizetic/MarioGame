@@ -241,7 +241,7 @@ int detectSideCollide(Map *map, Mario *mario) {
 	return NO_COLLISION;
 }
 //Detektuje udarac u plafon i vraca kordinate udarca po y osi
-int detectCellingCollide(Map *map, Mario *mario) {
+int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
 
@@ -281,10 +281,11 @@ int detectCellingCollide(Map *map, Mario *mario) {
 						temp_coord.x = g->coordinate.x;
 						temp_coord.y = g->coordinate.y - g->dimension.y;
 						if (g->storage == 1) {
-							spawnShroom(map, temp_coord);
+							spawnShroom(map, temp_coord,block_Texture,mario->lives);
 							g->storage--;
 						
 					}
+						g->animation_Stage = 1;
 					return new_coordinates.y;
 				}
 				break;
@@ -314,7 +315,7 @@ int detectCellingCollide(Map *map, Mario *mario) {
 }
 
 extern short marioCharacter;
-void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update) {
+void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;
 	rect.w = mario->size.x;
@@ -388,8 +389,8 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 
 	}
 
-	int celling_Check = detectCellingCollide(map, mario);
-	detectCellingCollide(map, mario);
+	int celling_Check = detectCellingCollide(map, mario, block_Texture);
+	detectCellingCollide(map, mario,block_Texture);
 	if (celling_Check > 0) {
 		if (mario->speed.y < 0) {
 			mario->speed.y *= -1;

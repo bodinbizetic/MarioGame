@@ -205,8 +205,10 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					// draw shroom
+					SDL_RenderCopy(renderer, g->animation, NULL, &rect);
+					/*SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+					SDL_RenderFillRect(renderer, &rect);*/
 				}
 
 				break;

@@ -10,9 +10,10 @@
 //#include "settings.h"
 
 //za settings
-#define NUMBER_OF_SETTINGS_OPTIONS 2 
+#define NUMBER_OF_SETTINGS_OPTIONS 3 
 short sound = 1; // GAME SOUND
 short marioCharacter = 0; // green or red character
+short selectedBackground = 0;
 
 int showSettings(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {
@@ -20,7 +21,7 @@ int showSettings(SDL_Renderer *renderer) {
 	}
 
 	// options for settings
-	char *text[NUMBER_OF_SETTINGS_OPTIONS] = { "Sound","Character" };
+	char *text[NUMBER_OF_SETTINGS_OPTIONS] = { "Sound","Character","Background" };
 	// TTF init
 	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 80);
 	if (font == NULL) {
@@ -80,6 +81,19 @@ int showSettings(SDL_Renderer *renderer) {
 
 	SDL_Rect characterRect = { SCREEN_WIDTH / 2 + OPTION_WIDTH / 2,SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - 2)*(OPTION_HEIGHT + 15) + 150, 70,60 };
 
+	//background select
+	SDL_Surface *back1 = IMG_Load("Slike/background1.png");
+	SDL_Surface *back2 = IMG_Load("Slike/background2.png");
+	if (back1 == NULL || back2 == NULL) {
+		printf("%s\n", SDL_GetError());
+	}
+	SDL_Texture *background[2];
+	background[0] = SDL_CreateTextureFromSurface(renderer, back1);
+	background[1] = SDL_CreateTextureFromSurface(renderer, back2);
+	SDL_FreeSurface(back1);
+	SDL_FreeSurface(back2);
+
+	SDL_Rect backgroundRect= { SCREEN_WIDTH / 2 + OPTION_WIDTH / 2,SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - 3)*(OPTION_HEIGHT + 15) + 150 ,100,100 };
 
 
 	// event
@@ -113,9 +127,13 @@ int showSettings(SDL_Renderer *renderer) {
 						if (sound_status == 1) sound = sound_status = 0;
 						else sound = sound_status = 1;
 					}
-					else {  // promeniti u else if ako se dodaje jos neka opcija u settings
+					else if(index_Selected==1){  // promeniti u else if ako se dodaje jos neka opcija u settings
 						if (selectedCharacter == 0) marioCharacter=selectedCharacter = 1;
 						else marioCharacter=selectedCharacter = 0;
+					}
+					else if (index_Selected == 2) {
+						if (selectedBackground == 0) selectedBackground = 1;
+						else selectedBackground = 0;
 					}
 					break;
 				}
@@ -145,12 +163,17 @@ int showSettings(SDL_Renderer *renderer) {
 		// draw character
 		SDL_RenderCopy(renderer, character[selectedCharacter], NULL, &characterRect); // draw SDL texture
 
+		// draw selected background
+		SDL_RenderCopy(renderer, background[selectedBackground], NULL, &backgroundRect);
 		
+
 		SDL_RenderPresent(renderer);
 	}
 
 	SDL_DestroyTexture(character[0]);
 	SDL_DestroyTexture(character[1]);
+	SDL_DestroyTexture(background[0]);
+	SDL_DestroyTexture(background[1]);
 	TTF_CloseFont(font);
 	TTF_Quit();
 	return 0;

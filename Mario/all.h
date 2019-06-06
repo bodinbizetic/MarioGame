@@ -78,6 +78,7 @@ typedef struct SHROOM {
 	int type;
 	int animation_Stage;
 	int time; //za animacije
+	SDL_Texture *animation;
 }ai_Shroom;
 
 /*!
@@ -87,6 +88,7 @@ typedef struct QUESTION {
 	Pair_xy coordinate, dimension;
 	int storage;
 	int animation_Stage;
+	SDL_Texture *animation[2];
 }ai_Question;
 
 /*!
