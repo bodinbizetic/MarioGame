@@ -109,6 +109,15 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->animation[1] = block_Texture[question][1];
 				map->ai_Matrix[question][map->ai_counter[question]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == hidden) {
+				ai_Hidden *temp = malloc(sizeof(ai_Hidden));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y;
+				temp->dimension = blok;
+				temp->coins_Left = 10;
+				temp->animation_Stage = 1;
+				map->ai_Matrix[hidden][map->ai_counter[hidden]++] = temp;
+			}
 			map->map_Matrix[i][j] = sky;
 		}
 
@@ -188,13 +197,16 @@ int copy_Map(Map *map, int x, int seg_id) {
 *		\param Map map Addres of map that containts map_Matrix that needs to be generated
 */
 int generate_Map(Map *map) {
+	int newSeg[MAP_SEGMENTS_PREDEFINED_NUMBER] = { 0 };
 	for (int i = 0; i < MAP_HEIGHT; i++)
 		for (int j = 0; j < MAP_WIDTH; j++)
 			map->map_Matrix[i][j] = map_Start_Segment[i][j];
 
 	for (int i = 1; i < MAP_SEGMENTS_NUMBER; i++) {
 		int rand_num = rand();
+		//while(rand_num = rand(), rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER, newSeg[rand_num]);
 		rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER;
+		//newSeg[rand_num] = 1;
 		copy_Map(map, MAP_WIDTH * i, rand_num);
 	}
 }

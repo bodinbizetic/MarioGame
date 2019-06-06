@@ -29,6 +29,7 @@
 #define PROJECTILE_BOUNCE 3
 #define PROJECTILE_SIZE 20
 
+#define HIDDEN_SCORE 200
 
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map);
 

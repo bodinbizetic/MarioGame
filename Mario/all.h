@@ -23,7 +23,7 @@ typedef struct PAIR_XY {
 
 typedef struct {
 
-	Pair_xy coordinates, size, speed;
+	Pair_xy coordinates, size, speed, dimension;
 	int direction;
 	int lives;
 	int immortality_timer;

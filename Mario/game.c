@@ -7,6 +7,7 @@
 #include "map.h"
 #include "mario.h"
 #include "main_menu.h"
+#include "game.h"
 
 extern int fly_cheat;
 extern int immortality_cheat;
@@ -122,7 +123,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	SDL_Texture* Message = NULL;
 	SDL_Color White = { 255, 255, 255 };
 	char text[30], text1[30] = "Score: ";
-	_itoa(map->x_score, text, 10);
+	_itoa((map->x_score/SCORE_COEF + map->score), text, 10);
 	strcat(text1, text);
 	//Text back rectangle
 	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 50);
@@ -206,7 +207,10 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 210, 105, 30, 255);
+				if(g->animation_Stage == 1)//nije skroz ispraznjen
+					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				else
+					SDL_SetRenderDrawColor(renderer, 0, 0, 50, 255);
 				
 				SDL_RenderFillRect(renderer, &rect);
 				break;
@@ -257,7 +261,6 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 }
 
-
 //igranje igre
 extern int marioCharacter;
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
@@ -271,10 +274,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 
 	Pair_xy update = { 0,0 };
 	probni_mario = malloc(sizeof(Mario));
-	probni_mario->size.x = blok.x;
-	probni_mario->size.y = 2*blok.y;
-	probni_mario->coordinates.x = SCREEN_WIDTH / 2 + 2*blok.x;
-	probni_mario->coordinates.y = 3*blok.y;
+	probni_mario->size.x = blok.x * (MARIO_SHRINK_X) / 100;
+	probni_mario->size.y = 2*blok.y * MARIO_SHRINK / 100;
+	probni_mario->dimension.x = blok.x ;//dimension samo sluzi za iscrtavanje
+	probni_mario->dimension.y = 2 * blok.y * MARIO_SHRINK / 100;
+	probni_mario->coordinates.x = SCREEN_WIDTH / 2 + 2*blok.x + blok.x * (100 - MARIO_SHRINK_X) / 200;
+	probni_mario->coordinates.y = 3*blok.y + (100 - MARIO_SHRINK) * blok.y / 100;
 	probni_mario->speed.x = 0;
 	probni_mario->speed.y = 0;
 	probni_mario->lives = 2;
@@ -624,8 +629,9 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		//updateMapItems(mapa);
 		drawScreen(window, renderer, mapa, probni_mario, block_Texture);
 		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
-		updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
 		updateAI(mapa, probni_mario);
+		updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
+
 		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
 

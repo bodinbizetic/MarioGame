@@ -8,7 +8,7 @@
 #include "all.h"
 //posititons for coords for texts in game
 #define POSITIONS 3
-
+#define SCORE_COEF 10
 enum colide_id { NO_COLLISION, gore, dole, levo, desno };
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[AI_NUMBER][5]);
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *Mario);
