@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include "ai.h"
@@ -103,7 +104,9 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->coordinate.y = i * blok.y;
 				temp->dimension = blok;
 				temp->storage = 1;
-				temp->animation_Stage = 1;
+				temp->animation_Stage = 0;
+				temp->animation[0] = block_Texture[question][0];
+				temp->animation[1] = block_Texture[question][1];
 				map->ai_Matrix[question][map->ai_counter[question]++] = temp;
 			}
 			map->map_Matrix[i][j] = sky;
@@ -119,12 +122,17 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	return map;
 }
 
-int spawnShroom(Map *map, Pair_xy coord) {
+int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5],int lifes) {
 	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
 	temp->coordinate = coord;
 	temp->dimension.y = blok.y;
 	temp->dimension.x = blok.x * 2 / 3;
-	temp->animation_Stage = 0;
+	// red or green shroom
+	if (lifes == 1)
+		temp->animation_Stage = 0;
+	else 
+		temp->animation_Stage = 1;
+	temp->animation = block_Texture[shroom][temp->animation_Stage];
 	temp->isAlive = 1;
 	temp->type = 0;
 	temp->speed.x = SHROOM_SPEED;
@@ -147,7 +155,20 @@ int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed) {
 }
 
 Map* LoadMap() {
-	;
+	/*FILE *save = fopen("Savegame.bin", "rb");
+	if (save == NULL) {
+		printf("Greska pri otvaranju datoteke!\n");
+		exit(EXIT_FAILURE);
+	}
+	// read map
+	Map *mapa = malloc(sizeof(Map));
+	if (mapa == NULL) {
+		printf("Greska pri alociranju!\n");
+		exit(EXIT_FAILURE);
+	}
+	fread(mapa, sizeof(Map), 1, save);
+	fclose(save);
+	return mapa;*/
 }
 /*!
 *		\brief Function that copies map segment into map
