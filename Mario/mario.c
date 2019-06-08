@@ -290,7 +290,7 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
 
-					
+					if(g->storage > 0)
 						map->score += QUESTION_POP;
 						Pair_xy temp_coord;
 						temp_coord.x = g->coordinate.x;
