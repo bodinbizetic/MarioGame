@@ -64,33 +64,37 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			{
 			case ground: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
-					return g->coordinate.x;
+				int t;
+				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
+					return g->coordinate.x + (t == 3 ? EPSILON : -EPSILON);
 				break;
 			}
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				int t;
 				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
-					return g->coordinate.x;
+					return g->coordinate.x + (t == 3 ? EPSILON : -EPSILON);
 				break;
 			}
 			case question: {
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
-					return g->coordinate.x;
+				int t;
+				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
+					return g->coordinate.x + (t == 3 ? EPSILON : -EPSILON);
 				break;
 			}
 			case hidden: {
 				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
-					return g->coordinate.x;
+				int t;
+				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
+					return g->coordinate.x + (t == 3 ? EPSILON : -EPSILON);
 				break;
 			}
 			case pipe: {
 				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
-				if (collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed) > 2)
-					return g->coordinate.x;
+				int t;
+				if (t = collision(dim, new_coordinates, g->dimension, g->coordinate, speed, zeroSpeed), t > 2)
+					return g->coordinate.x + (t == 3 ? EPSILON : -EPSILON);
 				break;
 			}
 			default:
@@ -131,9 +135,10 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 							g->isAlive = 0;
 							free(g);
 							map->score += ENEMY_KILL;
+							return 1;
 						
 					}
-					return 1;
+					
 				}
 				
 				break;
@@ -307,7 +312,16 @@ int updateAI(Map *map, Mario *mario) {
 			{
 			case projectile: {
 				ai_Projectile *g = (ai_Projectile *)map->ai_Matrix[ai_id[j]][i];
-				int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+				
+
+				int temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+				if (temp_col > 0 || g->nubmer_Of_Bounces == 0) {
+					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
+					g->isAlive = 0;
+					free(g);
+				}
+
+				temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
 				if (temp_col > 0) {
 					g->speed.y *= -1;
 					g->coordinate.y = temp_col - g->dimension.y;
@@ -315,12 +329,6 @@ int updateAI(Map *map, Mario *mario) {
 				}
 				else g->speed.y += G;
 
-				temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-				if (temp_col > 0 || g->nubmer_Of_Bounces == 0) {
-					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
-					g->isAlive = 0;
-					free(g);
-				}
 				temp_col = projectileCollision(map, g->coordinate, g->dimension, g->speed);
 				
 				g->coordinate.x += g->speed.x;
@@ -336,17 +344,20 @@ int updateAI(Map *map, Mario *mario) {
 			case shroom: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
 				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH) {
-					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+					
+
+					int temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 2)
+						g->speed.x *= -1;
+					g->time++;
+
+					temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 0) {
 						g->speed.y = 0;
 						g->coordinate.y = temp_col - g->dimension.y;
 					}
 					else g->speed.y += G;
 
-					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-					if (temp_col > 2)
-						g->speed.x *= -1;
-					g->time++;
 					if (g->time % 8 == 0)
 						if (g->animation_Stage == 0) g->animation_Stage = 1;
 						else g->animation_Stage = 0;
@@ -363,14 +374,9 @@ int updateAI(Map *map, Mario *mario) {
 			case turtle: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH) {
-					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);				
-					if (temp_col > 0) {
-						g->speed.y = 0;
-						g->coordinate.y = temp_col - g->dimension.y;
-					}
-					else g->speed.y += G;
+					
 
-					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					int temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 2) {
 						g->speed.x *= -1;
 						g->type = 0;
@@ -387,6 +393,14 @@ int updateAI(Map *map, Mario *mario) {
 								else if (g->animation_Stage == 2) g->animation_Stage = 3;
 								else g->animation_Stage = 2;
 					}
+
+					temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 0) {
+						g->speed.y = 0;
+						g->coordinate.y = temp_col - g->dimension.y;
+					}
+					else g->speed.y += G;
+
 					if (g->speed.x == 0 && g->speed.y == 0)
 						g->type = 1;
 					static int turtle_timer = 0;
@@ -413,17 +427,19 @@ int updateAI(Map *map, Mario *mario) {
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				if (g->coordinate.x >= mario->coordinates.x - SCREEN_WIDTH  - g->dimension.x && g->coordinate.x <= mario->coordinates.x + SCREEN_WIDTH ) {
-					int temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
+					
+
+					int temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
+					if (temp_col > 2)
+						g->speed.x *= -1;
+					g->time++;
+					temp_col = detectGravityCollideAi(map, g->coordinate, g->dimension, g->speed);
 					if (temp_col > 0) {
 						g->speed.y = 0;
 						g->coordinate.y = temp_col - g->dimension.y;
 					}
 					else g->speed.y += G;
 
-					temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
-					if (temp_col > 2)
-						g->speed.x *= -1;
-					g->time++;
 					if (g->time % 8 == 0)
 						if (g->animation_Stage == 0) g->animation_Stage = 1;
 						else g->animation_Stage = 0;

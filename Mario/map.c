@@ -140,7 +140,8 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5],int lifes) {
 	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
 	temp->coordinate = coord;
-	temp->dimension.y = blok.y;
+	temp->coordinate.y += EPSILON;
+	temp->dimension.y = blok.y - EPSILON;
 	temp->dimension.x = blok.x * 2 / 3;
 	// red or green shroom
 	if (lifes == 1)

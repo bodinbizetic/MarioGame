@@ -52,15 +52,17 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 			//bot
 			return 2;
 
-		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y < tiles_bottom && dx < (dim1.x + dim2.x + EPSILON))
+		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y <= tiles_bottom && dx < (dim1.x + dim2.x + EPSILON))
 			//top
 			return 1;
-		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x > coord2.x && dy < (dim1.y + dim2.y))
+		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x >= coord2.x && dy < (dim1.y + dim2.y))
 			//right 
 			return 3;
-		if (relSpeed.x <= 0 && coord1.x >= tiles_right && coord1.x + relSpeed.x < tiles_right && dy < (dim1.y + dim2.y))
+		if (relSpeed.x <= 0 && coord1.x >= tiles_right && coord1.x + relSpeed.x <= tiles_right && dy < (dim1.y + dim2.y))
 			//left 
 			return 4;
+		if (dx <= (dim1.x + dim2.x + EPSILON) && dy <= (dim1.y + dim2.y) - EPSILON)
+			return 2;
 		/*if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
 		{
 			//Left collision
