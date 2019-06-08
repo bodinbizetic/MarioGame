@@ -120,15 +120,17 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 			//bot
 			return 2;
 
-		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y < tiles_bottom && dx < (dim1.x + dim2.x + EPSILON))
+		if (relSpeed.y < 0 && tiles_bottom <= coord1.y && coord1.y + relSpeed.y <= tiles_bottom && dx < (dim1.x + dim2.x + EPSILON))
 			//top
 			return 1;
-		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x > coord2.x && dy < (dim1.y + dim2.y))
+		if (relSpeed.x >= 0 && player_right <= coord2.x && player_right + relSpeed.x >= coord2.x && dy < (dim1.y + dim2.y))
 			//right 
 			return 3;
-		if (relSpeed.x <= 0 && coord1.x >= tiles_right && coord1.x + relSpeed.x < tiles_right && dy < (dim1.y + dim2.y))
+		if (relSpeed.x <= 0 && coord1.x >= tiles_right && coord1.x + relSpeed.x <= tiles_right && dy < (dim1.y + dim2.y))
 			//left 
 			return 4;
+		if (dx <= (dim1.x + dim2.x + EPSILON) && dy <= (dim1.y + dim2.y) - EPSILON)
+			return 2;
 		/*if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
 		{
 			//Left collision
@@ -271,7 +273,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				break;
 			}
 			case hidden: {
-				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
 				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
@@ -294,6 +296,18 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_RenderCopy(renderer, block_Texture[pipe][0], NULL, &rect);
 				//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 				//SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			case pikes: {
+				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x + map->x_passed;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 250, 200, 200, 255);
+
+
+				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
 			default:
@@ -477,6 +491,62 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 			exit(1);
 		}
 		probni_mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		// black mario
+
+		surface = IMG_Load("Slike/bmarioStandRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/bmarioMoveRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/bmarioJumpRight.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/bmarioStandLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/bmarioMoveLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/bmarioJumpLeft.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[2][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
 		//	AI
@@ -791,9 +861,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		SDL_DestroyTexture(death);
 	}
 
-
 	// free memory 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
@@ -813,6 +882,9 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 	SDL_DestroyTexture(block_Texture[question][0]);
 	SDL_DestroyTexture(block_Texture[shroom][0]);
 	SDL_DestroyTexture(block_Texture[shroom][1]);
+	SDL_DestroyTexture(block_Texture[shroom][2]);
+	SDL_DestroyTexture(block_Texture[pipe][0]);
+	SDL_DestroyTexture(block_Texture[pipe][1]);
 
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);

@@ -8,6 +8,9 @@
 #include "mario.h"
 #include "game.h" 
 
+extern short marioCharacter;
+extern short backFromBlack;
+
 int fly_cheat = 0;
 int immortality_cheat = 0;
 Pair_xy zeroSpeed = { 0,0 };
@@ -15,6 +18,7 @@ int lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
 			mario->lives --;
+			marioCharacter = backFromBlack;
 			if (mario->lives == 1) {
 				mario->size.y = blok.y * MARIO_SHRINK / 100;
 				mario->coordinates.y += blok.y + (1 - MARIO_SHRINK) * blok.y / 100;
@@ -37,6 +41,7 @@ int gainLife(Mario *mario) {
 			mario->coordinates.y -= mario->size.y ;
 			mario->size.y = 2 * mario->size.y;
 		}
+		else if (mario->lives == 3) marioCharacter = 2;
 	}
 	mario->immortality_timer = MAX_IMORTAL;
 
@@ -134,6 +139,12 @@ int detectAiCollide(Map *map, Mario *mario) {
 
 
 		}
+	for (int i = 0; i < map->ai_counter[pikes]; i++) {
+		ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[pikes][i];
+		if (simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, zeroSpeed, mario->speed) > 0 )
+			lose_Life(mario);
+
+	}
 	return 0;
 }
 
@@ -279,7 +290,7 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
 
-					
+					if(g->storage > 0)
 						map->score += QUESTION_POP;
 						Pair_xy temp_coord;
 						temp_coord.x = g->coordinate.x;
@@ -364,7 +375,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 				ai_Question *g = (ai_Question *)map->ai_Matrix[gravity_Blocks[j]][i];
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
 
-
+					if(g->storage > 0)
 					map->score += QUESTION_POP;
 					Pair_xy temp_coord;
 					temp_coord.x = g->coordinate.x;
@@ -411,7 +422,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 	return NO_COLLISION;
 }
 
-extern short marioCharacter;
+
 void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;

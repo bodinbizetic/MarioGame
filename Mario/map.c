@@ -124,6 +124,15 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->animation_Stage = 1;
 				map->ai_Matrix[hidden][map->ai_counter[hidden]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == pikes) {
+				ai_Hidden *temp = malloc(sizeof(ai_Hidden));
+				temp->coordinate.x = j * blok.x;
+				temp->coordinate.y = i * blok.y + (100 - PIKE_SHRINK ) * blok.y/ 100;
+				temp->dimension.x = blok.x;
+				temp->dimension.y = blok.y * PIKE_SHRINK / 100;
+				
+				map->ai_Matrix[pikes][map->ai_counter[pikes]++] = temp;
+			}
 			map->map_Matrix[i][j] = sky;
 		}
 
@@ -140,7 +149,8 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5],int lifes) {
 	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
 	temp->coordinate = coord;
-	temp->dimension.y = blok.y;
+	temp->coordinate.y += EPSILON;
+	temp->dimension.y = blok.y - EPSILON;
 	temp->dimension.x = blok.x * 2 / 3;
 	// red or green shroom
 	if (lifes == 1)

@@ -31,6 +31,8 @@
 
 #define HIDDEN_SCORE 200
 
+#define PIKE_SHRINK 25
+
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map);
 
 int updateAI(Map *map, Mario *mario);

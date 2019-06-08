@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 			Game_State=Game(window, renderer, map, mario,0);
 		}
 		if (Game_State == 3) {
-			//Game_State=showHighscore();
+			Game_State=showHighscore(renderer);
 		}
 		if (Game_State == 4) {
 			Game_State=showSettings(renderer);

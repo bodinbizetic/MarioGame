@@ -8,7 +8,7 @@
 
 #define MAP_HEIGHT 15
 #define MAP_WIDTH 15
-#define MAP_SEGMENTS_NUMBER 10
+#define MAP_SEGMENTS_NUMBER 20
 
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 1000
@@ -32,7 +32,7 @@ typedef struct {
 	int facing;
 	int time;
 	int jump_timer;
-	SDL_Texture *animation[2][2][3];
+	SDL_Texture *animation[3][2][3];
 } Mario;
 
 /*!
