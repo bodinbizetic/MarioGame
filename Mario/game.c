@@ -205,7 +205,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				break;
 			}
 			case hidden: {
-				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
+				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
 				rect.x = g->coordinate.x+ map->x_passed;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
@@ -228,6 +228,18 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_RenderCopy(renderer, block_Texture[pipe][0], NULL, &rect);
 				//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 				//SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
+			case pikes: {
+				ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x + map->x_passed;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 250, 200, 200, 255);
+
+
+				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
 			default:

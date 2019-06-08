@@ -139,6 +139,12 @@ int detectAiCollide(Map *map, Mario *mario) {
 
 
 		}
+	for (int i = 0; i < map->ai_counter[pikes]; i++) {
+		ai_Hidden *g = (ai_Hidden *)map->ai_Matrix[pikes][i];
+		if (simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, zeroSpeed, mario->speed) > 0 )
+			lose_Life(mario);
+
+	}
 	return 0;
 }
 

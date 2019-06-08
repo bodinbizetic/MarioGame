@@ -15,7 +15,7 @@
 //IZMENA!Zamenio sam floor sa ground jer je pravio problem sa fjom floor iz math.h,zamenio sam i u map.c
 enum mapId { sky, ground, basic, question, hidden, pipetunnel, pipe, flag, castle, pikes, mario_id, projectile, shroom, star, turtle, devil, plantie };
 //Gravity defying blocks
-static int gravity_Blocks[] = { ground, question, hidden, basic, pipe };
+static int gravity_Blocks[] = { ground, question, hidden, basic, pipe, pikes };
 static int ai_id[] = { projectile, shroom, star, turtle, devil, plantie };
 //enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Plantie};
 
