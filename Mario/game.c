@@ -769,7 +769,6 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		SDL_DestroyTexture(death);
 	}
 
-
 	// free memory 
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 2; j++)
@@ -794,7 +793,6 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	SDL_DestroyTexture(block_Texture[shroom][2]);
 	SDL_DestroyTexture(block_Texture[pipe][0]);
 	SDL_DestroyTexture(block_Texture[pipe][1]);
-
 
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
