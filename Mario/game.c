@@ -11,7 +11,75 @@
 
 extern int fly_cheat;
 extern int immortality_cheat;
+void saveGame(Mario *mario, Map *map,FILE *saved) {
+	int i, j,n,XOR=0;
+	//MAP save
+	fprintf(saved, "%d\n", AI_NUMBER);
+	XOR ^= AI_NUMBER;
+	for (i = 0; i < AI_NUMBER; i++) {
+		n = map->ai_counter[i];
+		for (j = 0; j < n; j++) {
+			if (j == 1) {
 
+			}
+		}
+	}
+	for (i = 0; i < MAP_HEIGHT; i++) {
+		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
+			if (j == MAP_WIDTH * MAP_SEGMENTS_NUMBER - 1)
+				fprintf(saved,"%d", map->map_Matrix[i][j]);
+			else
+				fprintf(saved,"%d,", map->map_Matrix[i][j]);
+			XOR = XOR ^ map->map_Matrix[i][j];
+		}
+		fprintf(saved,"\n");
+	}
+	fprintf(saved, "%d\n", map->x_score);
+	XOR = XOR ^ map->x_score;
+	fprintf(saved, "%d\n", map->score);
+	XOR = XOR ^ map->score;
+	fprintf(saved, "%d\n", map->x_passed);
+	XOR = XOR ^ map->x_passed;
+	fprintf(saved, "%d\n", map->timer);
+	XOR = XOR ^ map->timer;
+
+	//Mario save
+	fprintf(saved, "%d\n", mario->coordinates.x);
+	XOR ^= mario->coordinates.x;
+	fprintf(saved, "%d\n", mario->coordinates.y);
+	XOR ^= mario->coordinates.y;
+	fprintf(saved, "%d\n", mario->size.x);
+	XOR ^= mario->size.x;
+	fprintf(saved, "%d\n", mario->size.y);
+	XOR ^= mario->size.y;
+	fprintf(saved, "%d\n", mario->speed.x);
+	XOR ^= mario->speed.x;
+	fprintf(saved, "%d\n", mario->speed.y);
+	XOR ^= mario->speed.y;
+	fprintf(saved, "%d\n", mario->dimension.x);
+	XOR ^= mario->dimension.x;
+	fprintf(saved, "%d\n", mario->dimension.y);
+	XOR ^= mario->dimension.x;
+
+	fprintf(saved, "%d\n", mario->direction);
+	XOR ^= mario->direction;
+	fprintf(saved, "%d\n", mario->lives);
+	XOR ^= mario->lives;
+	fprintf(saved, "%d\n", mario->immortality_timer);
+	XOR ^= mario->immortality_timer;
+	fprintf(saved, "%d\n", mario->projectileTimer);
+	XOR ^= mario->projectileTimer;
+	fprintf(saved, "%d\n", mario->animation_Stage);
+	XOR ^= mario->animation_Stage;
+	fprintf(saved, "%d\n", mario->facing);
+	XOR ^= mario->facing;
+	fprintf(saved, "%d\n", mario->time);
+	XOR ^= mario->time;
+	fprintf(saved, "%d\n", mario->jump_timer);
+	XOR ^= mario->jump_timer;
+
+	fprintf(saved, "%d", XOR);
+}
 #define MAX_MAP_WIDTH 100000
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
@@ -264,30 +332,16 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 //igranje igre
 extern int marioCharacter;
-int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
+int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New) {
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
 	SDL_Texture *block_Texture[AI_NUMBER][5]; // 5 animacija ili manje (zavisi od AI-a)
 
 	Map *mapa;
-	Mario *probni_mario;
+	Mario *probni_mario=malloc(sizeof(Mario));
 
 	Pair_xy update = { 0,0 };
-	probni_mario = malloc(sizeof(Mario));
-	probni_mario->size.x = blok.x * (MARIO_SHRINK_X) / 100;
-	probni_mario->size.y = 2*blok.y * MARIO_SHRINK / 100;
-	probni_mario->dimension.x = blok.x ;//dimension samo sluzi za iscrtavanje
-	probni_mario->dimension.y = 2 * blok.y * MARIO_SHRINK / 100;
-	probni_mario->coordinates.x = SCREEN_WIDTH / 2 + 2*blok.x + blok.x * (100 - MARIO_SHRINK_X) / 200;
-	probni_mario->coordinates.y = 3*blok.y + (100 - MARIO_SHRINK) * blok.y / 100;
-	probni_mario->speed.x = 0;
-	probni_mario->speed.y = 0;
-	probni_mario->lives = 2;
-	probni_mario->jump_timer = 0;
-	probni_mario->immortality_timer = 0;
-	probni_mario->projectileTimer = 0;
-
 	/*map->x_passed = blok.x;
 	map->score = 0;*/
 	immortality_cheat = 0;
@@ -295,7 +349,22 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 	int deathAnimation = 1;
 
 	// mario animations - nazalost moralo je sve rucno...
-	{
+	if (New==0 || New==1) {
+		{
+
+				probni_mario->size.x = blok.x * (MARIO_SHRINK_X) / 100;
+				probni_mario->size.y = 2 * blok.y * MARIO_SHRINK / 100;
+				probni_mario->dimension.x = blok.x;//dimension samo sluzi za iscrtavanje
+				probni_mario->dimension.y = 2 * blok.y * MARIO_SHRINK / 100;
+				probni_mario->coordinates.x = SCREEN_WIDTH / 2 + 2 * blok.x + blok.x * (100 - MARIO_SHRINK_X) / 200;
+				probni_mario->coordinates.y = 3 * blok.y + (100 - MARIO_SHRINK) * blok.y / 100;
+				probni_mario->speed.x = 0;
+				probni_mario->speed.y = 0;
+				probni_mario->lives = 2;
+				probni_mario->jump_timer = 0;
+				probni_mario->immortality_timer = 0;
+				probni_mario->projectileTimer = 0;
+			
 		probni_mario->animation_Stage = 0;
 		probni_mario->facing = 0;
 		probni_mario->time = 0;
@@ -519,8 +588,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		block_Texture[shroom][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
-			// blocks 
-		// basic
+		// blocks 
+	// basic
 		surface = IMG_Load("Slike/basic.png");
 		if (surface == NULL) {
 			printf("%s\n", SDL_GetError());
@@ -528,7 +597,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		}
 		block_Texture[basic][0] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
-		
+
 		// ground
 		surface = IMG_Load("Slike/ground.png");
 		if (surface == NULL) {
@@ -589,9 +658,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		block_Texture[sky][1] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 	}
-
+}
 	//postoji funkcija koja inicijalizuje mapu
-	mapa = initMap(block_Texture);
+		mapa = initMap(block_Texture);
+		/*if (New == 0) 
+			loadMap(probni_mario, mapa);*/
+		
 	
 	int i, j, x = 0, y = 0;
 	/*for (i = 0; i < 10; i++)
@@ -680,6 +752,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		SDL_RenderPresent(renderer);
 
 	}
+	/*if (Running == 1)
+		saveMap(probni_mario, map);*/
+
+
+
+
 	// Save game
 	/*FILE *save = fopen("Savegame.bin", "wb");
 	if (save == NULL) {
