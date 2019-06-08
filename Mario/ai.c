@@ -270,8 +270,9 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+					/*SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+					SDL_RenderFillRect(renderer, &rect);*/
 				}
 				for (int i = 0; i < map->ai_counter[pipe]; i++) {
 					Ground *g = (Ground *)map->ai_Matrix[pipe][i];
@@ -279,8 +280,9 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.y = g->coordinate.y;
 					rect.w = g->dimension.x;
 					rect.h = g->dimension.y;
-					SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation, NULL, &rect);
+					//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+					//SDL_RenderFillRect(renderer, &rect);
 				}
 
 				break;
@@ -451,6 +453,11 @@ int updateAI(Map *map, Mario *mario) {
 						}
 						g->coordinate.y += g->speed.y;
 						g->additional_Height += g->speed.y;
+						g->time++;
+						if (g->time % 8 == 0) {
+							if (g->animation_Stage == 0) g->animation_Stage = 1;
+							else g->animation_Stage = 0;
+						}
 					}
 				}
 				

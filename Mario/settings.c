@@ -14,6 +14,7 @@
 short sound = 1; // GAME SOUND
 short marioCharacter = 0; // green or red character
 short selectedBackground = 0;
+short backFromBlack = 0; // 
 
 int showSettings(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {
@@ -128,8 +129,8 @@ int showSettings(SDL_Renderer *renderer) {
 						else sound = sound_status = 1;
 					}
 					else if(index_Selected==1){  // promeniti u else if ako se dodaje jos neka opcija u settings
-						if (selectedCharacter == 0) marioCharacter=selectedCharacter = 1;
-						else marioCharacter=selectedCharacter = 0;
+						if (selectedCharacter == 0) backFromBlack=marioCharacter=selectedCharacter = 1;
+						else backFromBlack=marioCharacter=selectedCharacter = 0;
 					}
 					else if (index_Selected == 2) {
 						if (selectedBackground == 0) selectedBackground = 1;

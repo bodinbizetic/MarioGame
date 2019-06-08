@@ -37,6 +37,7 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->coordinate.x = j * blok.x;
 				temp->coordinate.y = i * blok.y;
 				temp->dimension = blok;
+				temp->newCordinate.y = temp->coordinate.y;
 				map->ai_Matrix[basic][map->ai_counter[basic]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == devil) {
@@ -76,11 +77,13 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->coordinate.y = (i-1) * blok.y;
 				temp->dimension.x = 2 * blok.x * PIPE_WIDTH / 100;
 				temp->dimension.y = 2 * blok.y;
+				temp->animation = block_Texture[pipe][0];
 				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp;
 				Ground *temp2 = malloc(sizeof(Ground));
 				temp2->coordinate.x = j * blok.x;
 				temp2->coordinate.y = (i - 1) * blok.y;
 				temp2->dimension.x = 2 * blok.x;
+				temp2->animation = block_Texture[pipe][1];
 				temp2->dimension.y = 2 * blok.y * PIPE_HEIGHT / 100;
 				map->ai_Matrix[pipe][map->ai_counter[pipe]++] = temp2;
 			}
@@ -96,6 +99,9 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				temp->speed.x = 0;
 				temp->timer_Sleep = PLANTIE_SLEEP;
 				temp->additional_Height = 0;
+				temp->animation[0] = block_Texture[plantie][0];
+				temp->animation[1] = block_Texture[plantie][1];
+				temp->time = 0;
 				map->ai_Matrix[plantie][map->ai_counter[plantie]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == question) {
@@ -162,6 +168,21 @@ int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed) {
 	map->ai_Matrix[projectile][map->ai_counter[projectile]++] = temp;
 	return 0;
 }
+
+int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5])
+{
+	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+	temp->coordinate = coord;
+	temp->coordinate.y -= 20;
+	temp->dimension.y = blok.y;
+	temp->dimension.x = blok.x ;
+	temp->animation = block_Texture[shroom][2];
+	temp->isAlive = 1;
+
+	map->ai_Matrix[shroom][map->ai_counter[shroom]++] = temp;
+	return 0;
+}
+
 
 Map* LoadMap() {
 	/*FILE *save = fopen("Savegame.bin", "rb");
