@@ -32,7 +32,7 @@ typedef struct {
 	int facing;
 	int time;
 	int jump_timer;
-	SDL_Texture *animation[2][2][3];
+	SDL_Texture *animation[3][2][3];
 } Mario;
 
 /*!
