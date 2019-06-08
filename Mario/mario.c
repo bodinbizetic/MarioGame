@@ -268,6 +268,9 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 						free(g);
 						map->score += BLOCK_KILL;
 					}
+					else {
+						g->coordinate.y -= 15;
+					}
 					return new_coordinates.y;
 				}
 				break;
@@ -297,6 +300,10 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 					if (g->coins_Left) {
 						map->score += HIDDEN_SCORE;
 						g->coins_Left--;
+						Pair_xy temp_coord;
+						temp_coord.x = g->coordinate.x;
+						temp_coord.y = g->coordinate.y - g->dimension.y;
+						spawnCoin(map, temp_coord, block_Texture);
 					}
 					if (g->coins_Left == 0)
 						g->animation_Stage = 0;

@@ -57,6 +57,8 @@ typedef struct PLANTIE {
 	int timer_Sleep;
 	int animation_Stage;
 	int additional_Height;
+	int time;
+	SDL_Texture *animation[2];
 }ai_Plantie;
 
 /*!
@@ -73,7 +75,7 @@ typedef struct PROJECTILE {
 */
 typedef struct SHROOM {
 	//Istovremeno Shroom, Star, Coin, Brick
-	Pair_xy coordinate, speed, dimension;
+	Pair_xy coordinate, speed, dimension, newCordinate;
 	int isAlive;
 	int type;
 	int animation_Stage;
@@ -106,6 +108,7 @@ typedef struct HIDDEN {
 typedef struct STOCK_FLOOR {
 	//ground, pipe
 	Pair_xy coordinate, dimension;
+	SDL_Texture *animation;
 }Ground;
 
 /*!

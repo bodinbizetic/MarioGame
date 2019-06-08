@@ -182,6 +182,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 			case basic: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[gravity_Blocks[j]][i];
 				rect.x = g->coordinate.x+ map->x_passed;
+				if (g->coordinate.y != g->newCordinate.y) g->coordinate.y++;
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
@@ -222,9 +223,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-				
-				SDL_RenderFillRect(renderer, &rect);
+				SDL_RenderCopy(renderer, block_Texture[pipe][0], NULL, &rect);
+				//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+				//SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
 			default:
@@ -475,6 +476,23 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 		block_Texture[devil][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
+		// plantie
+		surface = IMG_Load("Slike/plantieClosed.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[plantie][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/plantieOpen.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[plantie][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
 		// red shroom
 		surface = IMG_Load("Slike/redShroom.png");
 		if (surface == NULL) {
@@ -490,6 +508,15 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			exit(1);
 		}
 		block_Texture[shroom][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		// coin
+		surface = IMG_Load("Slike/coin.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[shroom][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
 			// blocks 
@@ -526,6 +553,23 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario) {
 			exit(1);
 		}
 		block_Texture[question][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		// pipe
+		surface = IMG_Load("Slike/pipe.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[pipe][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		surface = IMG_Load("Slike/poklopac.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[pipe][1] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
 		//background
