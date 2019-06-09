@@ -11,8 +11,10 @@
 #define SCORE_COEF 10
 enum colide_id { NO_COLLISION, gore, dole, levo, desno };
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *blok_Texture[AI_NUMBER][5]);
-int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *Mario);
+int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *Mario,int New);
 int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1);
 int simpleCollision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2);
+void saveMap(Mario *mario,Map *map);
+void loadMap(Mario *mario, Map *map);
 Pair_xy blok;
 #endif

@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
 		
 	}*/
 
-
+	char *Name = "Highscore.txt";
+	FILE *file;
 	int Game_State,Game_Running;
 	Map *map=NULL;
 	Mario *mario=NULL;
@@ -60,14 +61,13 @@ int main(int argc, char *argv[]) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
-			Game_State=Game(window, renderer, map, mario);
+			Game_State=Game(window, renderer, map, mario,1);
 		}
 		//Option Continue Game
 		if (Game_State == 2) {
 			//Loading map
-			map = LoadMap();
 			//start game with
-			Game_State=Game(window, renderer, map, mario);
+			Game_State=Game(window, renderer, map, mario,0);
 		}
 		if (Game_State == 3) {
 			Game_State=showHighscore(renderer);
