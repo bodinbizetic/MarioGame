@@ -21,7 +21,7 @@ int showHighscore(SDL_Renderer *renderer) {
 	menu_square.y = SCREEN_HEIGHT / 2 - MENU_HEIGHT / 2;
 	menu_square.h = MENU_HEIGHT;
 	menu_square.w = MENU_WIDTH;
-
+	//SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 0, 200, 200, 255);
 	SDL_RenderFillRect(renderer, &menu_square);
 
