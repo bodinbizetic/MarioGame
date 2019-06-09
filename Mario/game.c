@@ -310,6 +310,18 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
+			case flag: {
+				Ground *g = (Ground *)map->ai_Matrix[gravity_Blocks[j]][i];
+				rect.x = g->coordinate.x + map->x_passed;
+				rect.y = g->coordinate.y;
+				rect.w = g->dimension.x;
+				rect.h = g->dimension.y;
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+
+				SDL_RenderFillRect(renderer, &rect);
+				break;
+			}
 			default:
 				break;
 			}
@@ -346,7 +358,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 //igranje igre
 extern int marioCharacter;
-int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New) {
+int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo) {
+	//FILE *demo_Command = fopen("demo.txt", "w");
+	int demo_counter = 0;
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
@@ -730,7 +744,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 	}
 }
 	//postoji funkcija koja inicijalizuje mapu
-		mapa = initMap(block_Texture);
+		mapa = initMap(block_Texture, demo);
 		/*if (New == 0) 
 			loadMap(probni_mario, mapa);*/
 		
@@ -816,8 +830,13 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		drawScreen(window, renderer, mapa, probni_mario, block_Texture);
 		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
 		updateAI(mapa, probni_mario);
+		//fprintf(demo_Command, "{%d, %d}, ", update.x, update.y);
+		if (demo) {
+			update = demo_Comand[demo_counter];
+			if (demo_counter < sizeof(demo_Comand) / sizeof(demo_Comand[0]))
+				demo_counter++;
+		}
 		updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
-
 		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
 
@@ -825,7 +844,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 	/*if (Running == 1)
 		saveMap(probni_mario, map);*/
 
-
+	//fclose(demo_Command);
 
 
 	// Save game

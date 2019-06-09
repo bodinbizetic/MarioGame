@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
-			Game_State=Game(window, renderer, map, mario,1, 1);
+			Game_State=Game(window, renderer, map, mario,1, 0);
 		}
 		//Option Continue Game
 		if (Game_State == 2) {

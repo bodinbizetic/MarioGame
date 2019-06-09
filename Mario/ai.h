@@ -33,6 +33,9 @@
 
 #define PIKE_SHRINK 25
 
+#define FLAG_SHRINK 50
+#define FLAG_HEIGHT 12
+
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map);
 
 int updateAI(Map *map, Mario *mario);

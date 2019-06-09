@@ -10,7 +10,7 @@
 *		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
 */
 
-Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
+Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
 		printf_s("Failed to Initialize Map");
@@ -22,7 +22,10 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	for (int i = 0; i < AI_NUMBER; i++) map->ai_counter[i] = 0;
 
 	srand(time(0));
-	generate_Map(map);
+	if(demo){
+		generate_Demo_Map(map);
+	}
+	else generate_Map(map);
 	for(int i=0; i< MAP_HEIGHT; i++)
 		for (int j = 0; j <= MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
 			if (map->map_Matrix[i][j] == ground) {
@@ -133,6 +136,14 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5]) {
 				
 				map->ai_Matrix[pikes][map->ai_counter[pikes]++] = temp;
 			}
+			else if (map->map_Matrix[i][j] == flag) {
+				Ground *temp = malloc(sizeof(Ground));
+				temp->coordinate.x = j * blok.x ;
+				temp->coordinate.y = (i - FLAG_HEIGHT + 1) * blok.y ;
+				temp->dimension.x = blok.x * FLAG_SHRINK / 100;
+				temp->dimension.y = blok.y * FLAG_HEIGHT;
+				map->ai_Matrix[flag][map->ai_counter[flag]++] = temp;
+			}
 			map->map_Matrix[i][j] = sky;
 		}
 
@@ -233,13 +244,30 @@ int generate_Map(Map *map) {
 		for (int j = 0; j < MAP_WIDTH; j++)
 			map->map_Matrix[i][j] = map_Start_Segment[i][j];
 
-	for (int i = 1; i < MAP_SEGMENTS_NUMBER; i++) {
+	for (int i = 1; i < MAP_SEGMENTS_NUMBER - 1; i++) {
 		int rand_num = rand();
 		//while(rand_num = rand(), rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER, newSeg[rand_num]);
 		rand_num = rand_num % MAP_SEGMENTS_PREDEFINED_NUMBER;
 		//newSeg[rand_num] = 1;
 		copy_Map(map, MAP_WIDTH * i, rand_num);
 	}
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
+			map->map_Matrix[i][j + (MAP_SEGMENTS_NUMBER - 1) * MAP_WIDTH] = map_Finish_Segment[i][j];
+
+}
+
+int generate_Demo_Map(Map *map) {
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
+			map->map_Matrix[i][j] = map_Start_Segment[i][j];
+	int demo_Map[DEMO_MAP_SEGMENTS_NUMBER] = { 0, 0, 1, 5, 0 };
+	for (int i = 1; i < DEMO_MAP_SEGMENTS_NUMBER - 1; i++) {
+		copy_Map(map, MAP_WIDTH * i, demo_Map[i]);
+	}
+	for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
+			map->map_Matrix[i][j + (MAP_SEGMENTS_NUMBER - 1) * MAP_WIDTH] = map_Finish_Segment[i][j];
 }
 
 /*!
