@@ -214,4 +214,5 @@ static int map_Start_Segment[MAP_HEIGHT][MAP_WIDTH] =
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+
 #endif
