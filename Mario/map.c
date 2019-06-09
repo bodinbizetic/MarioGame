@@ -267,7 +267,7 @@ int generate_Demo_Map(Map *map) {
 	}
 	for (int i = 0; i < MAP_HEIGHT; i++)
 		for (int j = 0; j < MAP_WIDTH; j++)
-			map->map_Matrix[i][j + (MAP_SEGMENTS_NUMBER - 1) * MAP_WIDTH] = map_Finish_Segment[i][j];
+			map->map_Matrix[i][j + (DEMO_MAP_SEGMENTS_NUMBER - 1) * MAP_WIDTH] = map_Finish_Segment[i][j];
 }
 
 /*!
@@ -275,5 +275,8 @@ int generate_Demo_Map(Map *map) {
 *		\param Map map Addres of map
 */
 void  destroyMap(Map *map) {
+	for (int i = 0; i < 17; i++)
+		for (int j = 0; j < map->ai_counter[i]; j++)
+			free(map->ai_Matrix[i][j]);
 	free(map);
 }

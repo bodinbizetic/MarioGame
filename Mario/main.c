@@ -61,22 +61,28 @@ int main(int argc, char *argv[]) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
+			Game_State = Game(window, renderer, map, mario, 1, 1);
+		}
+		if (Game_State == 2) {
+			//create map
+			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
+			//start new game
 			Game_State=Game(window, renderer, map, mario,1, 0);
 		}
 		//Option Continue Game
-		if (Game_State == 2) {
+		if (Game_State == 3) {
 			//Loading map
 			//start game with
 			Game_State=Game(window, renderer, map, mario,0, 0);
 		}
-		if (Game_State == 3) {
+		if (Game_State == 4) {
 			Game_State=showHighscore(renderer);
 		}
-		if (Game_State == 4) {
+		if (Game_State == 5) {
 			Game_State=showSettings(renderer);
 
 		}
-		if (Game_State == 5) 
+		if (Game_State == 6) 
 			Game_Running = 0;
 
 	}

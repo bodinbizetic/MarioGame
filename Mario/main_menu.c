@@ -8,8 +8,8 @@
 #define SCREEN_HEIGHT 720
 
 #define MENU_WIDTH 600
-#define MENU_HEIGHT 480
-#define NUMBER_OF_OPTIONS 5
+#define MENU_HEIGHT 650
+#define NUMBER_OF_OPTIONS 6
 #define OPTION_HEIGHT 80
 #define OPTION_WIDTH 300
 //Vraca koju opciju smo uzeli,da bismo to mogli da koristimo u main.c
@@ -21,7 +21,7 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 
 	//Menu square init
 	int i,Menu_Running=1;
-	char *text[NUMBER_OF_OPTIONS] = { "New game", "Continue",  "High Score", "Settings",  "Quit" };
+	char *text[NUMBER_OF_OPTIONS] = { "Demo", "New game", "Continue",  "High Score", "Settings",  "Quit" };
 	//Settings for TTF text
 	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 80);
 	if (font == NULL) {

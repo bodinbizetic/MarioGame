@@ -788,7 +788,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 				}
 				
 				case SDLK_SPACE: {
-					if (probni_mario->lives > 2) {
+					if (probni_mario->lives > 2 && !demo) {
 						Pair_xy coord;
 						coord.x = probni_mario->coordinates.x + (!probni_mario->direction ? 0 : probni_mario->size.x);
 						coord.y = probni_mario->coordinates.y + probni_mario->size.y / 2;
@@ -810,6 +810,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 			}
 		}
 		Uint8 *state = SDL_GetKeyboardState(NULL);
+		if(!demo)
 		if (state[SDL_SCANCODE_UP]) {
 			update.y = 1;
 		}
@@ -835,6 +836,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 			update = demo_Comand[demo_counter];
 			if (demo_counter < sizeof(demo_Comand) / sizeof(demo_Comand[0]))
 				demo_counter++;
+			else update.x = 2;
 		}
 		updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
 		drawAI(window, renderer, mapa);
