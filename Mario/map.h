@@ -16,7 +16,7 @@
 enum mapId { sky, ground, basic, question, hidden, pipetunnel, pipe, flag, castle, pikes, mario_id, projectile, shroom, star, turtle, devil, plantie };
 //Gravity defying blocks
 static int gravity_Blocks[] = { ground, question, hidden, basic, pipe, pikes, flag };
-static int ai_id[] = { projectile, shroom, star, turtle, devil, plantie };
+static int ai_id[] = { projectile, shroom, star, turtle, devil, plantie, flag };
 //enum aiId {Brick, Question, Hidden, Projectile, Shroom, Star, Turtle, Devil, Plantie};
 
 

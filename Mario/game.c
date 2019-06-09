@@ -361,6 +361,7 @@ extern int marioCharacter;
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo) {
 	//FILE *demo_Command = fopen("demo.txt", "w");
 	int demo_counter = 0;
+	int victory = 0;
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
@@ -838,9 +839,13 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 				demo_counter++;
 			else update.x = 2;
 		}
-		updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
+		int update_mario_succes = updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
 		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
+		if (update_mario_succes) {//ovde dodati victory screen
+			victory = 1;
+			break;
+		}
 
 	}
 	/*if (Running == 1)
@@ -870,9 +875,16 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
 		SDL_FreeSurface(sur);
 
-
+		int speed = 1;
 		while (rect.y != SCREEN_HEIGHT) {
-			rect.y++;
+			rect.y += speed;
+			if (victory) {
+				if (speed + rect.y >= SCREEN_HEIGHT - 3 * blok.y) {
+					rect.y = SCREEN_HEIGHT - 3 * blok.y;
+					speed = 0;
+				}else
+					speed++;
+			}
 			drawScreen(window, renderer, mapa, probni_mario, block_Texture);
 			drawAI(window, renderer, mapa);
 			SDL_RenderCopy(renderer, death, NULL, &rect);

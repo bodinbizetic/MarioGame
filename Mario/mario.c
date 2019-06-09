@@ -129,7 +129,17 @@ int detectAiCollide(Map *map, Mario *mario) {
 					else lose_Life(mario);
 				}
 				break;
+			}case flag: {
+				Ground *g = (Ground *)map->ai_Matrix[ai_id[j]][i];
+
+				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates,zeroSpeed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, zeroSpeed, mario->speed)) {
+					mario->speed.x = 0;
+					mario->coordinates.x = g->coordinate.x - blok.x * FLAG_SHRINK / 200;
+					return -1;
+				}
+				
 				break;
+
 			}
 			default:
 				break;
@@ -423,7 +433,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 }
 
 
-void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]) {
+int updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;
 	rect.w = mario->size.x;
@@ -485,8 +495,8 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 		mario->projectileTimer = 0;
 
 	int collision_Check = 0;
-	detectAiCollide(map, mario);
-
+	int ai_check = detectAiCollide(map, mario);
+	if (ai_check == -1) return 1;
 	int side_Check = detectSideCollide(map, mario);
 	//ide u desno ili u levo i udara u block
 	if (side_Check > 0) {
@@ -583,7 +593,7 @@ void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *ma
 	// drawing mario - crtanje maria (kao slika ne kao kockica)
 	if(mario->immortality_timer % 8 != 1)
 	SDL_RenderCopy(renderer, mario->animation[marioCharacter][mario->facing][mario->animation_Stage], NULL, &rect);
-
+	return 0;
 	/*SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 	SDL_RenderFillRect(renderer, &rect);*/
 }

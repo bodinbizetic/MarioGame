@@ -11,5 +11,5 @@
 #define MARIO_SHRINK_X 80
 #define G 1
 //Update govori koja je komanda
-void updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]);
+int updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]);
 #endif
