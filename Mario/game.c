@@ -8,6 +8,7 @@
 #include "mario.h"
 #include "main_menu.h"
 #include "game.h"
+#include "highscore.h"
 
 extern int fly_cheat;
 extern int immortality_cheat;
@@ -911,7 +912,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		}
 		SDL_DestroyTexture(death);
 	}
-	else {
+	else {//victory
 		SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed + blok.x * FLAG_SHRINK / 200,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
 		SDL_Surface *sur = NULL;
 		if (marioCharacter == 0) sur = IMG_Load("Slike/marioDeathRed.png");
@@ -942,8 +943,13 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 
 			SDL_RenderPresent(renderer);
 		}
-
+		char name[MAX_NAME] = {0};
+		int a = 1;
+		initFinalScoreTextures(renderer);
+		finalScoreScreen(mapa->score + mapa->x_score / 10, name, &a, renderer);
 		SDL_DestroyTexture(death);
+		extern FinalScoreTextures finalScoreTextureManager;
+		destroyFinalScoreTextures(finalScoreTextureManager);
 	}
 
 	// free memory 

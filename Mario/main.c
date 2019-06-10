@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
 	char *Name = "Highscore.txt";
 	FILE *file;
-	int Game_State,Game_Running;
+	int Game_State;
 	Map *map=NULL;
 	Mario *mario=NULL;
 	//Init SDL

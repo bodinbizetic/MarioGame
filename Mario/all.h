@@ -8,12 +8,14 @@
 
 #define MAP_HEIGHT 15
 #define MAP_WIDTH 15
-#define MAP_SEGMENTS_NUMBER 10
+#define MAP_SEGMENTS_NUMBER 20
 
 #define DEMO_MAP_SEGMENTS_NUMBER 5
 
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 1000
+
+static int Game_Running = 1;
 
 /*!
 *	\brief Contains pair of 2d coordinates
