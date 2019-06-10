@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include "all.h"
-extern int music;
+
 void playMainTheme() {
 	PlaySound(NULL, NULL, SND_ASYNC);
 	if (music)

@@ -16,7 +16,7 @@
 #define AI_MAX_NUMBER 1000
 
 static int Game_Running = 1;
-static int music = 1;
+int music;
 
 /*!
 *	\brief Contains pair of 2d coordinates
