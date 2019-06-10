@@ -133,15 +133,17 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 				temp->coordinate.y = i * blok.y + (100 - PIKE_SHRINK ) * blok.y/ 100;
 				temp->dimension.x = blok.x;
 				temp->dimension.y = blok.y * PIKE_SHRINK / 100;
-				
+				temp->animation_Stage = 0;
+				temp->animation[0] = block_Texture[pikes][0];
 				map->ai_Matrix[pikes][map->ai_counter[pikes]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == flag) {
 				Ground *temp = malloc(sizeof(Ground));
 				temp->coordinate.x = j * blok.x ;
 				temp->coordinate.y = (i - FLAG_HEIGHT + 1) * blok.y ;
-				temp->dimension.x = blok.x * FLAG_SHRINK / 100;
+				temp->dimension.x = blok.x * FLAG_SHRINK / 100 + 100;
 				temp->dimension.y = blok.y * FLAG_HEIGHT;
+				temp->animation = block_Texture[flag][0];
 				map->ai_Matrix[flag][map->ai_counter[flag]++] = temp;
 			}
 			map->map_Matrix[i][j] = sky;
@@ -177,7 +179,7 @@ int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5
 	return 0;
 }
 
-int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed) {
+int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed,SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	ai_Projectile *temp = malloc(sizeof(ai_Projectile));
 	temp->coordinate = coord;
 	temp->dimension.y = blok.y * PROJECTILE_SIZE / 100;
@@ -186,6 +188,7 @@ int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed) {
 	temp->speed.x = PROJECTILE_SPEED * (orientation ? -1 : 1) + speed;
 	temp->speed.y = 0;
 	temp->nubmer_Of_Bounces = PROJECTILE_BOUNCE;
+	temp->animation = block_Texture[projectile][0];
 	map->ai_Matrix[projectile][map->ai_counter[projectile]++] = temp;
 	return 0;
 }

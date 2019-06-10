@@ -197,8 +197,7 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 					rect.w = g->dimension.x;
 					rect.x = g->coordinate.x+ map->x_passed;
 					rect.y = g->coordinate.y;
-					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-					SDL_RenderFillRect(renderer, &rect);
+					SDL_RenderCopy(renderer, g->animation, NULL, &rect);
 				}
 
 				break;
@@ -312,7 +311,6 @@ int updateAI(Map *map, Mario *mario) {
 			{
 			case projectile: {
 				ai_Projectile *g = (ai_Projectile *)map->ai_Matrix[ai_id[j]][i];
-				
 
 				int temp_col = detectSideCollideAi(map, g->coordinate, g->dimension, g->speed);
 				if (temp_col > 0 || g->nubmer_Of_Bounces == 0) {
