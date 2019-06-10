@@ -8,7 +8,8 @@
 #include "game.h"
 #include "highscore.h"
 #include "settings.h"
-
+#include <Windows.h>
+#include "sound.h"
 #define NUMBER_OF_OPTIONS 5
 int main(int argc, char *argv[]) {
 	//GameState,u kom smo stanju trenutno(0-meni,1-novoj igri,2-staroj igri,3-highscore,4-settings,5(NUMBER_OF_OPTIONS)-kraj programa)
@@ -54,6 +55,7 @@ int main(int argc, char *argv[]) {
 	Game_State = 0;
 	while (Game_Running ) {
 		//Sa Game_State biramo gde idemo,sve funkcije ce biti int i lako cemo videti u koje stanje idemo
+		playMainTheme();
 		if (Game_State == 0) 
 			Game_State = show_menu(window, renderer);
 		//Option New Game
@@ -61,18 +63,21 @@ int main(int argc, char *argv[]) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
+			PlaySound(NULL, NULL, SND_ASYNC);
 			Game_State = Game(window, renderer, map, mario, 1, 1,Name2);
 		}
 		if (Game_State == 2) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
+			PlaySound(NULL, NULL, SND_ASYNC);
 			Game_State = Game(window, renderer, map, mario, 1, 0,Name2);
 		}
 		//Option Continue Game
 		if (Game_State == 3) {
 			//Loading map
 			//start game with
+			PlaySound(NULL, NULL, SND_ASYNC);
 			Game_State = Game(window, renderer, map, mario, 0, 0,Name2);
 		}
 		if (Game_State == 4) {

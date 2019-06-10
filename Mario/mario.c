@@ -7,6 +7,7 @@
 #include "main_menu.h"
 #include "mario.h"
 #include "game.h" 
+#include "sound.h"
 
 extern short marioCharacter;
 extern short backFromBlack;
@@ -18,6 +19,7 @@ int lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
 			mario->lives --;
+			playLoseLife();
 			marioCharacter = backFromBlack;
 			if (mario->lives == 1) {
 				mario->size.y = blok.y * MARIO_SHRINK / 100;
@@ -28,14 +30,17 @@ int lose_Life(Mario *mario) {
 			mario->immortality_timer = MAX_IMORTAL;
 		}
 		else
-			if (mario->lives == 1)
+			if (mario->lives == 1) {
 				mario->lives = 0;
+				playMarioDie();
+			}
 	}
 	return 0;
 }
 
 int gainLife(Mario *mario) {
 	if (mario->lives < 3) {
+		playPowerUp();
 		mario->lives++;
 		if (mario->lives == 2) {
 			mario->coordinates.y -= mario->size.y ;
@@ -55,6 +60,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 			case shroom: {
 				ai_Shroom *g = (ai_Shroom *)map->ai_Matrix[ai_id[j]][i];
 				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
+					playKill();
 					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 					g->isAlive = 0;
 					free(g);
@@ -77,6 +83,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 				if (t = collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed), t > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (g->isAlive) {
 						if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
+							playKill();
 							g->isAlive = 0;
 							g->speed.x = 0;
 							g->animation_Stage = 4;
@@ -103,6 +110,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y <= g->coordinate.y) {
+						playKill();
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
 						/*g->animation_Stage = 2; ne radi ovo kad umre
@@ -120,6 +128,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 				
 				if (collision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed) > 0 || simpleCollision(g->dimension, g->coordinate, mario->size, mario->coordinates, g->speed, mario->speed)) {
 					if (mario->coordinates.y + mario->size.y - mario->speed.y + g->speed.y <= g->coordinate.y && g->isAlive == 1 && mario->speed.y > 0) {
+						playKill();
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
 						free(g);
@@ -284,10 +293,11 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
 
 					if (mario->lives > 1 && mario->speed.y < 0) {
-						
+						playBreakBlock();
 						map->ai_Matrix[gravity_Blocks[j]][i] = map->ai_Matrix[gravity_Blocks[j]][--map->ai_counter[gravity_Blocks[j]]];
 						free(g);
 						map->score += BLOCK_KILL;
+						
 					}
 					else {
 						g->coordinate.y -= 15;
@@ -306,6 +316,7 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 						temp_coord.x = g->coordinate.x;
 						temp_coord.y = g->coordinate.y - g->dimension.y;
 						if (g->storage == 1) {
+							playPowerUpAppears();
 							spawnShroom(map, temp_coord,block_Texture,mario->lives);
 							g->storage--;
 						
@@ -324,6 +335,7 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 						Pair_xy temp_coord;
 						temp_coord.x = g->coordinate.x;
 						temp_coord.y = g->coordinate.y - g->dimension.y;
+						playCoin();
 						spawnCoin(map, temp_coord, block_Texture);
 					}
 					if (g->coins_Left == 0)
@@ -372,7 +384,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 				if (collision(mario->size, new_coordinates, g->dimension, g->coordinate, mario->speed, zeroSpeed) == 1) {
 
 					if (mario->lives > 1 && mario->speed.y < 0) {
-
+						//playBreakBlock();
 						map->ai_Matrix[gravity_Blocks[j]][i] = map->ai_Matrix[gravity_Blocks[j]][--map->ai_counter[gravity_Blocks[j]]];
 						free(g);
 						map->score += BLOCK_KILL;
@@ -391,6 +403,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 					temp_coord.x = g->coordinate.x;
 					temp_coord.y = g->coordinate.y - g->dimension.y;
 					if (g->storage == 1) {
+						playPowerUpAppears();
 						spawnShroom(map, temp_coord, block_Texture, mario->lives);
 						g->storage--;
 
@@ -461,8 +474,11 @@ int updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 	}
 	//y=1  je gore
 	if (update.y == 1 && mario->jump_timer < MAX_JUMP) {
+		if (mario->jump_timer == 0)
+			playJump();
 		if (fly_cheat == 0) 
 			mario->jump_timer += 1;
+		
 		if (mario->speed.y >= -16)
 			mario->speed.y -= 2;
 

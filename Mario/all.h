@@ -16,6 +16,7 @@
 #define AI_MAX_NUMBER 1000
 
 static int Game_Running = 1;
+static int music = 1;
 
 /*!
 *	\brief Contains pair of 2d coordinates
@@ -37,6 +38,7 @@ typedef struct {
 	int time;
 	int jump_timer;
 	SDL_Texture *animation[3][2][3];
+	int jump_sound;
 } Mario;
 
 /*!

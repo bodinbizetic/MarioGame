@@ -130,7 +130,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0) {
 					if (g->isAlive) {
-						
+							playKill();
 							map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 							g->isAlive = 0;
 							free(g);
@@ -146,6 +146,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 			case devil: {
 				ai_Devil *g = (ai_Devil *)map->ai_Matrix[ai_id[j]][i];
 				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0) {
+					playKill();
 					map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 					g->isAlive = 0;
 					free(g);
@@ -159,7 +160,7 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 				ai_Plantie *g = (ai_Plantie *)map->ai_Matrix[ai_id[j]][i];
 				if (collision(dim, coord, g->dimension, g->coordinate, speed, g->speed) > 0)  {
 					if (g->isAlive) {
-
+						playKill();
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
 						free(g);
