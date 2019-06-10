@@ -10,7 +10,7 @@
 #include "game.h"
 #include "highscore.h"
 #include "sound.h"
-
+#define MAX_MAP_WIDTH 100000
 extern int fly_cheat;
 extern int immortality_cheat;
 
@@ -628,7 +628,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 }
 
 
-#define MAX_MAP_WIDTH 100000
+
 //blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
 Pair_xy blok;
 int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2) {
@@ -1407,7 +1407,6 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 
 		//updateMapItems(mapa);
 		drawScreen(window, renderer, mapa, probni_mario, block_Texture);
-		//SDL_Rendercopy(renderer, NULL, &map->camera, NULL);
 		updateAI(mapa, probni_mario);
 		//fprintf(demo_Command, "{%d, %d}, ", update.x, update.y);
 		if (demo) {
