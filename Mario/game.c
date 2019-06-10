@@ -1495,14 +1495,16 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 
 			SDL_RenderPresent(renderer);
 		}
-		char name[MAX_NAME] = {0};
-		int a = 1;
-		initFinalScoreTextures(renderer);
-		playEndGame();
-		finalScoreScreen(mapa->score + mapa->x_score / 10, name, &a, renderer);
-		SDL_DestroyTexture(death);
-		extern FinalScoreTextures finalScoreTextureManager;
-		destroyFinalScoreTextures(finalScoreTextureManager);
+		if (!demo) {
+			char name[MAX_NAME] = { 0 };
+			int a = 1;
+			initFinalScoreTextures(renderer);
+			playEndGame();
+			finalScoreScreen(mapa->score + mapa->x_score / 10, name, &a, renderer);
+			SDL_DestroyTexture(death);
+			extern FinalScoreTextures finalScoreTextureManager;
+			destroyFinalScoreTextures(finalScoreTextureManager);
+		}
 	}
 
 	// free memory 

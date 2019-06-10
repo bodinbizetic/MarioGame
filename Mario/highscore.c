@@ -102,11 +102,13 @@ void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *
 		SDL_RenderPresent(renderer);
 	}
 	name[currPos] = '\0';
+	TTF_CloseFont(font);
 	return;
 }
 void initFinalScoreTextures(SDL_Renderer *renderer) {
 	char temp[2], c;
 	extern FinalScoreTextures finalScoreTextureManager;
+
 	TTF_Font* font = TTF_OpenFont("Acme-Regular.ttf", 80);
 	SDL_Color white = { 255, 255, 255 };
 	SDL_Color yellow = { 255, 255, 0 };
@@ -131,6 +133,7 @@ void initFinalScoreTextures(SDL_Renderer *renderer) {
 	tempSurface = TTF_RenderText_Solid(font, "TYPE IN YOUR NAME:", white);
 	finalScoreTextureManager.typeInYourNameTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 	SDL_FreeSurface(tempSurface);
+	TTF_CloseFont(font);
 	return;
 }
 void destroyFinalScoreTextures() {
