@@ -1415,6 +1415,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		SDL_RenderPresent(renderer);
 		if (update_mario_succes) {
 			deathAnimation = 0;
+			victory = 1;
 			break;
 		}
 
@@ -1458,7 +1459,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		}
 		SDL_DestroyTexture(death);
 	}
-	else {//victory
+	else if(victory == 1) {//victory
 		SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed + blok.x * FLAG_SHRINK / 200,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
 		SDL_Surface *sur = NULL;
 		if (marioCharacter == 0) sur = IMG_Load("Slike/marioDeathRed.png");
