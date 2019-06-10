@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>SDL2\lib\x86;SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -129,6 +129,7 @@
     <ClCompile Include="mario.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="settings.c" />
+    <ClCompile Include="sound.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai.h" />
@@ -140,6 +141,23 @@
     <ClInclude Include="mario.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="sound.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Zvuci\smb_breakblock.wav" />
+    <Media Include="Zvuci\smb_coin.wav" />
+    <Media Include="Zvuci\smb_flagpole.wav" />
+    <Media Include="Zvuci\smb_mariodie.wav" />
+    <Media Include="Zvuci\smb_powerup_appears.wav" />
+    <Media Include="Zvuci\smb_stage_clear.wav" />
+    <Media Include="Zvuci\smb_world_clear.wav" />
+    <Media Include="Zvuci\smw_fireball.wav" />
+    <Media Include="Zvuci\smw_jump.wav" />
+    <Media Include="Zvuci\smw_lost_a_life.wav" />
+    <Media Include="Zvuci\smw_pause.wav" />
+    <Media Include="Zvuci\smw_power-up.wav" />
+    <Media Include="Zvuci\smw_save_menu.wav" />
+    <Media Include="Zvuci\main_sound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

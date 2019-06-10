@@ -9,6 +9,7 @@
 #include "main_menu.h"
 #include "game.h"
 #include "highscore.h"
+#include "sound.h"
 
 extern int fly_cheat;
 extern int immortality_cheat;
@@ -938,6 +939,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 				probni_mario->jump_timer = 0;
 				probni_mario->immortality_timer = 0;
 				probni_mario->projectileTimer = 0;
+				probni_mario->jump_sound = 0;
 			
 		probni_mario->animation_Stage = 0;
 		probni_mario->facing = 0;
@@ -1365,6 +1367,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 						coord.x = probni_mario->coordinates.x + (!probni_mario->direction ? 0 : probni_mario->size.x);
 						coord.y = probni_mario->coordinates.y + probni_mario->size.y / 2;
 						if (probni_mario->projectileTimer == 0) {
+							playFireball();
 							spawnProjectile(mapa, coord, !probni_mario->direction, probni_mario->speed.x, block_Texture);
 							probni_mario->projectileTimer++;
 						}
@@ -1385,9 +1388,12 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		if(!demo)
 		if (state[SDL_SCANCODE_UP]) {
 			update.y = 1;
+			probni_mario->jump_sound = 1;
 		}
-		else
+		else {
 			update.y = 2;
+			probni_mario->jump_sound = 0;
+		}
 		if (state[SDL_SCANCODE_LEFT]) {
 			update.x = 1;
 			probni_mario->facing = 1;
@@ -1466,7 +1472,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		else sur = IMG_Load("Slike/marioDeathGreen.png");
 		SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
 		SDL_FreeSurface(sur);
-
+		playFlagPole();
 		int gravity_Check = 0;
 		while (!gravity_Check) {
 			gravity_Check = detectGravityCollide(mapa, probni_mario);
@@ -1493,6 +1499,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		char name[MAX_NAME] = {0};
 		int a = 1;
 		initFinalScoreTextures(renderer);
+		playEndGame();
 		finalScoreScreen(mapa->score + mapa->x_score / 10, name, &a, renderer);
 		SDL_DestroyTexture(death);
 		extern FinalScoreTextures finalScoreTextureManager;
