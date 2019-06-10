@@ -866,8 +866,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		int update_mario_succes = updateMario(window,renderer,mapa,probni_mario,update,block_Texture);
 		drawAI(window, renderer, mapa);
 		SDL_RenderPresent(renderer);
-		if (update_mario_succes) {//ovde dodati victory screen
-			victory = 1;
+		if (update_mario_succes) {
+			deathAnimation = 0;
 			break;
 		}
 
@@ -902,19 +902,47 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		int speed = 1;
 		while (rect.y != SCREEN_HEIGHT) {
 			rect.y += speed;
-			if (victory) {
-				if (speed + rect.y >= SCREEN_HEIGHT - 3 * blok.y) {
-					rect.y = SCREEN_HEIGHT - 3 * blok.y;
-					speed = 0;
-				}else
-					speed++;
-			}
+
 			drawScreen(window, renderer, mapa, probni_mario, block_Texture);
 			drawAI(window, renderer, mapa);
 			SDL_RenderCopy(renderer, death, NULL, &rect);
 
 			SDL_RenderPresent(renderer);
 		}
+		SDL_DestroyTexture(death);
+	}
+	else {
+		SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed + blok.x * FLAG_SHRINK / 200,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
+		SDL_Surface *sur = NULL;
+		if (marioCharacter == 0) sur = IMG_Load("Slike/marioDeathRed.png");
+		else sur = IMG_Load("Slike/marioDeathGreen.png");
+		SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
+		SDL_FreeSurface(sur);
+
+		int gravity_Check = 0;
+		while (!gravity_Check) {
+			gravity_Check = detectGravityCollide(mapa, probni_mario);
+			if (gravity_Check > 0) {
+				//gravity_Check = gravity_Check2;
+				probni_mario->jump_timer = 0;
+				if (probni_mario->speed.y > 0) {
+					probni_mario->speed.y = 0;
+					probni_mario->coordinates.y = gravity_Check - probni_mario->size.y;
+				}
+
+			}
+			else
+				probni_mario->speed.y += G;
+			probni_mario->coordinates.y += probni_mario->speed.y;
+			drawScreen(window, renderer, mapa, probni_mario, block_Texture);
+			drawAI(window, renderer, mapa);
+
+			rect.y = probni_mario->coordinates.y;
+			SDL_RenderCopy(renderer, death, NULL, &rect);
+
+			SDL_RenderPresent(renderer);
+		}
+
 		SDL_DestroyTexture(death);
 	}
 
