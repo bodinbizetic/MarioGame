@@ -15,6 +15,8 @@
 #define AI_NUMBER 17
 #define AI_MAX_NUMBER 1000
 
+static int Game_Running = 1;
+
 /*!
 *	\brief Contains pair of 2d coordinates
 */
