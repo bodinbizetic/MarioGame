@@ -70,6 +70,7 @@ typedef struct PROJECTILE {
 	Pair_xy coordinate, speed, dimension;
 	int isAlive;
 	int nubmer_Of_Bounces;
+	SDL_Texture *animation;
 }ai_Projectile;
 
 /*!
@@ -103,6 +104,7 @@ typedef struct HIDDEN {
 	int isAlive;
 	int coins_Left;
 	int animation_Stage;
+	SDL_Texture *animation[2];
 }ai_Hidden;
 /*!
 *	\brief Structure representing non-interactable ground

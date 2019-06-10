@@ -304,10 +304,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 250, 200, 200, 255);
-
-
-				SDL_RenderFillRect(renderer, &rect);
+				SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+				/*SDL_SetRenderDrawColor(renderer, 250, 200, 200, 255);
+				SDL_RenderFillRect(renderer, &rect);*/
 				break;
 			}
 			case flag: {
@@ -316,10 +315,9 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
-
-				SDL_RenderFillRect(renderer, &rect);
+				SDL_RenderCopy(renderer, g->animation, NULL, &rect);
+				/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_RenderFillRect(renderer, &rect);*/
 				break;
 			}
 			default:
@@ -726,6 +724,33 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		block_Texture[pipe][1] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
+		//  pike
+		surface = IMG_Load("Slike/pike.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[pikes][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		// projectile 
+		surface = IMG_Load("Slike/fire.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[projectile][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		// flag
+		surface = IMG_Load("Slike/flag.png");
+		if (surface == NULL) {
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		block_Texture[flag][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
 		//background
 		surface = IMG_Load("Slike/background1.png");
 		if (surface == NULL) {
@@ -767,8 +792,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		while (SDL_PollEvent(&eventgame)) {
 			switch (eventgame.type) {
 			case SDL_QUIT:
-				Running = 0;
-				return NUMBER_OF_OPTIONS;
+				exit(0);
 			case SDL_KEYDOWN:
 			{
 				switch (eventgame.key.keysym.sym) {
@@ -794,7 +818,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 						coord.x = probni_mario->coordinates.x + (!probni_mario->direction ? 0 : probni_mario->size.x);
 						coord.y = probni_mario->coordinates.y + probni_mario->size.y / 2;
 						if (probni_mario->projectileTimer == 0) {
- 							spawnProjectile(mapa, coord, !probni_mario->direction, probni_mario->speed.x);
+							spawnProjectile(mapa, coord, !probni_mario->direction, probni_mario->speed.x, block_Texture);
 							probni_mario->projectileTimer++;
 						}
 					}
@@ -918,6 +942,9 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 	SDL_DestroyTexture(block_Texture[shroom][2]);
 	SDL_DestroyTexture(block_Texture[pipe][0]);
 	SDL_DestroyTexture(block_Texture[pipe][1]);
+	SDL_DestroyTexture(block_Texture[pikes][0]);
+	SDL_DestroyTexture(block_Texture[flag][0]);
+	SDL_DestroyTexture(block_Texture[projectile][0]);
 
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
