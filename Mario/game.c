@@ -14,77 +14,84 @@
 extern int fly_cheat;
 extern int immortality_cheat;
 
-void loadGame(Mario *mario, Map *map, FILE *saved, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
+int loadGame(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
 	mario = malloc(sizeof(Mario));
 	map = malloc(sizeof(Map));
-	int i, j, n,m ,XOR = 0;
-	fscanf(saved, "%d", &n);
+	FILE *saved = fopen(Name2, "r");
+	int i, j, n, m, XOR = 0, XOR_IN;
+	if (saved == NULL)
+		return 0;
+	fscanf(saved, "%d ", &n);
 	XOR ^= n;
 	for (i = 0; i < n; i++) {
-		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie)
-			fscanf(saved, "%d", &m);
+		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag)
+			fscanf(saved, "%d ", &m);
 		else
 			m = 0;
 		XOR ^= m;
-		map->ai_counter[i]=m;
+		map->ai_counter[i] = m;
 		for (j = 0; j < m; j++) {
 			if (i == ground) {
 				Ground *temp = malloc(sizeof(Ground));
-				fscanf(saved, "%d", &temp->coordinate.x);
+				fscanf(saved, "%d ", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d", &temp->coordinate.y);
+				fscanf(saved, "%d ", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d", &temp->dimension.x);
+				fscanf(saved, "%d ", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d", &temp->dimension.y);
+				fscanf(saved, "%d ", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
 				map->ai_Matrix[ground][j] = temp;
 			}
 			if (i == basic) {
 				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
-				fscanf(saved, "%d", &temp->coordinate.x);
+				fscanf(saved, "%d ", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d", &temp->coordinate.y);
+				fscanf(saved, "%d ", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d", &temp->dimension.x);
+				fscanf(saved, "%d ", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d", &temp->dimension.y);
+				fscanf(saved, "%d ", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d", &temp->newCordinate.y);
+				fscanf(saved, "%d ", &temp->newCordinate.y);
 				XOR ^= temp->newCordinate.y;
 
 				map->ai_Matrix[basic][j] = temp;
 			}
 			if (i == question) {
 				ai_Question *temp = malloc(sizeof(ai_Question));
-				fscanf(saved, "%d", &temp->coordinate.x);
+				fscanf(saved, "%d ", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d", &temp->coordinate.y);
+				fscanf(saved, "%d ", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d", &temp->dimension.x);
+				fscanf(saved, "%d ", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d", &temp->dimension.y);
+				fscanf(saved, "%d ", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fscanf(saved, "%d ", &temp->storage);
+				XOR ^= temp->storage;
+				fscanf(saved, "%d ", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+
 				temp->animation[0] = block_Texture[question][0];
 				temp->animation[1] = block_Texture[question][1];
-				temp->storage = 1;
-				temp->animation_Stage = 0;
 
 				map->ai_Matrix[question][j] = temp;
 			}
 			if (i == hidden) {
 				ai_Hidden *temp = malloc(sizeof(ai_Hidden));
-				fscanf(saved, "%d", &temp->coordinate.x);
+				fscanf(saved, "%d ", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d", &temp->coordinate.y);
+				fscanf(saved, "%d ", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d", &temp->dimension.x);
+				fscanf(saved, "%d ", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d", &temp->dimension.y);
+				fscanf(saved, "%d ", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->coins_Left = 10;
-				temp->animation_Stage = 1;
-
+				fscanf(saved, "%d ", &temp->coins_Left);
+				XOR ^= temp->coins_Left;
+				fscanf(saved, "%d ", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
 				map->ai_Matrix[hidden][j] = temp;
 			}
 			if (i == pipe) {
@@ -147,7 +154,7 @@ void loadGame(Mario *mario, Map *map, FILE *saved, SDL_Texture *block_Texture[AI
 				for (int k = 0; k < 5; k++)
 					temp->animation[k] = block_Texture[turtle][k];
 				temp->time = 0;
-				
+
 				map->ai_Matrix[turtle][j] = temp;
 			}
 			if (i == devil) {
@@ -168,7 +175,7 @@ void loadGame(Mario *mario, Map *map, FILE *saved, SDL_Texture *block_Texture[AI
 				for (int k = 0; k < 3; k++)
 					temp->animation[k] = block_Texture[devil][k];
 				temp->time = 0;
-				
+
 				map->ai_Matrix[devil][j] = temp;
 			}
 			if (i == plantie) {
@@ -201,16 +208,18 @@ void loadGame(Mario *mario, Map *map, FILE *saved, SDL_Texture *block_Texture[AI
 				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
 				temp->animation = block_Texture[flag][0];
+				map->ai_Matrix[flag][j] = temp;
 			}
 		}
 	}
-
+	/*
 	for (i = 0; i < MAP_HEIGHT; i++) {
 		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
 			fscanf(saved, "%d", &map->map_Matrix[i][j]);
 			XOR = XOR ^ map->map_Matrix[i][j];
 		}
 	}
+	*/
 	fscanf(saved, "%d\n", &map->x_score);
 	XOR = XOR ^ map->x_score;
 	fscanf(saved, "%d\n", &map->score);
@@ -422,24 +431,29 @@ void loadGame(Mario *mario, Map *map, FILE *saved, SDL_Texture *block_Texture[AI
 	SDL_FreeSurface(surface);
 
 
-	fprintf(saved, "%d", XOR);
+	fscanf(saved, "%d", &XOR_IN);
+		/*if (XOR == XOR_IN)
+			return 1;
+		return 0;*/
+	return 1;
 }
-void saveGame(Mario *mario, Map *map,FILE *saved) {
-	int i, j,n,XOR=0;
+void saveGame(Mario *mario, Map *map, char *Name2) {
+	int i, j, n, XOR = 0;
+	FILE *saved = fopen(Name2, "w");
 	//MAP save
 	fprintf(saved, "%d\n", AI_NUMBER);
 	XOR ^= AI_NUMBER;
 	for (i = 0; i < AI_NUMBER; i++) {
-		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie) {
+		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag) {
 			n = map->ai_counter[i];
-			fprintf(saved, "%d", n);
+			fprintf(saved, "%d\n", n);
 		}
 		else
 			n = 0;
 		XOR ^= n;
 		for (j = 0; j < n; j++) {
 			if (i == ground) {
-				Ground *temp=map->ai_Matrix[ground][j];
+				Ground *temp = map->ai_Matrix[ground][j];
 				fprintf(saved, "%d ", temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
 				fprintf(saved, "%d ", temp->coordinate.y);
@@ -448,10 +462,11 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "\n");
 			}
 			if (i == basic) {
 				ai_Shroom *temp = map->ai_Matrix[basic][j];
-				fprintf(saved, "%d ",temp->coordinate.x);
+				fprintf(saved, "%d ", temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
 				fprintf(saved, "%d ", temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
@@ -461,7 +476,9 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.y;
 				fprintf(saved, "%d ", temp->newCordinate.y);
 				XOR ^= temp->newCordinate.y;
+				fprintf(saved, "\n");
 			}
+			
 			if (i == question) {
 				ai_Question *temp = map->ai_Matrix[question][j];
 				fprintf(saved, "%d ", temp->coordinate.x);
@@ -472,7 +489,11 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-
+				fprintf(saved, "%d ", temp->storage);
+				XOR ^= temp->storage;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "\n");
 
 			}
 			if (i == hidden) {
@@ -485,6 +506,11 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "%d ", temp->coins_Left);
+				XOR ^= temp->coins_Left;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "\n");
 
 			}
 			if (i == pipe) {
@@ -507,6 +533,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp2->dimension.x;
 				fprintf(saved, "%d ", temp2->dimension.y);
 				XOR ^= temp2->dimension.y;
+				fprintf(saved, "\n");
 			}
 			if (i == pikes) {
 				ai_Hidden *temp = map->ai_Matrix[pikes][j];
@@ -518,6 +545,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "\n");
 			}
 			if (i == turtle) {
 				ai_Devil *temp = map->ai_Matrix[turtle][j];
@@ -529,7 +557,8 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-			
+				fprintf(saved, "\n");
+
 			}
 			if (i == devil) {
 				ai_Devil *temp = map->ai_Matrix[devil][j];
@@ -541,6 +570,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "\n");
 
 			}
 			if (i == plantie) {
@@ -553,10 +583,11 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "\n");
 
 			}
 			if (i == flag) {
-				Ground *temp = malloc(sizeof(Ground));
+				Ground *temp = map->ai_Matrix[flag][j];
 				fprintf(saved, "%d ", temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
 				fprintf(saved, "%d ", temp->coordinate.y);
@@ -565,19 +596,20 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
+				fprintf(saved, "\n");
 			}
 		}
 	}
-	for (i = 0; i < MAP_HEIGHT; i++) {
+	/*for (i = 0; i < MAP_HEIGHT; i++) {
 		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
 			if (j == MAP_WIDTH * MAP_SEGMENTS_NUMBER - 1)
-				fprintf(saved,"%d", map->map_Matrix[i][j]);
+				fprintf(saved, "%d ", map->map_Matrix[i][j]);
 			else
-				fprintf(saved,"%d ", map->map_Matrix[i][j]);
+				fprintf(saved, "%d ", map->map_Matrix[i][j]);
 			XOR = XOR ^ map->map_Matrix[i][j];
 		}
-		fprintf(saved,"\n");
-	}
+		fprintf(saved, "\n");
+	}*/
 	fprintf(saved, "%d\n", map->x_score);
 	XOR = XOR ^ map->x_score;
 	fprintf(saved, "%d\n", map->score);
@@ -590,6 +622,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 	//Mario save
 	fprintf(saved, "%d\n", mario->coordinates.x);
 	XOR ^= mario->coordinates.x;
+	fprintf(saved, "DOSO DO OVDE TEST");
 	fprintf(saved, "%d\n", mario->coordinates.y);
 	XOR ^= mario->coordinates.y;
 	fprintf(saved, "%d\n", mario->size.x);
@@ -624,7 +657,7 @@ void saveGame(Mario *mario, Map *map,FILE *saved) {
 	/*SDL_Texture *animation[3][2][3];*/
 
 
-	fprintf(saved, "%d", XOR);
+	fprintf(saved, "%d ", XOR);
 }
 
 
@@ -904,10 +937,11 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 //igranje igre
 extern int marioCharacter;
-int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo) {
+int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo,char *Name2) {
 	//FILE *demo_Command = fopen("demo.txt", "w");
 	int demo_counter = 0;
 	int victory = 0;
+	int loaded = 0;
 	blok.x = SCREEN_WIDTH / MAP_WIDTH;
 	blok.y = SCREEN_HEIGHT / MAP_HEIGHT;
 
@@ -1319,10 +1353,11 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 	}
 }
 	//postoji funkcija koja inicijalizuje mapu
-		mapa = initMap(block_Texture, demo);
-		/*if (New == 0) 
-			loadMap(probni_mario, mapa);*/
-		
+mapa = NULL;
+if (New == 0)
+loaded = loadGame(probni_mario, mapa, Name2, block_Texture, renderer);
+if (loaded == 0)
+mapa = initMap(block_Texture, demo);
 	
 	int i, j, x = 0, y = 0;
 	/*for (i = 0; i < 10; i++)
@@ -1352,6 +1387,7 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 					immortality_cheat = !immortality_cheat;
 					break;
 				case SDLK_ESCAPE:
+					saveGame(probni_mario, mapa, Name2);
 					Running = 0;
 					deathAnimation = 0;
 					break;

@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 		
 	}*/
 
-	char *Name = "Highscore.txt";
+	char *Name = "Highscore.txt",*Name2="Save.txt";
 	FILE *file;
 	int Game_State;
 	Map *map=NULL;
@@ -65,21 +65,21 @@ int main(int argc, char *argv[]) {
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
 			PlaySound(NULL, NULL, SND_ASYNC);
-			Game_State = Game(window, renderer, map, mario, 1, 1);
+			Game_State = Game(window, renderer, map, mario, 1, 1,Name2);
 		}
 		if (Game_State == 2) {
 			//create map
 			//map = initMap(); mapa mora da se init u game zbog ai-ova(textura) !
 			//start new game
 			PlaySound(NULL, NULL, SND_ASYNC);
-			Game_State = Game(window, renderer, map, mario, 1, 0);
+			Game_State = Game(window, renderer, map, mario, 1, 0,Name2);
 		}
 		//Option Continue Game
 		if (Game_State == 3) {
 			//Loading map
 			//start game with
 			PlaySound(NULL, NULL, SND_ASYNC);
-			Game_State = Game(window, renderer, map, mario, 0, 0);
+			Game_State = Game(window, renderer, map, mario, 0, 0,Name2);
 		}
 		if (Game_State == 4) {
 			Game_State=showHighscore(renderer);
