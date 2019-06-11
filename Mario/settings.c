@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<SDL_image.h>
+#include "all.h"
 //#include <SDL_ttf.h> 
-
+#include "sound.h"
 //#include "map.h"
 //#include "mario.h"    // msm da nam je samo main menu potreban ovde 
 #include "main_menu.h"
@@ -20,7 +21,7 @@ int showSettings(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
 	}
-
+	
 	// options for settings
 	char *text[NUMBER_OF_SETTINGS_OPTIONS] = { "Sound","Character","Background" };
 	// TTF init
@@ -63,7 +64,7 @@ int showSettings(SDL_Renderer *renderer) {
 	ON_OFF.h = OPTION_HEIGHT;
 
 	char *ON_OFF_text[] = { "ON","OFF" };
-	short sound_status = 0;
+	
 	
 	// character select
 	IMG_Init(IMG_INIT_PNG);
@@ -102,6 +103,7 @@ int showSettings(SDL_Renderer *renderer) {
 
 	/* RUN SETTINGS */
 	int settingsRunning = 1;
+	
 	while (settingsRunning != 0) {
 		// input 
 		while (SDL_PollEvent(&event)) {
@@ -125,8 +127,9 @@ int showSettings(SDL_Renderer *renderer) {
 					break;
 				case SDLK_RETURN:  // return - change selected setting
 					if (index_Selected == 0) {      // change on of
-						if (sound_status == 1) sound = sound_status = 0;
-						else sound = sound_status = 1;
+						if (music == 1)  music = 0;
+						else  music = 1;
+						playMainTheme();
 					}
 					else if(index_Selected==1){  // promeniti u else if ako se dodaje jos neka opcija u settings
 						if (selectedCharacter == 0) backFromBlack=marioCharacter=selectedCharacter = 1;
@@ -155,7 +158,7 @@ int showSettings(SDL_Renderer *renderer) {
 			SDL_DestroyTexture(Message);
 		}
 		// draw sound status 
-		surfaceMessage = TTF_RenderText_Blended(font, ON_OFF_text[sound_status], selected[0] ? Red : White);
+		surfaceMessage = TTF_RenderText_Blended(font, ON_OFF_text[!music], selected[0] ? Red : White);
 		Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 		SDL_RenderCopy(renderer, Message, NULL, &ON_OFF);
 		SDL_FreeSurface(surfaceMessage);

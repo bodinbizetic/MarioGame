@@ -1,5 +1,10 @@
 #ifndef SOUND_H
 #define SOUND_H
+
+/*!	\file sound.h
+*	\brief Contains declarations for sounds
+*/
+
 void playMainTheme();
 void playJump();
 void playBreakBlock();

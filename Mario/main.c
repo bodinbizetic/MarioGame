@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
 	Game_Running = 1;
 	//Pocinje u meniju
 	Game_State = 0;
+	music = 1;
 	while (Game_Running ) {
 		//Sa Game_State biramo gde idemo,sve funkcije ce biti int i lako cemo videti u koje stanje idemo
 		playMainTheme();
