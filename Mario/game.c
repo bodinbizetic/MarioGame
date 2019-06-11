@@ -16,12 +16,12 @@ extern int immortality_cheat;
 
 int isFileOK(char *Name2) {
 	int XOR_2 = 0;
-	int d = 0;
+	int c,d = 0;
 	int e = 0,f=0;
 	int brojac = 0;
 	FILE *saved = fopen(Name2, "r");
 	fseek(saved, 0, SEEK_SET);
-	while (fscanf(saved, "%d ", &d) != EOF) {
+	while ( (c=fscanf(saved, "%d ", &d)) != 0 && c!=EOF) {
 		XOR_2 ^= d;
 		brojac++;
 		f = e;
