@@ -222,7 +222,7 @@ int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation)
 	return 0;
 }
 
-Map* LoadMap() {
+/*Map* LoadMap() {
 	/*FILE *save = fopen("Savegame.bin", "rb");
 	if (save == NULL) {
 		printf("Greska pri otvaranju datoteke!\n");
@@ -236,8 +236,8 @@ Map* LoadMap() {
 	}
 	fread(mapa, sizeof(Map), 1, save);
 	fclose(save);
-	return mapa;*/
-}
+	return mapa;
+}*/
 /*!
 *		\brief Function that copies map segment into map
 *		\param Map map Addres of map that containts map_Matrix that is destination
@@ -292,8 +292,9 @@ int generate_Demo_Map(Map *map) {
 *		\param Map map Addres of map
 */
 void  destroyMap(Map *map) {
-	for (int i = 0; i < 17; i++)
+	/*for (int i = 0; i < 17; i++)
 		for (int j = 0; j < map->ai_counter[i]; j++)
-			free(map->ai_Matrix[i][j]);
+			if (map->ai_Matrix[i][j]!=NULL)
+				free(map->ai_Matrix[i][j]);*/
 	free(map);
 }
