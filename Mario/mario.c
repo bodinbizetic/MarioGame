@@ -9,13 +9,31 @@
 #include "game.h" 
 #include "sound.h"
 
+/*!	\file mario.c
+*	\brief Contains functions that control Marios movements
+*/
 extern short marioCharacter;
 extern short backFromBlack;
-
+/*!	
+*	\brief If == 1, enables flying
+*/
 int fly_cheat = 0;
+
+/*!
+*	\brief If == 1, enables immortality (cant get hit by enemies)
+*/
 int immortality_cheat = 0;
+
+/*!
+*	\brief Zero speed vector 
+*/
 Pair_xy zeroSpeed = { 0,0 };
-int lose_Life(Mario *mario) {
+
+/*!
+*	\brief Reduces Mario's life by one. Also shrinks Mario.
+*	\param mario Address of active Mario struct
+*/
+void lose_Life(Mario *mario) {
 	if (mario->immortality_timer == 0) {
 		if (mario->lives > 1) {
 			mario->lives --;
@@ -35,10 +53,14 @@ int lose_Life(Mario *mario) {
 				playMarioDie();
 			}
 	}
-	return 0;
+	//return 0;
 }
 
-int gainLife(Mario *mario) {
+/*!
+*	\brief Increses Mario's life by one. Also magnifies Mario.
+*	\param mario Address of active Mario struct
+*/
+void gainLife(Mario *mario) {
 	if (mario->lives < 3) {
 		playPowerUp();
 		mario->lives++;
@@ -52,6 +74,12 @@ int gainLife(Mario *mario) {
 
 }
 
+/*!
+*	\brief Detects and regulates collide between Mario and other AIs
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\return returns 0 if there is no error
+*/
 int detectAiCollide(Map *map, Mario *mario) {
 	for (int j = 1; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -168,6 +196,12 @@ int detectAiCollide(Map *map, Mario *mario) {
 	return 0;
 }
 
+/*!
+*	\brief Detects and regulates bottom collide between Mario and blocks
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\return returns y coordinate of the collision between Mario and block
+*/
 int detectGravityCollide(Map *map, Mario *mario) {
 	for(int j=0; j<sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 	for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -218,6 +252,12 @@ int detectGravityCollide(Map *map, Mario *mario) {
 	return NO_COLLISION;
 }
 
+/*!
+*	\brief Detects and regulates side collide between Mario and blocks
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\return returns x coordinate of the collision between Mario and block
+*/
 int detectSideCollide(Map *map, Mario *mario) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -272,7 +312,14 @@ int detectSideCollide(Map *map, Mario *mario) {
 		}
 	return NO_COLLISION;
 }
-//Detektuje udarac u plafon i vraca kordinate udarca po y osi
+
+/*!
+*	\brief Detects and regulates side collide between Mario and blocks
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\param blockTextures SDL_Textures for all AIs
+*	\return returns y coordinate of the collision between Mario and block
+*/
 int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -364,6 +411,13 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 	return NO_COLLISION;
 }
 
+/*!
+*	\brief Detects and regulates side collide between Mario and blocks. Visits map in reverse order
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\param blockTextures SDL_Textures for all AIs
+*	\return returns y coordinate of the collision between Mario and block
+*/
 int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	for (int j = sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0])-1; j >=0; j--)
 		for (int i = map->ai_counter[gravity_Blocks[j]]-1; i >=0 && map->ai_counter[gravity_Blocks[j]]; i--) {
@@ -446,7 +500,16 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 	return NO_COLLISION;
 }
 
-
+/*!
+*	\brief Function that updates Marios movement, and handles interactions between Mario and other objects 
+*	\param window Address of current active SDL_Window 
+*	\param renderer Address of main SDL_Renderer
+*	\param mario Address of active Mario struct
+*	\param map Address of map structure on which the game is played
+*	\param update Code of Mario's movement update
+*	\param blockTextures SDL_Textures for all AIs
+*	\return returns y coordinate of the collision between Mario and block
+*/
 int updateMario(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario,Pair_xy update, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	SDL_Rect rect;
 	rect.h = mario->size.y;

@@ -2055,7 +2055,7 @@ mapa = initMap(block_Texture, demo);
 
 
 	// free ai
-	
+	/*
 	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == ground) {
 			for (int j = 0; j < mapa->ai_counter[ground]; j++) free(mapa->ai_Matrix[ground][j]); 
@@ -2087,7 +2087,7 @@ mapa = initMap(block_Texture, demo);
 		if (i == flag) {
 			for (int j = 0; j < mapa->ai_counter[flag]; j++) free(mapa->ai_Matrix[flag][j]);
 		}
-	}
+	}*/
 	
 	// free mario
 	free(probni_mario);
