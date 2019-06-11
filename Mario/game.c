@@ -11,6 +11,10 @@
 #include "highscore.h"
 #include "sound.h"
 #define MAX_MAP_WIDTH 100000
+
+/*!	\file game.c
+*	\brief Contains declarations and constants for game.c
+*/
 extern int fly_cheat;
 extern int immortality_cheat;
 
@@ -1100,9 +1104,21 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 }
 
 
-
-//blok sluzi kao jedan blok cije se dimenzije racunaju prema ekranu
+/*!	
+*	\brief Dimensions of one block in world
+*/
 Pair_xy blok;
+
+/*!	
+*	\brief Function that detects collision in next frame
+*	\param dim1 Dimension of the first object
+*	\param coord1 Coordinates of the first object
+*	\param dim2 Dimension of the second object
+*	\param coord2 Coordinates of the second object
+*	\param speed1 Speed vector of the first object
+*	\param speed2 Speed vector of the second object
+*	\return In respect to the first object returns 2 for bottom collision, 1 for top collision, 3 for right collision, 4 for left collision and 0 for no collision
+*/
 int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2) {
 	
 	Pair_xy relSpeed;
@@ -1183,6 +1199,16 @@ int collision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_x
 	return 0;
 }
 
+/*!
+*	\brief Function that detects overlapping between objects
+*	\param dim1 Dimension of the first object
+*	\param coord1 Coordinates of the first object
+*	\param dim2 Dimension of the second object
+*	\param coord2 Coordinates of the second object
+*	\param speed1 Speed vector of the first object
+*	\param speed2 Speed vector of the second object
+*	\return Returns 1 if there is collision, otherwise returns 0
+*/
 int simpleCollision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, Pair_xy speed1, Pair_xy speed2) {
 	Pair_xy relSpeed;
 	relSpeed.x = speed1.x - speed2.x;
@@ -1203,6 +1229,15 @@ int simpleCollision(Pair_xy dim1, Pair_xy coord1, Pair_xy dim2, Pair_xy coord2, 
 }
 //DrawScreen crta na ekranu
 extern short selectedBackground;
+
+/*!
+*	\brief Function that draws blocks on screen
+*	\param window Address of current active SDL_Window
+*	\param renderer Address of main SDL_Renderer
+*	\param map Address of map structure on which the game is played
+*	\param mario Address of active Mario struct
+*	\param blockTextures SDL_Textures for all AIs
+*/
 void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	//Init TTF
 	if (TTF_Init() < 0) {
@@ -1379,6 +1414,17 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 //igranje igre
 extern int marioCharacter;
 extern int backFromBlack;
+
+/*!
+*	\brief Function that draws blocks on screen
+*	\param window Address of current active SDL_Window
+*	\param renderer Address of main SDL_Renderer
+*	\param map Address of map structure on which the game is played
+*	\param mario Address of active Mario struct
+*	\param new Code for new game <---------------------------
+*	\param demo if == 1 it will play demo game, otherwise it will play normal game
+*	\return returns 0
+*/
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo,char *Name2) {
 	//FILE *demo_Command = fopen("demo.txt", "w");
 	int demo_counter = 0;
