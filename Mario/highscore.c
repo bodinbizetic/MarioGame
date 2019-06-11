@@ -14,7 +14,7 @@
 *	\brief Contains declarations and constants for higscore and end game menu
 */
 
-/*!	
+/*!
 *	\brief Maximum number of players that can have a highscore
 */
 #define NUMBER_OF_BEST_PLAYERS 5
@@ -67,16 +67,16 @@ void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *
 	extern int Game_Running;
 	while (finalScoreActive) {
 		for (i = currPos; i <= MAX_NAME - 2; i++) {
-					rect.x = SCREEN_WIDTH / 18 + i * (SCREEN_WIDTH / 24 + 1);
-					SDL_RenderFillRect(renderer, &rect);
-					if (i != MAX_NAME - 1)
-						SDL_RenderCopy(renderer, finalScoreTextureManager.blankTexture, NULL, &rect);
-				}
+			rect.x = SCREEN_WIDTH / 18 + i * (SCREEN_WIDTH / 24 + 1);
+			SDL_RenderFillRect(renderer, &rect);
+			if (i != MAX_NAME - 1)
+				SDL_RenderCopy(renderer, finalScoreTextureManager.blankTexture, NULL, &rect);
+		}
 		while (SDL_PollEvent(&event)) {
 
 			switch (event.type) {
 			case SDL_KEYDOWN:
-				rect.x = SCREEN_WIDTH / 18 + currPos * SCREEN_WIDTH / 24 ;
+				rect.x = SCREEN_WIDTH / 18 + currPos * SCREEN_WIDTH / 24;
 				switch (event.key.keysym.sym) {
 				case SDLK_BACKSPACE:
 					name[currPos] = '\0';
@@ -100,13 +100,13 @@ void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *
 							name[currPos++] = MAP_SDL_LETTERS(event.key.keysym.sym) + 'A' - 'a';
 							//SDL_RenderFillRect(renderer, &rect);
 							SDL_RenderCopy(renderer, finalScoreTextureManager.characterTextures[name[currPos - 1]], NULL, &rect);
-							
+
 						}
 					}
 					break;
 				}
 
-				
+
 				break;
 
 			case SDL_QUIT:
@@ -172,10 +172,38 @@ void destroyFinalScoreTextures() {
 	SDL_DestroyTexture(finalScoreTextureManager.typeInYourNameTexture);
 }
 
+
+int scoreOK()
+{
+	FILE *XORBIVSI = fopen("xor.txt", "r");
+	FILE *score = fopen("highscore.txt", "r");
+	int index = 0;
+	char ime[5][20];
+	int poeni[5];
+
+	int XOR = 0;
+	for (int i = 0; i < 5; i++) {
+		fscanf(score, "%d %s %d", &index, ime[i], &poeni[i]);
+		XOR ^= index;
+		XOR ^= ime[i][0];
+		XOR ^= poeni[i];
+	}
+
+	int XOR2 = 0;
+	fscanf(XORBIVSI, "%d", &XOR2);
+	fclose(XORBIVSI);
+	fclose(score);
+
+
+	if (XOR2 == XOR) return 1;
+	return 0;
+}
+
 void updateHighscore(int score, char *name, int a)
 {
 	if (a)
 	{
+		int XOR = 0;
 		FILE *provera = fopen("Highscore.txt", "r");
 		if (provera == NULL) {
 			printf("Greska pri otvaranju datoteke!\n");
@@ -216,13 +244,47 @@ void updateHighscore(int score, char *name, int a)
 			{
 				fprintf(upis, "%d %s %d\n", i + 1, ime[i], poeni[i]);
 			}
-
 			fclose(upis);
+
+			FILE *xorf = fopen("Highscore.txt", "r");
+			if (xorf == NULL) {
+				printf("Greska!\n");
+				exit(EXIT_FAILURE);
+			}
+
+			for (int i = 0; i < 5; i++) {
+				fscanf(xorf, "%d %s %d", &index, ime[i], &poeni[i]);
+				XOR ^= index;
+				XOR ^= ime[i][0];
+				XOR ^= poeni[i];
+			}
+			fclose(xorf);
+			FILE *xorout = fopen("xor.txt", "w");
+			if (xorout == NULL) {
+				printf("Greska!\n");
+				exit(EXIT_FAILURE);
+			}
+			fprintf(xorout, "%d", XOR);
+			fclose(xorout);
 		}
 	}
 }
 
 int showHighscore(SDL_Renderer *renderer) {
+	if (scoreOK() == 0) {
+		FILE *ispis = fopen("Highscore.txt", "w");
+		if (ispis == NULL) {
+			printf("Greska!\n");
+			exit(EXIT_FAILURE);
+		}
+
+
+		for (int i = 0; i < 5; i++) {
+			fprintf(ispis, "%d %s %d\n", i + 1, "noName", 0);
+		}
+		fclose(ispis);
+	}
+
 	if (TTF_Init() < 0) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
 	}
@@ -244,7 +306,7 @@ int showHighscore(SDL_Renderer *renderer) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
 	}
 
-	FILE *load=fopen("Highscore.txt","r");
+	FILE *load = fopen("Highscore.txt", "r");
 	for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
 		fgets(text[i], MAX, load);
 	}
@@ -264,7 +326,7 @@ int showHighscore(SDL_Renderer *renderer) {
 	SDL_Texture *texture;
 	SDL_Color White = { 255,255,255 };
 	for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
-		
+
 		surface = TTF_RenderText_Blended(font, text[i], White);
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_RenderCopy(renderer, texture, NULL, &drawScore[i]);
