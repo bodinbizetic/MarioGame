@@ -19,7 +19,7 @@
 */
 #define NUMBER_OF_BEST_PLAYERS 5
 #define MAX 50
-
+#define OPTION_WIDTH2 500
 /*!
 *	\brief Prints the final score screen and input of name for the highscore
 *	\param currScore final score which will be saved
@@ -315,10 +315,10 @@ int showHighscore(SDL_Renderer *renderer) {
 	// rect for scores and players
 	SDL_Rect drawScore[NUMBER_OF_BEST_PLAYERS];
 	for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
-		drawScore[i].x = SCREEN_WIDTH / 2 - OPTION_WIDTH + 25;
+		drawScore[i].x = SCREEN_WIDTH / 2 - OPTION_WIDTH2 / 2 + 25;
 		drawScore[i].y = SCREEN_HEIGHT / 2 - (NUMBER_OF_OPTIONS - i - 1)*(OPTION_HEIGHT + 15) + 150;
 		drawScore[i].h = OPTION_HEIGHT;
-		drawScore[i].w = OPTION_WIDTH;
+		drawScore[i].w = OPTION_WIDTH2;
 	}
 
 	// draw on screen
