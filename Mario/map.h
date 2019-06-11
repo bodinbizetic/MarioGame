@@ -2,12 +2,13 @@
 #define map_h
 #include "SDL.h"
 #include "all.h"
+
 /*!	\file map.h
 *	\brief Contains declarations and constants for map
 */
 
 
-//Izrazeno u % po bloku
+
 
 /*!	
 *	\brief Relative x dimension for pipe in %
