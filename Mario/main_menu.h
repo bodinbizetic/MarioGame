@@ -4,7 +4,7 @@
 #include <SDL_ttf.h>
 
 /*!	\file main_menu.c
-*	\brief Contains declarations and constants for main_menu
+*	\brief Contains declarations and constants for main_menu.c
 */
 
 /*!

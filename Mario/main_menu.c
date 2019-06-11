@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 
 /*!	\file main_menu.c
-*	\brief Contains declarations and constants for main_menu
+*	\brief Contains functions which show main menu
 */
 
 /*!	
