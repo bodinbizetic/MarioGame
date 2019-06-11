@@ -2041,8 +2041,8 @@ mapa = initMap(block_Texture, demo);
 	SDL_DestroyTexture(block_Texture[projectile][0]);
 
 
-	// free ai
-	for (int i = 0; i < AI_NUMBER; i++) {
+	// free ai - ai se freejijue kad se oslobadja mapa, nema potrebe opet
+	/*for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == ground) {
 			for (int j = 0; j < map->ai_counter[ground]; j++) free(map->ai_Matrix[ground][j]);
 		}
@@ -2073,7 +2073,7 @@ mapa = initMap(block_Texture, demo);
 		if (i == flag) {
 			for (int j = 0; j < map->ai_counter[flag]; j++) free(map->ai_Matrix[flag][j]);
 		}
-	}
+	}*/
 	// free mario
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
