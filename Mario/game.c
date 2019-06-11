@@ -1298,7 +1298,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				if (g->animation_Stage == 0 && g->coins_Left<10)//nije skroz ispraznjen
+				if (g->animation_Stage == 0)//nije skroz ispraznjen
 					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
 				else if(g->animation_Stage==1)
 					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
