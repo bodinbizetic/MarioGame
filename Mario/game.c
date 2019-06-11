@@ -15,9 +15,19 @@
 /*!	\file game.c
 *	\brief Contains game loop, save/load and encypt functions
 */
+/*!
+*	\brief cheat for infinite flying
+*/
 extern int fly_cheat;
+/*!
+*	\brief cheat for infinite immortality
+*/
 extern int immortality_cheat;
-
+/*!
+*	\brief Function that checks if file "save.txt" is corrupted
+*	\param Name of the file that is beeing checked
+*	\return 1 if file is non-corrupted,0 otherwise 
+*/
 int isFileOK(char *Name2) {
 	int XOR_2 = 0;
 	int c,d = 0;
@@ -37,7 +47,15 @@ int isFileOK(char *Name2) {
 		return 0;
 	return 1;
 }
-
+/*!
+*	\brief Function that loads the map from file with the name Name2
+*	\param mario - Adress of Mario charatcer/player
+*	\param map - Address of map structure on which the game is played
+*	\param Name2 - Name of file 
+*	\param block_Texture - Adress of matrix of animations
+*	\param renderer - Adress of SDL renderer the game is using
+*	\return Adress to Map struct
+*/
 Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
 	map = malloc(sizeof(Map));
 	FILE *saved = fopen(Name2, "r");
@@ -285,14 +303,6 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 			}
 		}
 	}
-	/*
-	for (i = 0; i < MAP_HEIGHT; i++) {
-		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
-			fscanf(saved, "%d", &map->map_Matrix[i][j]);
-			XOR = XOR ^ map->map_Matrix[i][j];
-		}
-	}
-	*/
 	fscanf(saved, "%d", &map->x_score);
 	XOR = XOR ^ map->x_score;
 	fscanf(saved, "%d", &map->score);
@@ -305,7 +315,15 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 	fclose(saved);
 	return map;
 }
-
+/*!
+*	\brief Function that loads struct mario(player) from file with the name Name2
+*	\param mario - Adress of Mario charatcer/player
+*	\param map - Address of map structure on which the game is played
+*	\param Name2 - Name of file
+*	\param block_Texture - Adress of matrix of animations
+*	\param renderer - Adress of SDL renderer the game is using
+*	\return Adress to Mario struct
+*/
 Mario* loadMario(Mario *mario, Map *mapa, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
 	mario = malloc(sizeof(Mario));
 	Map *map = malloc(sizeof(Map));
@@ -553,14 +571,6 @@ Mario* loadMario(Mario *mario, Map *mapa, char *Name2, SDL_Texture *block_Textur
 			}
 		}
 	}
-	/*
-	for (i = 0; i < MAP_HEIGHT; i++) {
-		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
-			fscanf(saved, "%d", &map->map_Matrix[i][j]);
-			XOR = XOR ^ map->map_Matrix[i][j];
-		}
-	}
-	*/
 	fscanf(saved, "%d", &map->x_score);
 	XOR = XOR ^ map->x_score;
 	fscanf(saved, "%d", &map->score);
@@ -788,7 +798,13 @@ Mario* loadMario(Mario *mario, Map *mapa, char *Name2, SDL_Texture *block_Textur
 	fclose(saved);
 	return mario;
 }
-
+/*!
+*	\brief Function that saves and writes the current state of game in file "save.txt"
+*	\param mario - Adress of Mario charatcer/player
+*	\param map - Address of map structure on which the game is played
+*	\param Name2 - Name of file
+*	\return None
+*/
 void saveGame(Mario *mario, Map *map, char *Name2) {
 	int i, j, n, XOR = 0,counter=0;
 	FILE *saved = fopen(Name2, "w");
@@ -1413,6 +1429,7 @@ extern int backFromBlack;
 *	\param mario Address of active Mario struct
 *	\param new Code for new game <---------------------------
 *	\param demo if == 1 it will play demo game, otherwise it will play normal game
+*	\param Name2 name of the file for Saving/Loading game
 *	\return returns 0
 */
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo,char *Name2) {
