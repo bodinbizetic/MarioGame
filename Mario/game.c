@@ -21,30 +21,30 @@ int isFileOK(char *Name2) {
 	int brojac = 0;
 	FILE *saved = fopen(Name2, "r");
 	fseek(saved, 0, SEEK_SET);
-	while ( (c=fscanf(saved, "%d ", &d)) != 0 && c!=EOF) {
-		XOR_2 ^= d;
+	while ( fscanf(saved, "%d", &d) >0) {
+		XOR_2 ^= f;
 		brojac++;
 		f = e;
 		e = d;
 	}
+	fclose(saved);
 	if (e == XOR_2 && f == brojac)
-		return 1;
-	return 0;
+		return 0;
+	return 1;
 }
 
 Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
-	mario = malloc(sizeof(Mario));
 	map = malloc(sizeof(Map));
 	FILE *saved = fopen(Name2, "r");
 	fseek(saved, 0, SEEK_SET);
 	int i, j, n, m, XOR = 0, XOR_IN;
 	if (saved == NULL)
 		return 0;
-	fscanf(saved, "%d ", &n);
+	fscanf(saved, "%d", &n);
 	XOR ^= n;
 	for (i = 0; i < n; i++) {
-		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag)
-			fscanf(saved, "%d ", &m);
+		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag || i== shroom)
+			fscanf(saved, "%d", &m);
 		else
 			m = 0;
 		XOR ^= m;
@@ -52,44 +52,44 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 		for (j = 0; j < m; j++) {
 			if (i == ground) {
 				Ground *temp = malloc(sizeof(Ground));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
 				map->ai_Matrix[ground][j] = temp;
 			}
 			if (i == basic) {
 				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->newCordinate.y);
+				fscanf(saved, "%d", &temp->newCordinate.y);
 				XOR ^= temp->newCordinate.y;
 
 				map->ai_Matrix[basic][j] = temp;
 			}
 			if (i == question) {
 				ai_Question *temp = malloc(sizeof(ai_Question));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->storage);
+				fscanf(saved, "%d", &temp->storage);
 				XOR ^= temp->storage;
-				fscanf(saved, "%d ", &temp->animation_Stage);
+				fscanf(saved, "%d", &temp->animation_Stage);
 				XOR ^= temp->animation_Stage;
 
 				temp->animation[0] = block_Texture[question][0];
@@ -99,18 +99,21 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 			}
 			if (i == hidden) {
 				ai_Hidden *temp = malloc(sizeof(ai_Hidden));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->coins_Left);
+				fscanf(saved, "%d", &temp->coins_Left);
 				XOR ^= temp->coins_Left;
-				fscanf(saved, "%d ", &temp->animation_Stage);
+				fscanf(saved, "%d", &temp->animation_Stage);
 				XOR ^= temp->animation_Stage;
+				temp->animation[0] = block_Texture[basic][0];
+				temp->animation[1] = block_Texture[question][1];
+
 				map->ai_Matrix[hidden][j] = temp;
 			}
 			if (i == pipe) {
@@ -139,7 +142,7 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp2->dimension.y;
 				temp2->animation = block_Texture[pipe][1];
 
-				map->ai_Matrix[pipe][j] = temp;
+				map->ai_Matrix[pipe][j] = temp2;
 
 			}
 			if (i == pikes) {
@@ -152,7 +155,9 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-
+				temp->animation[0] = block_Texture[pikes][0];
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
 				map->ai_Matrix[pikes][j] = temp;
 			}
 			if (i == turtle) {
@@ -165,15 +170,20 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->type = 1;
-				temp->speed.x = TURTLE_SPEED;
-				temp->speed.y = 0;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				for (int k = 0; k < 5; k++)
 					temp->animation[k] = block_Texture[turtle][k];
-				temp->time = 0;
-
 				map->ai_Matrix[turtle][j] = temp;
 			}
 			if (i == devil) {
@@ -186,15 +196,20 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->type = 1;
-				temp->speed.x = DEVIL_SPEED;
-				temp->speed.y = 0;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				for (int k = 0; k < 3; k++)
 					temp->animation[k] = block_Texture[devil][k];
-				temp->time = 0;
-
 				map->ai_Matrix[devil][j] = temp;
 			}
 			if (i == plantie) {
@@ -207,15 +222,23 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->speed.y = -PLANTIE_SPEED;
-				temp->speed.x = 0;
-				temp->timer_Sleep = PLANTIE_SLEEP;
-				temp->additional_Height = 0;
+
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->timer_Sleep);
+				XOR ^= temp->timer_Sleep;
+				fscanf(saved, "%d", &temp->additional_Height);
+				XOR ^= temp->additional_Height;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				temp->animation[0] = block_Texture[plantie][0];
 				temp->animation[1] = block_Texture[plantie][1];
-				temp->time = 0;
 				map->ai_Matrix[plantie][j] = temp;
 			}
 			if (i == flag) {
@@ -226,8 +249,34 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 				XOR ^= temp->coordinate.y;
 				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
+				fscanf(saved, "%d", &temp->dimension.y);
+				XOR ^= temp->dimension.y;
 				temp->animation = block_Texture[flag][0];
 				map->ai_Matrix[flag][j] = temp;
+			}
+			if (i == shroom) {
+				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+				fscanf(saved, "%d", &temp->coordinate.x);
+				XOR ^= temp->coordinate.x;
+				fscanf(saved, "%d", &temp->coordinate.y);
+				XOR ^= temp->coordinate.y;
+				fscanf(saved, "%d", &temp->dimension.x);
+				XOR ^= temp->dimension.x;
+				fscanf(saved, "%d", &temp->dimension.y);
+				XOR ^= temp->dimension.y;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+
+					temp->animation = block_Texture[shroom][0];
+				map->ai_Matrix[shroom][j] = temp;
 			}
 		}
 	}
@@ -239,237 +288,32 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 		}
 	}
 	*/
-	fscanf(saved, "%d\n", &map->x_score);
+	fscanf(saved, "%d", &map->x_score);
 	XOR = XOR ^ map->x_score;
-	fscanf(saved, "%d\n", &map->score);
+	fscanf(saved, "%d", &map->score);
 	XOR = XOR ^ map->score;
-	fscanf(saved, "%d\n", &map->x_passed);
+	fscanf(saved, "%d", &map->x_passed);
 	XOR = XOR ^ map->x_passed;
-	fscanf(saved, "%d\n", &map->timer);
+	fscanf(saved, "%d", &map->timer);
 	XOR = XOR ^ map->timer;
 
-	//Mario load
-	fscanf(saved, "%d\n", &mario->coordinates.x);
-	XOR ^= mario->coordinates.x;
-	fscanf(saved, "%d\n", &mario->coordinates.y);
-	XOR ^= mario->coordinates.y;
-	fscanf(saved, "%d\n", &mario->size.x);
-	XOR ^= mario->size.x;
-	fscanf(saved, "%d\n", &mario->size.y);
-	XOR ^= mario->size.y;
-	fscanf(saved, "%d\n", &mario->speed.x);
-	XOR ^= mario->speed.x;
-	fscanf(saved, "%d\n", &mario->speed.y);
-	XOR ^= mario->speed.y;
-	fscanf(saved, "%d\n", &mario->dimension.x);
-	XOR ^= mario->dimension.x;
-	fscanf(saved, "%d\n", &mario->dimension.y);
-	XOR ^= mario->dimension.y;
-
-	fscanf(saved, "%d\n", &mario->direction);
-	XOR ^= mario->direction;
-	fscanf(saved, "%d\n", &mario->lives);
-	XOR ^= mario->lives;
-	fscanf(saved, "%d\n", &mario->immortality_timer);
-	XOR ^= mario->immortality_timer;
-	fscanf(saved, "%d\n", &mario->projectileTimer);
-	XOR ^= mario->projectileTimer;
-	fscanf(saved, "%d\n", &mario->animation_Stage);
-	XOR ^= mario->animation_Stage;
-	fscanf(saved, "%d\n", &mario->facing);
-	XOR ^= mario->facing;
-	fscanf(saved, "%d\n", &mario->time);
-	XOR ^= mario->time;
-	fscanf(saved, "%d\n", &mario->jump_timer);
-	XOR ^= mario->jump_timer;
-
-	// red mario
-	SDL_Surface *surface = IMG_Load("Slike/marioStandRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/marioMoveRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/marioJumpRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/marioStandLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/marioMoveLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/marioJumpLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[0][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	// green mario
-	surface = IMG_Load("Slike/gmarioStandRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/gmarioMoveRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/gmarioJumpRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/gmarioStandLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/gmarioMoveLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/gmarioJumpLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[1][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	// black mario
-
-	surface = IMG_Load("Slike/bmarioStandRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/bmarioMoveRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/bmarioJumpRight.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/bmarioStandLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/bmarioMoveLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	surface = IMG_Load("Slike/bmarioJumpLeft.png");
-	if (surface == NULL)
-	{
-		printf("%s\n", SDL_GetError());
-		exit(1);
-	}
-	mario->animation[2][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-	//ovo mora jer sam stavio da pise i brojac
-	fscanf(saved, "%d", &XOR_IN);
-	fscanf(saved, "%d", &XOR_IN);
-		/*if (XOR == XOR_IN)
-			return 1;
-		return 0;*/
+	fclose(saved);
 	return map;
 }
 
-Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
+Mario* loadMario(Mario *mario, Map *mapa, char *Name2, SDL_Texture *block_Texture[AI_NUMBER][5], SDL_Renderer *renderer) {
 	mario = malloc(sizeof(Mario));
-	map = malloc(sizeof(Map));
+	Map *map = malloc(sizeof(Map));
 	FILE *saved = fopen(Name2, "r");
 	fseek(saved, 0, SEEK_SET);
 	int i, j, n, m, XOR = 0, XOR_IN;
 	if (saved == NULL)
 		return 0;
-	fscanf(saved, "%d ", &n);
+	fscanf(saved, "%d", &n);
 	XOR ^= n;
 	for (i = 0; i < n; i++) {
-		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i == flag)
-			fscanf(saved, "%d ", &m);
+		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i == flag || i== shroom)
+			fscanf(saved, "%d", &m);
 		else
 			m = 0;
 		XOR ^= m;
@@ -477,44 +321,44 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 		for (j = 0; j < m; j++) {
 			if (i == ground) {
 				Ground *temp = malloc(sizeof(Ground));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
 				map->ai_Matrix[ground][j] = temp;
 			}
 			if (i == basic) {
 				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->newCordinate.y);
+				fscanf(saved, "%d", &temp->newCordinate.y);
 				XOR ^= temp->newCordinate.y;
 
 				map->ai_Matrix[basic][j] = temp;
 			}
 			if (i == question) {
 				ai_Question *temp = malloc(sizeof(ai_Question));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->storage);
+				fscanf(saved, "%d", &temp->storage);
 				XOR ^= temp->storage;
-				fscanf(saved, "%d ", &temp->animation_Stage);
+				fscanf(saved, "%d", &temp->animation_Stage);
 				XOR ^= temp->animation_Stage;
 
 				temp->animation[0] = block_Texture[question][0];
@@ -524,18 +368,21 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 			}
 			if (i == hidden) {
 				ai_Hidden *temp = malloc(sizeof(ai_Hidden));
-				fscanf(saved, "%d ", &temp->coordinate.x);
+				fscanf(saved, "%d", &temp->coordinate.x);
 				XOR ^= temp->coordinate.x;
-				fscanf(saved, "%d ", &temp->coordinate.y);
+				fscanf(saved, "%d", &temp->coordinate.y);
 				XOR ^= temp->coordinate.y;
-				fscanf(saved, "%d ", &temp->dimension.x);
+				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
-				fscanf(saved, "%d ", &temp->dimension.y);
+				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				fscanf(saved, "%d ", &temp->coins_Left);
+				fscanf(saved, "%d", &temp->coins_Left);
 				XOR ^= temp->coins_Left;
-				fscanf(saved, "%d ", &temp->animation_Stage);
+				fscanf(saved, "%d", &temp->animation_Stage);
 				XOR ^= temp->animation_Stage;
+				temp->animation[0] = block_Texture[basic][0];
+				temp->animation[1] = block_Texture[question][1];
+
 				map->ai_Matrix[hidden][j] = temp;
 			}
 			if (i == pipe) {
@@ -564,7 +411,7 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp2->dimension.y;
 				temp2->animation = block_Texture[pipe][1];
 
-				map->ai_Matrix[pipe][j] = temp;
+				map->ai_Matrix[pipe][j] = temp2;
 
 			}
 			if (i == pikes) {
@@ -577,7 +424,9 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-
+				temp->animation[0] = block_Texture[pikes][0];
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
 				map->ai_Matrix[pikes][j] = temp;
 			}
 			if (i == turtle) {
@@ -590,15 +439,20 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->type = 1;
-				temp->speed.x = TURTLE_SPEED;
-				temp->speed.y = 0;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				for (int k = 0; k < 5; k++)
 					temp->animation[k] = block_Texture[turtle][k];
-				temp->time = 0;
-
 				map->ai_Matrix[turtle][j] = temp;
 			}
 			if (i == devil) {
@@ -611,15 +465,20 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->type = 1;
-				temp->speed.x = DEVIL_SPEED;
-				temp->speed.y = 0;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				for (int k = 0; k < 3; k++)
 					temp->animation[k] = block_Texture[devil][k];
-				temp->time = 0;
-
 				map->ai_Matrix[devil][j] = temp;
 			}
 			if (i == plantie) {
@@ -632,15 +491,23 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp->dimension.x;
 				fscanf(saved, "%d", &temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				temp->animation_Stage = 0;
-				temp->isAlive = 1;
-				temp->speed.y = -PLANTIE_SPEED;
-				temp->speed.x = 0;
-				temp->timer_Sleep = PLANTIE_SLEEP;
-				temp->additional_Height = 0;
+
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+				fscanf(saved, "%d", &temp->timer_Sleep);
+				XOR ^= temp->timer_Sleep;
+				fscanf(saved, "%d", &temp->additional_Height);
+				XOR ^= temp->additional_Height;
+				fscanf(saved, "%d", &temp->time);
+				XOR ^= temp->time;
 				temp->animation[0] = block_Texture[plantie][0];
 				temp->animation[1] = block_Texture[plantie][1];
-				temp->time = 0;
 				map->ai_Matrix[plantie][j] = temp;
 			}
 			if (i == flag) {
@@ -651,8 +518,33 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 				XOR ^= temp->coordinate.y;
 				fscanf(saved, "%d", &temp->dimension.x);
 				XOR ^= temp->dimension.x;
+				fscanf(saved, "%d", &temp->dimension.y);
+				XOR ^= temp->dimension.y;
 				temp->animation = block_Texture[flag][0];
 				map->ai_Matrix[flag][j] = temp;
+			}
+			if (i == shroom) {
+				ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+				fscanf(saved, "%d", &temp->coordinate.x);
+				XOR ^= temp->coordinate.x;
+				fscanf(saved, "%d", &temp->coordinate.y);
+				XOR ^= temp->coordinate.y;
+				fscanf(saved, "%d", &temp->dimension.x);
+				XOR ^= temp->dimension.x;
+				fscanf(saved, "%d", &temp->dimension.y);
+				XOR ^= temp->dimension.y;
+				fscanf(saved, "%d", &temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fscanf(saved, "%d", &temp->isAlive);
+				XOR ^= temp->isAlive;
+				fscanf(saved, "%d", &temp->type);
+				XOR ^= temp->type;
+				fscanf(saved, "%d", &temp->speed.x);
+				XOR ^= temp->speed.x;
+				fscanf(saved, "%d", &temp->speed.y);
+				XOR ^= temp->speed.y;
+					temp->animation = block_Texture[shroom][0];
+				map->ai_Matrix[shroom][j] = temp;
 			}
 		}
 	}
@@ -664,48 +556,48 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 		}
 	}
 	*/
-	fscanf(saved, "%d\n", &map->x_score);
+	fscanf(saved, "%d", &map->x_score);
 	XOR = XOR ^ map->x_score;
-	fscanf(saved, "%d\n", &map->score);
+	fscanf(saved, "%d", &map->score);
 	XOR = XOR ^ map->score;
-	fscanf(saved, "%d\n", &map->x_passed);
+	fscanf(saved, "%d", &map->x_passed);
 	XOR = XOR ^ map->x_passed;
-	fscanf(saved, "%d\n", &map->timer);
+	fscanf(saved, "%d", &map->timer);
 	XOR = XOR ^ map->timer;
 
 	//Mario load
-	fscanf(saved, "%d\n", &mario->coordinates.x);
+	fscanf(saved, "%d", &mario->coordinates.x);
 	XOR ^= mario->coordinates.x;
-	fscanf(saved, "%d\n", &mario->coordinates.y);
+	fscanf(saved, "%d", &mario->coordinates.y);
 	XOR ^= mario->coordinates.y;
-	fscanf(saved, "%d\n", &mario->size.x);
+	fscanf(saved, "%d", &mario->size.x);
 	XOR ^= mario->size.x;
-	fscanf(saved, "%d\n", &mario->size.y);
+	fscanf(saved, "%d", &mario->size.y);
 	XOR ^= mario->size.y;
-	fscanf(saved, "%d\n", &mario->speed.x);
+	fscanf(saved, "%d", &mario->speed.x);
 	XOR ^= mario->speed.x;
-	fscanf(saved, "%d\n", &mario->speed.y);
+	fscanf(saved, "%d", &mario->speed.y);
 	XOR ^= mario->speed.y;
-	fscanf(saved, "%d\n", &mario->dimension.x);
+	fscanf(saved, "%d", &mario->dimension.x);
 	XOR ^= mario->dimension.x;
-	fscanf(saved, "%d\n", &mario->dimension.y);
+	fscanf(saved, "%d", &mario->dimension.y);
 	XOR ^= mario->dimension.y;
 
-	fscanf(saved, "%d\n", &mario->direction);
+	fscanf(saved, "%d", &mario->direction);
 	XOR ^= mario->direction;
-	fscanf(saved, "%d\n", &mario->lives);
+	fscanf(saved, "%d", &mario->lives);
 	XOR ^= mario->lives;
-	fscanf(saved, "%d\n", &mario->immortality_timer);
+	fscanf(saved, "%d", &mario->immortality_timer);
 	XOR ^= mario->immortality_timer;
-	fscanf(saved, "%d\n", &mario->projectileTimer);
+	fscanf(saved, "%d", &mario->projectileTimer);
 	XOR ^= mario->projectileTimer;
-	fscanf(saved, "%d\n", &mario->animation_Stage);
+	fscanf(saved, "%d", &mario->animation_Stage);
 	XOR ^= mario->animation_Stage;
-	fscanf(saved, "%d\n", &mario->facing);
+	fscanf(saved, "%d", &mario->facing);
 	XOR ^= mario->facing;
-	fscanf(saved, "%d\n", &mario->time);
+	fscanf(saved, "%d", &mario->time);
 	XOR ^= mario->time;
-	fscanf(saved, "%d\n", &mario->jump_timer);
+	fscanf(saved, "%d", &mario->jump_timer);
 	XOR ^= mario->jump_timer;
 
 	// red mario
@@ -873,12 +765,22 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 	}
 	mario->animation[2][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
+
+	extern sound, marioCharacter, selectedBackground, backFromBlack;
+	fscanf(saved, "%d ", &sound);
+	XOR ^= sound;
+	fscanf(saved, "%d ", &marioCharacter);
+	XOR ^= marioCharacter;
+	fscanf(saved, "%d ", &selectedBackground);
+	XOR ^= selectedBackground;
+	fscanf(saved, "%d ", &backFromBlack);
+	XOR ^= backFromBlack;
+
 	//ovo mora jer sam stavio da pise i brojac
 	fscanf(saved, "%d", &XOR_IN);
 	fscanf(saved, "%d", &XOR_IN);
-	/*if (XOR == XOR_IN)
-		return 1;
-	return 0;*/
+
+	fclose(saved);
 	return mario;
 }
 
@@ -890,7 +792,7 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 	counter++;
 	XOR ^= AI_NUMBER;
 	for (i = 0; i < AI_NUMBER; i++) {
-		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag) {
+		if (i == ground || i == basic || i == question || i == hidden || i == pipe || i == pikes || i == turtle || i == devil || i == plantie || i==flag || i== shroom) {
 			n = map->ai_counter[i];
 			fprintf(saved, "%d\n", n);
 			counter++;
@@ -998,7 +900,9 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				counter += 4;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				counter += 5;
 				fprintf(saved, "\n");
 			}
 			if (i == turtle) {
@@ -1011,7 +915,19 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				counter += 4;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "%d ", temp->isAlive);
+				XOR ^= temp->isAlive;
+				fprintf(saved, "%d ", temp->type);
+				XOR ^= temp->type;
+				fprintf(saved, "%d ", temp->speed.x);
+				XOR ^= temp->speed.x;
+				fprintf(saved, "%d ", temp->speed.y);
+				XOR ^= temp->speed.y;
+				fprintf(saved, "%d ", temp->time);
+				XOR ^= temp->time;
+				counter += 10;
 				fprintf(saved, "\n");
 
 			}
@@ -1025,7 +941,19 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				counter += 4;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "%d ", temp->isAlive);
+				XOR ^= temp->isAlive;
+				fprintf(saved, "%d ", temp->type);
+				XOR ^= temp->type;
+				fprintf(saved, "%d ", temp->speed.x);
+				XOR ^= temp->speed.x;
+				fprintf(saved, "%d ", temp->speed.y);
+				XOR ^= temp->speed.y;
+				fprintf(saved, "%d ", temp->time);
+				XOR ^= temp->time;
+				counter += 10;
 				fprintf(saved, "\n");
 
 			}
@@ -1039,7 +967,23 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 				XOR ^= temp->dimension.x;
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
-				counter += 4;
+
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "%d ", temp->isAlive);
+				XOR ^= temp->isAlive;
+				fprintf(saved, "%d ", temp->speed.x);
+				XOR ^= temp->speed.x;
+				fprintf(saved, "%d ", temp->speed.y);
+				XOR ^= temp->speed.y;
+				fprintf(saved, "%d ", temp->timer_Sleep);
+				XOR ^= temp->timer_Sleep;
+				fprintf(saved, "%d ", temp->additional_Height);
+				XOR ^= temp->additional_Height;
+				fprintf(saved, "%d ", temp->time);
+				XOR ^= temp->time;
+
+				counter += 11;
 				fprintf(saved, "\n");
 
 			}
@@ -1054,6 +998,29 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 				fprintf(saved, "%d ", temp->dimension.y);
 				XOR ^= temp->dimension.y;
 				counter += 4;
+				fprintf(saved, "\n");
+			}
+			if (i == shroom) {
+				ai_Shroom *temp= map->ai_Matrix[shroom][j];
+				fprintf(saved, "%d ", temp->coordinate.x);
+				XOR ^= temp->coordinate.x;
+				fprintf(saved, "%d ", temp->coordinate.y);
+				XOR ^= temp->coordinate.y;
+				fprintf(saved, "%d ", temp->dimension.x);
+				XOR ^= temp->dimension.x;
+				fprintf(saved, "%d ", temp->dimension.y);
+				XOR ^= temp->dimension.y;
+				fprintf(saved, "%d ", temp->animation_Stage);
+				XOR ^= temp->animation_Stage;
+				fprintf(saved, "%d ", temp->isAlive);
+				XOR ^= temp->isAlive;
+				fprintf(saved, "%d ", temp->type);
+				XOR ^= temp->type;
+				fprintf(saved, "%d ", temp->speed.x);
+				XOR ^= temp->speed.x;
+				fprintf(saved, "%d ", temp->speed.y);
+				XOR ^= temp->speed.y;
+				counter += 9;
 				fprintf(saved, "\n");
 			}
 		}
@@ -1114,11 +1081,22 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 	fprintf(saved, "%d\n", mario->jump_timer);
 	XOR ^= mario->jump_timer;
 	counter += 8;
+	extern sound,marioCharacter,selectedBackground,backFromBlack;
+	fprintf(saved, "%d ", sound);
+	XOR ^= sound;
+	fprintf(saved, "%d ", marioCharacter);
+	XOR ^= marioCharacter;
+	fprintf(saved, "%d ", selectedBackground);
+	XOR ^= selectedBackground;
+	fprintf(saved, "%d ", backFromBlack);
+	XOR ^= backFromBlack;
+	counter += 4;
 	/*SDL_Texture *animation[3][2][3];*/
 	counter += 2;
 	fprintf(saved, "%d ", saved);
 	XOR ^= counter;
 	fprintf(saved, "%d ", XOR);
+	fclose(saved);
 }
 
 
@@ -1823,6 +1801,7 @@ mapa = NULL;
 if (New == 0 && isFileOK(Name2) == 1) {
 	mapa = loadMap(probni_mario, mapa, Name2, block_Texture, renderer);
 	probni_mario = loadMario(probni_mario, mapa, Name2, block_Texture, renderer);
+
 }
 else
 mapa = initMap(block_Texture, demo);
@@ -2009,15 +1988,19 @@ mapa = initMap(block_Texture, demo);
 			SDL_DestroyTexture(death);
 			extern FinalScoreTextures finalScoreTextureManager;
 			destroyFinalScoreTextures(finalScoreTextureManager);
+			// update highscore.txt
+			updateHighscore(mapa->score + mapa->x_score / 10, name, a);
 		}
 	}
 
 	// free memory 
+
+	// free mario textures
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
-	// free texture
+	// free ai and block textures
 	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == devil) {
 			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
@@ -2025,55 +2008,87 @@ mapa = initMap(block_Texture, demo);
 		else if (i == turtle) {
 			for (int j = 0; j < 5; j++) SDL_DestroyTexture(block_Texture[i][j]);
 		}
+		else if (i == plantie) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == shroom) {
+			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == basic) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == ground) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == question) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == pipe) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == pikes) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == projectile) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == flag) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == sky) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
 	}
-	SDL_DestroyTexture(block_Texture[sky][0]);
-	SDL_DestroyTexture(block_Texture[sky][1]);
-	SDL_DestroyTexture(block_Texture[ground][0]);
-	SDL_DestroyTexture(block_Texture[basic][0]); // ovo ubaciti gore u for kad se naprave svi blokovi i ai-ovi
-	SDL_DestroyTexture(block_Texture[question][0]);
-	SDL_DestroyTexture(block_Texture[shroom][0]);
+	//SDL_DestroyTexture(block_Texture[sky][0]);
+	//SDL_DestroyTexture(block_Texture[sky][1]);
+	//SDL_DestroyTexture(block_Texture[ground][0]);
+	//SDL_DestroyTexture(block_Texture[basic][0]); // ovo ubaciti gore u for kad se naprave svi blokovi i ai-ovi
+	//SDL_DestroyTexture(block_Texture[question][0]);
+	/*SDL_DestroyTexture(block_Texture[shroom][0]);
 	SDL_DestroyTexture(block_Texture[shroom][1]);
-	SDL_DestroyTexture(block_Texture[shroom][2]);
-	SDL_DestroyTexture(block_Texture[pipe][0]);
-	SDL_DestroyTexture(block_Texture[pipe][1]);
-	SDL_DestroyTexture(block_Texture[pikes][0]);
-	SDL_DestroyTexture(block_Texture[flag][0]);
-	SDL_DestroyTexture(block_Texture[projectile][0]);
+	SDL_DestroyTexture(block_Texture[shroom][2]);*/
+	/*SDL_DestroyTexture(block_Texture[pipe][0]);
+	SDL_DestroyTexture(block_Texture[pipe][1]);*/
+	//SDL_DestroyTexture(block_Texture[pikes][0]);
+	/*SDL_DestroyTexture(block_Texture[flag][0]);
+	SDL_DestroyTexture(block_Texture[projectile][0]);*/
 
 
-	// free ai - ai se freejijue kad se oslobadja mapa, nema potrebe opet
-	/*for (int i = 0; i < AI_NUMBER; i++) {
+	// free ai
+	
+	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == ground) {
-			for (int j = 0; j < map->ai_counter[ground]; j++) free(map->ai_Matrix[ground][j]);
+			for (int j = 0; j < mapa->ai_counter[ground]; j++) free(mapa->ai_Matrix[ground][j]); 
 		}
 		if (i == basic) {
-			for (int j = 0; j < map->ai_counter[basic]; j++) free(map->ai_Matrix[basic][j]);
+			for (int j = 0; j < mapa->ai_counter[basic]; j++) free(mapa->ai_Matrix[basic][j]);
 		}
 		if (i == devil) {
-			for (int j = 0; j < map->ai_counter[devil]; j++) free(map->ai_Matrix[devil][j]);
+			for (int j = 0; j < mapa->ai_counter[devil]; j++) free(mapa->ai_Matrix[devil][j]);
 		}
 		if (i == turtle) {
-			for (int j = 0; j < map->ai_counter[turtle]; j++) free(map->ai_Matrix[turtle][j]);
+			for (int j = 0; j < mapa->ai_counter[turtle]; j++) free(mapa->ai_Matrix[turtle][j]);
 		}
 		if (i == pipe) {
-			for (int j = 0; j < map->ai_counter[pipe]; j++) free(map->ai_Matrix[pipe][j]);
+			for (int j = 0; j < mapa->ai_counter[pipe]; j++) free(mapa->ai_Matrix[pipe][j]);
 		}
 		if (i == plantie) {
-			for (int j = 0; j < map->ai_counter[plantie]; j++) free(map->ai_Matrix[plantie][j]);
+			for (int j = 0; j < mapa->ai_counter[plantie]; j++) free(mapa->ai_Matrix[plantie][j]);
 		}
 		if (i == question) {
-			for (int j = 0; j < map->ai_counter[question]; j++) free(map->ai_Matrix[question][j]);
+			for (int j = 0; j < mapa->ai_counter[question]; j++) free(mapa->ai_Matrix[question][j]);
 		}
 		if (i == hidden) {
-			for (int j = 0; j < map->ai_counter[hidden]; j++) free(map->ai_Matrix[hidden][j]);
+			for (int j = 0; j < mapa->ai_counter[hidden]; j++) free(mapa->ai_Matrix[hidden][j]);
 		}
 		if (i == pikes) {
-			for (int j = 0; j < map->ai_counter[pikes]; j++) free(map->ai_Matrix[pikes][j]);
+			for (int j = 0; j < mapa->ai_counter[pikes]; j++) free(mapa->ai_Matrix[pikes][j]);
 		}
 		if (i == flag) {
-			for (int j = 0; j < map->ai_counter[flag]; j++) free(map->ai_Matrix[flag][j]);
+			for (int j = 0; j < mapa->ai_counter[flag]; j++) free(mapa->ai_Matrix[flag][j]);
 		}
-	}*/
+	}
+	
 	// free mario
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);

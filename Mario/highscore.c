@@ -1,6 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <SDL_ttf.h>
 
 #include "map.h"
@@ -149,6 +151,55 @@ void destroyFinalScoreTextures() {
 	SDL_DestroyTexture(finalScoreTextureManager.typeInYourNameTexture);
 }
 
+void updateHighscore(int score, char *name, int a)
+{
+	if (a)
+	{
+		FILE *provera = fopen("Highscore.txt", "r");
+		if (provera == NULL) {
+			printf("Greska pri otvaranju datoteke!\n");
+			exit(EXIT_FAILURE);
+		}
+		int red;
+		char ime[5][20];
+		int poeni[5];
+		for (int i = 0; i < 5; i++) {
+			fscanf(provera, "%d %s %d", &red, ime[i], &poeni[i]);
+		}
+		int index = 5;
+		for (int i = 0; i < 5; i++) {
+			if (score > poeni[i]) {
+				index = i;
+				break;
+			}
+		}
+		fclose(provera);
+		// <5 treba azuriranje
+		if (index < 5)
+		{
+			if (strlen(name) == 0) strcpy(name, "noName\0");
+			for (int i = 4; i > index; i--) {
+				poeni[i] = poeni[i - 1];
+				strcpy(ime[i], ime[i - 1]);
+			}
+			poeni[index] = score;
+			strcpy(ime[index], name);
+
+			// upis novih u datoteku
+			FILE *upis = fopen("Highscore.txt", "w");
+			if (upis == NULL) {
+				strerror(errno);
+				exit(EXIT_FAILURE);
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				fprintf(upis, "%d %s %d\n", i + 1, ime[i], poeni[i]);
+			}
+
+			fclose(upis);
+		}
+	}
+}
 
 int showHighscore(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {
@@ -172,12 +223,12 @@ int showHighscore(SDL_Renderer *renderer) {
 		printf_s("TTF_OpenFont: %s\n", TTF_GetError());
 	}
 
-	FILE *load;
-	fopen_s(&load, "Highscore.txt", "r");
+	FILE *load=fopen("Highscore.txt","r");
 	for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
 		fgets(text[i], MAX, load);
 	}
 
+	fclose(load);
 	// rect for scores and players
 	SDL_Rect drawScore[NUMBER_OF_BEST_PLAYERS];
 	for (int i = 0; i < NUMBER_OF_BEST_PLAYERS; i++) {
