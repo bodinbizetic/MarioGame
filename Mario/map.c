@@ -6,10 +6,17 @@
 #include "game.h"
 #include "map_Segments.h"
 #include "camera.h"
-/*!
-*		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
+
+/*!		\file map.c
+*		\brief Contains functions that generate maps, demo map and AIs
 */
 
+/*!
+*		\brief Initializes Map structure, fills it with "sky" and adds one leyer of floor
+*		\param blockTextures SDL_Textures for all AIs
+*		\param demo If demo == 1, function will generate demo map, otherwise function will generate regular map
+*		\return returns Address of generated map
+*/
 Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 	Map *map = malloc(sizeof(Map));
 	if (!map)
@@ -125,7 +132,7 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 				temp->dimension = blok;
 				temp->coins_Left = 10;
 				temp->animation_Stage = 0;
-				temp->animation[0] = block_Texture[basic][0];
+				temp->animation[0] = block_Texture[ground][0];
 				temp->animation[1] = block_Texture[question][1];
 				map->ai_Matrix[hidden][map->ai_counter[hidden]++] = temp;
 			}
@@ -161,6 +168,14 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 	return map;
 }
 
+/*!
+*		\brief Spawns Shroom ai
+*		\param map Address of map structure on which the game is played
+*		\param coord Coordinates of location where Shroom will be spawned
+*		\param blockTextures SDL_Textures for all AIs
+*		\param lifes if == 1 will spawn red Shroom, otherwise will spawn green
+*		\return returns 0
+*/
 int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5],int lifes) {
 	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
 	temp->coordinate = coord;
@@ -181,6 +196,15 @@ int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5
 	return 0;
 }
 
+/*!
+*		\brief Spawns Shroom ai
+*		\param map Address of map structure on which the game is played
+*		\param coord Coordinates of object which spawns the projectile
+*		\param orientation Direction at which the projectile will go
+*		\param speed Speed at wich the projectile is spawned
+*		\param blockTextures SDL_Textures for all AIs
+*		\return returns 0
+*/
 int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed,SDL_Texture *block_Texture[AI_NUMBER][5]) {
 	ai_Projectile *temp = malloc(sizeof(ai_Projectile));
 	temp->coordinate = coord;
@@ -208,6 +232,7 @@ int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5])
 	map->ai_Matrix[shroom][map->ai_counter[shroom]++] = temp;
 	return 0;
 }
+
 
 int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation)
 {
@@ -240,9 +265,10 @@ int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation)
 }*/
 /*!
 *		\brief Function that copies map segment into map
-*		\param Map map Addres of map that containts map_Matrix that is destination
+*		\param map Address of map structure on which the game is played
 *		\param int x Coordinate of top most left corner
 *		\param int seg_id Id of source matrix in map_Segment matrix
+*		\return returns 0
 */
 int copy_Map(Map *map, int x, int seg_id) {
 	for (int i = 0; i < MAP_HEIGHT; i++)
@@ -252,8 +278,8 @@ int copy_Map(Map *map, int x, int seg_id) {
 }
 
 /*!
-*		\brief Function that generetes whole
-*		\param Map map Addres of map that containts map_Matrix that needs to be generated
+*		\brief Function that generetes whole map
+*		\param map Address of map structure on which the game is played
 */
 int generate_Map(Map *map) {
 	int newSeg[MAP_SEGMENTS_PREDEFINED_NUMBER] = { 0 };
@@ -274,6 +300,10 @@ int generate_Map(Map *map) {
 
 }
 
+/*!
+*		\brief Function that generetes whole demo map
+*		\param map Address of map structure on which the game is played
+*/
 int generate_Demo_Map(Map *map) {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 		for (int j = 0; j < MAP_WIDTH; j++)
@@ -292,9 +322,9 @@ int generate_Demo_Map(Map *map) {
 *		\param Map map Addres of map
 */
 void  destroyMap(Map *map) {
-	/*for (int i = 0; i < 17; i++)
+	for (int i = 0; i < 17; i++)
 		for (int j = 0; j < map->ai_counter[i]; j++)
 			if (map->ai_Matrix[i][j]!=NULL)
-				free(map->ai_Matrix[i][j]);*/
+				free(map->ai_Matrix[i][j]);
 	free(map);
 }

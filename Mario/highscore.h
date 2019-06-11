@@ -13,5 +13,6 @@ int showHighscore(SDL_Renderer *renderer);
 void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *renderer);
 void initFinalScoreTextures(SDL_Renderer *renderer);
 void destroyFinalScoreTextures();
+void updateHighscore(int score, char *name, int a);
 
 #endif
