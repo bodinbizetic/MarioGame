@@ -1988,7 +1988,6 @@ mapa = initMap(block_Texture, demo);
 			SDL_DestroyTexture(death);
 			extern FinalScoreTextures finalScoreTextureManager;
 			destroyFinalScoreTextures(finalScoreTextureManager);
-			printf("%d", mapa->score + mapa->x_score / 10);
 			// update highscore.txt
 			updateHighscore(mapa->score + mapa->x_score / 10, name, a);
 		}
