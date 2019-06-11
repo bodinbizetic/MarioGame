@@ -4,15 +4,51 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
+/*!	\file main_menu.c
+*	\brief Contains declarations and constants for main_menu
+*/
+
+/*!	
+*	\brief Width of the window
+*/
 #define SCREEN_WIDTH 1024
+
+/*!
+*	\brief Height of the window
+*/
 #define SCREEN_HEIGHT 720
 
+/*!
+*	\brief Width of the menu
+*/
 #define MENU_WIDTH 600
+
+/*!
+*	\brief Height of the menu
+*/
 #define MENU_HEIGHT 650
+
+/*!
+*	\brief Numver of menu options
+*/
 #define NUMBER_OF_OPTIONS 6
+
+/*!
+*	\brief Height of the single option
+*/
 #define OPTION_HEIGHT 80
+
+/*!
+*	\brief Width of the single option
+*/
 #define OPTION_WIDTH 300
-//Vraca koju opciju smo uzeli,da bismo to mogli da koristimo u main.c
+
+/*!
+*	\brief Function that show main menu on the screen
+*	\param window Address of current active SDL_Window
+*	\param renderer Address of main SDL_Renderer
+*	\return returns id of selected menu option
+*/
 int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 	//Init TTF
 	if (TTF_Init() < 0) {
