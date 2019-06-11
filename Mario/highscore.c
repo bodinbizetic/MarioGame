@@ -210,7 +210,6 @@ int scoreOK()
 *		\param a check if the escape button is pressed and if it is pressed then dont update highscore text document 
 *		\return returns 0
 */
-
 void updateHighscore(int score, char *name, int a)
 {
 	if (a)
@@ -288,7 +287,6 @@ void updateHighscore(int score, char *name, int a)
 *		\param renderer for drawing on screen
 *		\return returns 0
 */
-
 int showHighscore(SDL_Renderer *renderer) {
 	if (scoreOK() == 0) {
 		FILE *ispis = fopen("Highscore.txt", "w");

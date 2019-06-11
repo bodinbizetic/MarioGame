@@ -1,0 +1,270 @@
+\hypertarget{game_8h}{}\section{Mario/game.h File Reference}
+\label{game_8h}\index{Mario/game.h@{Mario/game.h}}
+
+
+Contains declarations and constants for \mbox{\hyperlink{game_8c}{game.\+c}}.  
+
+
+{\ttfamily \#include $<$S\+D\+L.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L\+\_\+ttf.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}mario.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}map.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ai.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}all.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{game_8h_a7f5c227d7e08a0003c91c3d25feba26e}\label{game_8h_a7f5c227d7e08a0003c91c3d25feba26e}} 
+\#define {\bfseries P\+O\+S\+I\+T\+I\+O\+NS}~3
+\item 
+\mbox{\Hypertarget{game_8h_af9369dbf5a117338d8478c511337f772}\label{game_8h_af9369dbf5a117338d8478c511337f772}} 
+\#define \mbox{\hyperlink{game_8h_af9369dbf5a117338d8478c511337f772}{S\+C\+O\+R\+E\+\_\+\+C\+O\+EF}}~10
+\begin{DoxyCompactList}\small\item\em Number which scales x\+\_\+score. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{game_8h_a257b53ef79cd406cce03a687119660cb}\label{game_8h_a257b53ef79cd406cce03a687119660cb}} 
+enum {\bfseries colide\+\_\+id} \{ \newline
+{\bfseries N\+O\+\_\+\+C\+O\+L\+L\+I\+S\+I\+ON}, 
+{\bfseries gore}, 
+{\bfseries dole}, 
+{\bfseries levo}, 
+\newline
+{\bfseries desno}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{game_8h_a13e2a8041c101f6596530216822eaa8d}{draw\+Screen}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, S\+D\+L\+\_\+\+Texture $\ast$blok\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Function that draws blocks on screen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game_8h_a1596e0dbb7471af0874371e7467cec5c}{Game}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$\mbox{\hyperlink{struct_mario}{Mario}}, int New, int demo, char $\ast$Name2)
+\begin{DoxyCompactList}\small\item\em Function that draws blocks on screen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game_8h_ad6f295cb8a1b6e8cb991896f402ec96c}{collision}} (\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim2, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord2, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed2)
+\begin{DoxyCompactList}\small\item\em Function that detects collision in next frame. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game_8h_a48468ead8daa0341ffa56f0ceeebc24c}{simple\+Collision}} (\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim2, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord2, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed1, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed2)
+\begin{DoxyCompactList}\small\item\em Function that detects overlapping between objects. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game_8h_a3ef8644376c1ff6e0ee7d9554e224bad}{save\+Game}} (\mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, char $\ast$Name2)
+\begin{DoxyCompactList}\small\item\em Function that saves and writes the current state of game in file \char`\"{}save.\+txt\char`\"{}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_map}{Map}} $\ast$ \mbox{\hyperlink{game_8h_a49e2651f8d19a4c73bd025f007dd17cb}{load\+Map}} (\mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, char $\ast$Name2, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]}, S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em Function that loads the map from file with the name Name2. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_mario}{Mario}} $\ast$ \mbox{\hyperlink{game_8h_a948e5ef973f8334f74a755d08ed5949a}{load\+Mario}} (\mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, char $\ast$Name2, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]}, S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em Function that loads struct mario(player) from file with the name Name2. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{game_8h_a0ff53547f1a2b95db5de7a5bba0a4917}{is\+File\+OK}} (char $\ast$Name2)
+\begin{DoxyCompactList}\small\item\em Function that checks if file \char`\"{}save.\+txt\char`\"{} is corrupted. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{game_8h_a15735181a668cd998135fcab07c474de}\label{game_8h_a15735181a668cd998135fcab07c474de}} 
+\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} {\bfseries blok}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains declarations and constants for \mbox{\hyperlink{game_8c}{game.\+c}}. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{game_8h_ad6f295cb8a1b6e8cb991896f402ec96c}\label{game_8h_ad6f295cb8a1b6e8cb991896f402ec96c}} 
+\index{game.h@{game.h}!collision@{collision}}
+\index{collision@{collision}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{collision()}{collision()}}
+{\footnotesize\ttfamily int collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim2,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord2,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed2 }\end{DoxyParamCaption})}
+
+
+
+Function that detects collision in next frame. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dim1} & Dimension of the first object \\
+\hline
+{\em coord1} & Coordinates of the first object \\
+\hline
+{\em dim2} & Dimension of the second object \\
+\hline
+{\em coord2} & Coordinates of the second object \\
+\hline
+{\em speed1} & Speed vector of the first object \\
+\hline
+{\em speed2} & Speed vector of the second object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+In respect to the first object returns 2 for bottom collision, 1 for top collision, 3 for right collision, 4 for left collision and 0 for no collision 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a13e2a8041c101f6596530216822eaa8d}\label{game_8h_a13e2a8041c101f6596530216822eaa8d}} 
+\index{game.h@{game.h}!drawScreen@{drawScreen}}
+\index{drawScreen@{drawScreen}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{drawScreen()}{drawScreen()}}
+{\footnotesize\ttfamily void draw\+Screen (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Function that draws blocks on screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{game_8h_a1596e0dbb7471af0874371e7467cec5c}\label{game_8h_a1596e0dbb7471af0874371e7467cec5c}} 
+\index{game.h@{game.h}!Game@{Game}}
+\index{Game@{Game}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{Game()}{Game()}}
+{\footnotesize\ttfamily int Game (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{int}]{New,  }\item[{int}]{demo,  }\item[{char $\ast$}]{Name2 }\end{DoxyParamCaption})}
+
+
+
+Function that draws blocks on screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em new} & Code for new game $<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- \\
+\hline
+{\em demo} & if == 1 it will play demo game, otherwise it will play normal game \\
+\hline
+{\em Name2} & name of the file for Saving/\+Loading game \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a0ff53547f1a2b95db5de7a5bba0a4917}\label{game_8h_a0ff53547f1a2b95db5de7a5bba0a4917}} 
+\index{game.h@{game.h}!isFileOK@{isFileOK}}
+\index{isFileOK@{isFileOK}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{isFileOK()}{isFileOK()}}
+{\footnotesize\ttfamily int is\+File\+OK (\begin{DoxyParamCaption}\item[{char $\ast$}]{Name2 }\end{DoxyParamCaption})}
+
+
+
+Function that checks if file \char`\"{}save.\+txt\char`\"{} is corrupted. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & of the file that is beeing checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if file is non-\/corrupted,0 otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a49e2651f8d19a4c73bd025f007dd17cb}\label{game_8h_a49e2651f8d19a4c73bd025f007dd17cb}} 
+\index{game.h@{game.h}!loadMap@{loadMap}}
+\index{loadMap@{loadMap}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{loadMap()}{loadMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_map}{Map}}$\ast$ load\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{char $\ast$}]{Name2,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]},  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer }\end{DoxyParamCaption})}
+
+
+
+Function that loads the map from file with the name Name2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & -\/ Adress of \mbox{\hyperlink{struct_mario}{Mario}} charatcer/player \\
+\hline
+{\em map} & -\/ Address of map structure on which the game is played \\
+\hline
+{\em Name2} & -\/ Name of file \\
+\hline
+{\em block\+\_\+\+Texture} & -\/ Adress of matrix of animations \\
+\hline
+{\em renderer} & -\/ Adress of S\+DL renderer the game is using \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Adress to \mbox{\hyperlink{struct_map}{Map}} struct 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a948e5ef973f8334f74a755d08ed5949a}\label{game_8h_a948e5ef973f8334f74a755d08ed5949a}} 
+\index{game.h@{game.h}!loadMario@{loadMario}}
+\index{loadMario@{loadMario}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{loadMario()}{loadMario()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_mario}{Mario}}$\ast$ load\+Mario (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{mapa,  }\item[{char $\ast$}]{Name2,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]},  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer }\end{DoxyParamCaption})}
+
+
+
+Function that loads struct mario(player) from file with the name Name2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & -\/ Adress of \mbox{\hyperlink{struct_mario}{Mario}} charatcer/player \\
+\hline
+{\em map} & -\/ Address of map structure on which the game is played \\
+\hline
+{\em Name2} & -\/ Name of file \\
+\hline
+{\em block\+\_\+\+Texture} & -\/ Adress of matrix of animations \\
+\hline
+{\em renderer} & -\/ Adress of S\+DL renderer the game is using \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Adress to \mbox{\hyperlink{struct_mario}{Mario}} struct 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a3ef8644376c1ff6e0ee7d9554e224bad}\label{game_8h_a3ef8644376c1ff6e0ee7d9554e224bad}} 
+\index{game.h@{game.h}!saveGame@{saveGame}}
+\index{saveGame@{saveGame}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{saveGame()}{saveGame()}}
+{\footnotesize\ttfamily void save\+Game (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{char $\ast$}]{Name2 }\end{DoxyParamCaption})}
+
+
+
+Function that saves and writes the current state of game in file \char`\"{}save.\+txt\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & -\/ Adress of \mbox{\hyperlink{struct_mario}{Mario}} charatcer/player \\
+\hline
+{\em map} & -\/ Address of map structure on which the game is played \\
+\hline
+{\em Name2} & -\/ Name of file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a48468ead8daa0341ffa56f0ceeebc24c}\label{game_8h_a48468ead8daa0341ffa56f0ceeebc24c}} 
+\index{game.h@{game.h}!simpleCollision@{simpleCollision}}
+\index{simpleCollision@{simpleCollision}!game.h@{game.h}}
+\subsubsection{\texorpdfstring{simpleCollision()}{simpleCollision()}}
+{\footnotesize\ttfamily int simple\+Collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim2,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord2,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed1,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed2 }\end{DoxyParamCaption})}
+
+
+
+Function that detects overlapping between objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dim1} & Dimension of the first object \\
+\hline
+{\em coord1} & Coordinates of the first object \\
+\hline
+{\em dim2} & Dimension of the second object \\
+\hline
+{\em coord2} & Coordinates of the second object \\
+\hline
+{\em speed1} & Speed vector of the first object \\
+\hline
+{\em speed2} & Speed vector of the second object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 1 if there is collision, otherwise returns 0 
+\end{DoxyReturn}

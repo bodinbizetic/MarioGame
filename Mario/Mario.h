@@ -4,7 +4,7 @@
 #include "map.h"
 #include "all.h"
 
-/*!	\file mario.c
+/*!	\file mario.h
 *	\brief Contains game playing declarations and Mario-related constants
 */
 

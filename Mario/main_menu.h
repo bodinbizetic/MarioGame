@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-/*!	\file main_menu.c
+/*!	\file main_menu.h
 *	\brief Contains declarations and constants for main_menu.c
 */
 

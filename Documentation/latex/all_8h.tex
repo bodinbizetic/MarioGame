@@ -1,0 +1,99 @@
+\hypertarget{all_8h}{}\section{Mario/all.h File Reference}
+\label{all_8h}\index{Mario/all.h@{Mario/all.h}}
+
+
+Contains declarations and constants for all structures.  
+
+
+{\ttfamily \#include \char`\"{}S\+D\+L.\+h\char`\"{}}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_p_a_i_r___x_y}{P\+A\+I\+R\+\_\+\+XY}}
+\begin{DoxyCompactList}\small\item\em Contains vector of 2d coordinates. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_mario}{Mario}}
+\begin{DoxyCompactList}\small\item\em Structure representing \mbox{\hyperlink{struct_mario}{Mario}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_d_e_v_i_l}{D\+E\+V\+IL}}
+\begin{DoxyCompactList}\small\item\em Structure representing Devil/\+Turtle AI. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_p_l_a_n_t_i_e}{P\+L\+A\+N\+T\+IE}}
+\begin{DoxyCompactList}\small\item\em Structure representing Plant AI. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_p_r_o_j_e_c_t_i_l_e}{P\+R\+O\+J\+E\+C\+T\+I\+LE}}
+\begin{DoxyCompactList}\small\item\em Structure representing \mbox{\hyperlink{struct_mario}{Mario}} projectile. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_h_r_o_o_m}{S\+H\+R\+O\+OM}}
+\begin{DoxyCompactList}\small\item\em Structure representing Mushroom/\+Star/\+Coin/\+Brick. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_q_u_e_s_t_i_o_n}{Q\+U\+E\+S\+T\+I\+ON}}
+\begin{DoxyCompactList}\small\item\em Structure representing Question block. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_h_i_d_d_e_n}{H\+I\+D\+D\+EN}}
+\begin{DoxyCompactList}\small\item\em Structure representing Hidden block. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_t_o_c_k___f_l_o_o_r}{S\+T\+O\+C\+K\+\_\+\+F\+L\+O\+OR}}
+\begin{DoxyCompactList}\small\item\em Structure representing non-\/interactable ground. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_map}{Map}}
+\begin{DoxyCompactList}\small\item\em Main structure that cantains all active AI\textquotesingle{}s and all blocks on the map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{all_8h_a002b2f4894492820fe708b1b7e7c5e70}\label{all_8h_a002b2f4894492820fe708b1b7e7c5e70}} 
+\#define \mbox{\hyperlink{all_8h_a002b2f4894492820fe708b1b7e7c5e70}{E\+P\+S\+I\+L\+ON}}~1
+\begin{DoxyCompactList}\small\item\em The smallest unit of mesurment. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_ab4f076a25f155b7c4bea3537e73a60c8}\label{all_8h_ab4f076a25f155b7c4bea3537e73a60c8}} 
+\#define \mbox{\hyperlink{all_8h_ab4f076a25f155b7c4bea3537e73a60c8}{S\+C\+O\+R\+E\+\_\+\+W\+I\+D\+TH}}~100
+\begin{DoxyCompactList}\small\item\em Width of score showing on the screen. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a0199f25e58e594ca53b61742eeaede92}\label{all_8h_a0199f25e58e594ca53b61742eeaede92}} 
+\#define \mbox{\hyperlink{all_8h_a0199f25e58e594ca53b61742eeaede92}{S\+C\+O\+R\+E\+\_\+\+H\+E\+I\+G\+HT}}~60
+\begin{DoxyCompactList}\small\item\em Heihgt of score showing on the screen. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a529d5ebb449edf31d9835d13f4fb9f89}\label{all_8h_a529d5ebb449edf31d9835d13f4fb9f89}} 
+\#define \mbox{\hyperlink{all_8h_a529d5ebb449edf31d9835d13f4fb9f89}{M\+A\+P\+\_\+\+H\+E\+I\+G\+HT}}~15
+\begin{DoxyCompactList}\small\item\em Number of blocks showing from the top to the bottom of the screen. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_aa037a6d6a4f04d51c7ec1c9ee9054e76}\label{all_8h_aa037a6d6a4f04d51c7ec1c9ee9054e76}} 
+\#define \mbox{\hyperlink{all_8h_aa037a6d6a4f04d51c7ec1c9ee9054e76}{M\+A\+P\+\_\+\+W\+I\+D\+TH}}~15
+\begin{DoxyCompactList}\small\item\em Number of blocks showing from the left to the right of screen. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a3e430d1e74998e120179513cb1f4b2bd}\label{all_8h_a3e430d1e74998e120179513cb1f4b2bd}} 
+\#define \mbox{\hyperlink{all_8h_a3e430d1e74998e120179513cb1f4b2bd}{M\+A\+P\+\_\+\+S\+E\+G\+M\+E\+N\+T\+S\+\_\+\+N\+U\+M\+B\+ER}}~20
+\begin{DoxyCompactList}\small\item\em Number of segments which are dimension M\+A\+P\+\_\+\+H\+E\+I\+G\+HT x M\+A\+P\+\_\+\+W\+I\+D\+TH on the map. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a2c998e5776a876988fb3120618afb9b6}\label{all_8h_a2c998e5776a876988fb3120618afb9b6}} 
+\#define \mbox{\hyperlink{all_8h_a2c998e5776a876988fb3120618afb9b6}{D\+E\+M\+O\+\_\+\+M\+A\+P\+\_\+\+S\+E\+G\+M\+E\+N\+T\+S\+\_\+\+N\+U\+M\+B\+ER}}~5
+\begin{DoxyCompactList}\small\item\em Number of demo map segment. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_abe566baff0b290dc637bbc5114e7ce7b}\label{all_8h_abe566baff0b290dc637bbc5114e7ce7b}} 
+\#define \mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}~17
+\begin{DoxyCompactList}\small\item\em Number of all objects in the game. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a9ab3d79e07345d20f96618ed437661ee}\label{all_8h_a9ab3d79e07345d20f96618ed437661ee}} 
+\#define {\bfseries A\+I\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+B\+ER}~1000
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}\label{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}} 
+typedef struct \mbox{\hyperlink{struct_p_a_i_r___x_y}{P\+A\+I\+R\+\_\+\+XY}} \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}
+\begin{DoxyCompactList}\small\item\em Contains vector of 2d coordinates. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a2abc730e190862a3269e57a51b02b5cb}\label{all_8h_a2abc730e190862a3269e57a51b02b5cb}} 
+typedef struct \mbox{\hyperlink{struct_d_e_v_i_l}{D\+E\+V\+IL}} \mbox{\hyperlink{all_8h_a2abc730e190862a3269e57a51b02b5cb}{ai\+\_\+\+Devil}}
+\begin{DoxyCompactList}\small\item\em Structure representing Devil/\+Turtle AI. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a3ac744b738aeaf44038e7cf3d8627983}\label{all_8h_a3ac744b738aeaf44038e7cf3d8627983}} 
+typedef struct \mbox{\hyperlink{struct_p_l_a_n_t_i_e}{P\+L\+A\+N\+T\+IE}} \mbox{\hyperlink{all_8h_a3ac744b738aeaf44038e7cf3d8627983}{ai\+\_\+\+Plantie}}
+\begin{DoxyCompactList}\small\item\em Structure representing Plant AI. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_adab0f949819217f30b3e7cccc9c648cb}\label{all_8h_adab0f949819217f30b3e7cccc9c648cb}} 
+typedef struct \mbox{\hyperlink{struct_p_r_o_j_e_c_t_i_l_e}{P\+R\+O\+J\+E\+C\+T\+I\+LE}} \mbox{\hyperlink{all_8h_adab0f949819217f30b3e7cccc9c648cb}{ai\+\_\+\+Projectile}}
+\begin{DoxyCompactList}\small\item\em Structure representing \mbox{\hyperlink{struct_mario}{Mario}} projectile. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_ac92253c7180e26e54a6363349e7e6578}\label{all_8h_ac92253c7180e26e54a6363349e7e6578}} 
+typedef struct \mbox{\hyperlink{struct_s_h_r_o_o_m}{S\+H\+R\+O\+OM}} \mbox{\hyperlink{all_8h_ac92253c7180e26e54a6363349e7e6578}{ai\+\_\+\+Shroom}}
+\begin{DoxyCompactList}\small\item\em Structure representing Mushroom/\+Star/\+Coin/\+Brick. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_affb850475e7690859cbf7981788dfccd}\label{all_8h_affb850475e7690859cbf7981788dfccd}} 
+typedef struct \mbox{\hyperlink{struct_q_u_e_s_t_i_o_n}{Q\+U\+E\+S\+T\+I\+ON}} \mbox{\hyperlink{all_8h_affb850475e7690859cbf7981788dfccd}{ai\+\_\+\+Question}}
+\begin{DoxyCompactList}\small\item\em Structure representing Question block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_adaa610ae6512accaeff33c1c7db7f802}\label{all_8h_adaa610ae6512accaeff33c1c7db7f802}} 
+typedef struct \mbox{\hyperlink{struct_h_i_d_d_e_n}{H\+I\+D\+D\+EN}} \mbox{\hyperlink{all_8h_adaa610ae6512accaeff33c1c7db7f802}{ai\+\_\+\+Hidden}}
+\begin{DoxyCompactList}\small\item\em Structure representing Hidden block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{all_8h_a32c2d258f226fc96b773fa2e0a05195a}\label{all_8h_a32c2d258f226fc96b773fa2e0a05195a}} 
+typedef struct \mbox{\hyperlink{struct_s_t_o_c_k___f_l_o_o_r}{S\+T\+O\+C\+K\+\_\+\+F\+L\+O\+OR}} \mbox{\hyperlink{all_8h_a32c2d258f226fc96b773fa2e0a05195a}{Ground}}
+\begin{DoxyCompactList}\small\item\em Structure representing non-\/interactable ground. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{all_8h_addacaf9c1e8a0bbf1b2fc3acfbac25d3}\label{all_8h_addacaf9c1e8a0bbf1b2fc3acfbac25d3}} 
+int \mbox{\hyperlink{all_8h_addacaf9c1e8a0bbf1b2fc3acfbac25d3}{music}}
+\begin{DoxyCompactList}\small\item\em Variable representing if music is on or off. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains declarations and constants for all structures. 
+

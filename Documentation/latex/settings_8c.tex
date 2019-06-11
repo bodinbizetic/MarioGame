@@ -1,0 +1,65 @@
+\hypertarget{settings_8c}{}\section{Mario/settings.c File Reference}
+\label{settings_8c}\index{Mario/settings.c@{Mario/settings.c}}
+
+
+Contains functions which control settings menu.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L\+\_\+image.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}all.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sound.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main\+\_\+menu.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{settings_8c_a8855cd76719133d400c58904482919be}\label{settings_8c_a8855cd76719133d400c58904482919be}} 
+\#define \mbox{\hyperlink{settings_8c_a8855cd76719133d400c58904482919be}{N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+S\+E\+T\+T\+I\+N\+G\+S\+\_\+\+O\+P\+T\+I\+O\+NS}}~3
+\begin{DoxyCompactList}\small\item\em Number of settings options in settings menu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{settings_8c_af3e31b9ac994cddaaf336ba57d630dad}{show\+Settings}} (S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em show settings menu and choose option you want to change \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{settings_8c_a0ad576885f2007b8094c193c178f9a9c}\label{settings_8c_a0ad576885f2007b8094c193c178f9a9c}} 
+short {\bfseries sound} = 1
+\item 
+\mbox{\Hypertarget{settings_8c_af9056a8b9c0395c37164fe89d628e616}\label{settings_8c_af9056a8b9c0395c37164fe89d628e616}} 
+short {\bfseries mario\+Character} = 0
+\item 
+\mbox{\Hypertarget{settings_8c_ae92c89d8a0a6271011231043d80fb397}\label{settings_8c_ae92c89d8a0a6271011231043d80fb397}} 
+short {\bfseries selected\+Background} = 0
+\item 
+\mbox{\Hypertarget{settings_8c_a05ecbdc320b8b03d21b3c1339ec5f53c}\label{settings_8c_a05ecbdc320b8b03d21b3c1339ec5f53c}} 
+short {\bfseries back\+From\+Black} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains functions which control settings menu. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{settings_8c_af3e31b9ac994cddaaf336ba57d630dad}\label{settings_8c_af3e31b9ac994cddaaf336ba57d630dad}} 
+\index{settings.c@{settings.c}!showSettings@{showSettings}}
+\index{showSettings@{showSettings}!settings.c@{settings.c}}
+\subsubsection{\texorpdfstring{showSettings()}{showSettings()}}
+{\footnotesize\ttfamily int show\+Settings (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer }\end{DoxyParamCaption})}
+
+
+
+show settings menu and choose option you want to change 
+
+
+\begin{DoxyParams}{Parameters}
+{\em renderer} & for drawing on screen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}

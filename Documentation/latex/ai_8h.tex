@@ -1,0 +1,128 @@
+\hypertarget{ai_8h}{}\section{Mario/ai.h File Reference}
+\label{ai_8h}\index{Mario/ai.h@{Mario/ai.h}}
+
+
+Contains declarations and constants for A\+Is.  
+
+
+{\ttfamily \#include \char`\"{}S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}map.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mario.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}all.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ai_8h_af33fb9cc815e59079aa046d74936c372}\label{ai_8h_af33fb9cc815e59079aa046d74936c372}} 
+\#define \mbox{\hyperlink{ai_8h_af33fb9cc815e59079aa046d74936c372}{D\+E\+V\+I\+L\+\_\+\+S\+P\+E\+ED}}~-\/2
+\begin{DoxyCompactList}\small\item\em Speed of the devil AI. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a65dc27a5d6076ed83b0684a8747b7aea}\label{ai_8h_a65dc27a5d6076ed83b0684a8747b7aea}} 
+\#define \mbox{\hyperlink{ai_8h_a65dc27a5d6076ed83b0684a8747b7aea}{T\+U\+R\+T\+L\+E\+\_\+\+S\+P\+E\+ED}}~2
+\begin{DoxyCompactList}\small\item\em Speed of the turtle AI. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a49f871e62b999f37e7a19ee729b44ae2}\label{ai_8h_a49f871e62b999f37e7a19ee729b44ae2}} 
+\#define \mbox{\hyperlink{ai_8h_a49f871e62b999f37e7a19ee729b44ae2}{E\+N\+E\+M\+Y\+\_\+\+K\+I\+LL}}~100
+\begin{DoxyCompactList}\small\item\em Score base for enemy kill. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_ad71a963781c8c2875c11e7d76528a39a}\label{ai_8h_ad71a963781c8c2875c11e7d76528a39a}} 
+\#define \mbox{\hyperlink{ai_8h_ad71a963781c8c2875c11e7d76528a39a}{Q\+U\+E\+S\+T\+I\+O\+N\+\_\+\+P\+OP}}~500
+\begin{DoxyCompactList}\small\item\em Score base for question pop. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_ae01ec3dd91248c7ee4c996b8dc173239}\label{ai_8h_ae01ec3dd91248c7ee4c996b8dc173239}} 
+\#define \mbox{\hyperlink{ai_8h_ae01ec3dd91248c7ee4c996b8dc173239}{B\+L\+O\+C\+K\+\_\+\+K\+I\+LL}}~100
+\begin{DoxyCompactList}\small\item\em Score base for brick kill. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a93afaff9c7080291c2a0b874dd53a22c}\label{ai_8h_a93afaff9c7080291c2a0b874dd53a22c}} 
+\#define \mbox{\hyperlink{ai_8h_a93afaff9c7080291c2a0b874dd53a22c}{T\+U\+R\+T\+L\+E\+\_\+\+A\+C\+C\+E\+L\+E\+R\+A\+T\+I\+ON}}~1
+\begin{DoxyCompactList}\small\item\em Turtle shell acceleration. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_ad964cd6f21d9063bc69334547c856cfa}\label{ai_8h_ad964cd6f21d9063bc69334547c856cfa}} 
+\#define {\bfseries T\+U\+R\+T\+L\+E\+\_\+\+T\+I\+M\+ER}~20
+\item 
+\mbox{\Hypertarget{ai_8h_a2f72b087b4a7c5f9c145b9e7201e300c}\label{ai_8h_a2f72b087b4a7c5f9c145b9e7201e300c}} 
+\#define \mbox{\hyperlink{ai_8h_a2f72b087b4a7c5f9c145b9e7201e300c}{P\+L\+A\+N\+T\+I\+E\+\_\+\+S\+P\+E\+ED}}~2
+\begin{DoxyCompactList}\small\item\em Speed of plantie AI. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a5a11b1a7109cefce1f270bb772683b2c}\label{ai_8h_a5a11b1a7109cefce1f270bb772683b2c}} 
+\#define \mbox{\hyperlink{ai_8h_a5a11b1a7109cefce1f270bb772683b2c}{P\+L\+A\+N\+T\+I\+E\+\_\+\+S\+L\+E\+EP}}~100
+\begin{DoxyCompactList}\small\item\em Maximum duration of plantie AI sleep timer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a3804dc73fd95ce5cebf60c1d4a985385}\label{ai_8h_a3804dc73fd95ce5cebf60c1d4a985385}} 
+\#define {\bfseries P\+L\+A\+N\+T\+I\+E\+\_\+\+E\+P\+S\+I\+L\+ON}~-\/10
+\item 
+\mbox{\Hypertarget{ai_8h_a20d46316063f22f2b371bd63ca4122e3}\label{ai_8h_a20d46316063f22f2b371bd63ca4122e3}} 
+\#define \mbox{\hyperlink{ai_8h_a20d46316063f22f2b371bd63ca4122e3}{S\+H\+R\+O\+O\+M\+\_\+\+S\+P\+E\+ED}}~6
+\begin{DoxyCompactList}\small\item\em Speed of shroom ai. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a06d0b28c6c9ff4ac8b0348c3ce6dfea4}\label{ai_8h_a06d0b28c6c9ff4ac8b0348c3ce6dfea4}} 
+\#define \mbox{\hyperlink{ai_8h_a06d0b28c6c9ff4ac8b0348c3ce6dfea4}{S\+H\+R\+O\+O\+M\+\_\+\+S\+C\+O\+RE}}~1000
+\begin{DoxyCompactList}\small\item\em Score base for shroom pick-\/up. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a59dbfb2e8f645f5a4c9c982c773d37f3}\label{ai_8h_a59dbfb2e8f645f5a4c9c982c773d37f3}} 
+\#define \mbox{\hyperlink{ai_8h_a59dbfb2e8f645f5a4c9c982c773d37f3}{P\+R\+O\+J\+E\+C\+T\+I\+L\+E\+\_\+\+S\+P\+E\+ED}}~8
+\begin{DoxyCompactList}\small\item\em Speed of \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s projectile. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a46be4656ee5e501a34212446d2fbb698}\label{ai_8h_a46be4656ee5e501a34212446d2fbb698}} 
+\#define \mbox{\hyperlink{ai_8h_a46be4656ee5e501a34212446d2fbb698}{P\+R\+O\+J\+E\+C\+T\+I\+L\+E\+\_\+\+B\+O\+U\+N\+CE}}~3
+\begin{DoxyCompactList}\small\item\em Number of bounces for \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s projectile before dissapearing. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_afe3c53d9365d6df1bd68ad60c81f9787}\label{ai_8h_afe3c53d9365d6df1bd68ad60c81f9787}} 
+\#define \mbox{\hyperlink{ai_8h_afe3c53d9365d6df1bd68ad60c81f9787}{P\+R\+O\+J\+E\+C\+T\+I\+L\+E\+\_\+\+S\+I\+ZE}}~20
+\begin{DoxyCompactList}\small\item\em Size of \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s projectile in \% relative to a block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_af98c0cd8b19c14c9c3c2300b343fa9c6}\label{ai_8h_af98c0cd8b19c14c9c3c2300b343fa9c6}} 
+\#define \mbox{\hyperlink{ai_8h_af98c0cd8b19c14c9c3c2300b343fa9c6}{H\+I\+D\+D\+E\+N\+\_\+\+S\+C\+O\+RE}}~200
+\begin{DoxyCompactList}\small\item\em Score base for hitting a hidden. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_a0f3eadde4a4560f586ac63a049e80f02}\label{ai_8h_a0f3eadde4a4560f586ac63a049e80f02}} 
+\#define \mbox{\hyperlink{ai_8h_a0f3eadde4a4560f586ac63a049e80f02}{P\+I\+K\+E\+\_\+\+S\+H\+R\+I\+NK}}~25
+\begin{DoxyCompactList}\small\item\em Size of pike in \% relative to a block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_affb64621418359975a2a2e5d03ddbccf}\label{ai_8h_affb64621418359975a2a2e5d03ddbccf}} 
+\#define \mbox{\hyperlink{ai_8h_affb64621418359975a2a2e5d03ddbccf}{F\+L\+A\+G\+\_\+\+S\+H\+R\+I\+NK}}~50
+\begin{DoxyCompactList}\small\item\em Size of flag in \% relative to a block. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ai_8h_abf63ccaf974d4a0ee84d5e7cd55bb5b3}\label{ai_8h_abf63ccaf974d4a0ee84d5e7cd55bb5b3}} 
+\#define \mbox{\hyperlink{ai_8h_abf63ccaf974d4a0ee84d5e7cd55bb5b3}{F\+L\+A\+G\+\_\+\+H\+E\+I\+G\+HT}}~12
+\begin{DoxyCompactList}\small\item\em Number of blocks flag goes up to. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{ai_8h_ad58515bfe5528d55ebf54b1757a325f7}{draw\+AI}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map)
+\begin{DoxyCompactList}\small\item\em Function that draws A\+Is on the screen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8h_aa162324a3abeeac28e4aec1776808955}{update\+AI}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Function that updates all A\+Is. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains declarations and constants for A\+Is. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ai_8h_ad58515bfe5528d55ebf54b1757a325f7}\label{ai_8h_ad58515bfe5528d55ebf54b1757a325f7}} 
+\index{ai.h@{ai.h}!drawAI@{drawAI}}
+\index{drawAI@{drawAI}!ai.h@{ai.h}}
+\subsubsection{\texorpdfstring{drawAI()}{drawAI()}}
+{\footnotesize\ttfamily int draw\+AI (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+
+
+Function that draws A\+Is on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8h_aa162324a3abeeac28e4aec1776808955}\label{ai_8h_aa162324a3abeeac28e4aec1776808955}} 
+\index{ai.h@{ai.h}!updateAI@{updateAI}}
+\index{updateAI@{updateAI}!ai.h@{ai.h}}
+\subsubsection{\texorpdfstring{updateAI()}{updateAI()}}
+{\footnotesize\ttfamily int update\+AI (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Function that updates all A\+Is. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return 0 
+\end{DoxyReturn}

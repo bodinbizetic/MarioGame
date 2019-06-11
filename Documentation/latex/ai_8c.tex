@@ -1,0 +1,152 @@
+\hypertarget{ai_8c}{}\section{Mario/ai.c File Reference}
+\label{ai_8c}\index{Mario/ai.c@{Mario/ai.c}}
+
+
+Contains functions which handles ai behavior.  
+
+
+{\ttfamily \#include \char`\"{}S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ai.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}game.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main\+\_\+menu.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{ai_8c_aa2c149e43fb5a651dcb6682a474a26e3}{detect\+Gravity\+Collide\+Ai}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed)
+\begin{DoxyCompactList}\small\item\em Detects and regulates bottom collision between A\+Is and blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8c_a21ffc44b2c0ab0fe6ab3c83727ed5007}{detect\+Side\+Collide\+Ai}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed)
+\begin{DoxyCompactList}\small\item\em Detects and regulates side collision between A\+Is and blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8c_a9162305385a83f6928e6d1929e4ec3c4}{projectile\+Collision}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} dim, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} speed)
+\begin{DoxyCompactList}\small\item\em Detects and regulates collision between A\+Is and projectiles (turtle shell and \mbox{\hyperlink{struct_mario}{Mario}} fireball) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8c_ad58515bfe5528d55ebf54b1757a325f7}{draw\+AI}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map)
+\begin{DoxyCompactList}\small\item\em Function that draws A\+Is on the screen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8c_aa162324a3abeeac28e4aec1776808955}{update\+AI}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Function that updates all A\+Is. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ai_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}\label{ai_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}} 
+\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} \mbox{\hyperlink{ai_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}{zero\+Speed}}
+\begin{DoxyCompactList}\small\item\em Zero speed vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains functions which handles ai behavior. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ai_8c_aa2c149e43fb5a651dcb6682a474a26e3}\label{ai_8c_aa2c149e43fb5a651dcb6682a474a26e3}} 
+\index{ai.c@{ai.c}!detectGravityCollideAi@{detectGravityCollideAi}}
+\index{detectGravityCollideAi@{detectGravityCollideAi}!ai.c@{ai.c}}
+\subsubsection{\texorpdfstring{detectGravityCollideAi()}{detectGravityCollideAi()}}
+{\footnotesize\ttfamily int detect\+Gravity\+Collide\+Ai (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates bottom collision between A\+Is and blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of AI object \\
+\hline
+{\em dim} & Dimension of AI object \\
+\hline
+{\em speed} & Speed of AI object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns y coordinate of the collision 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8c_a21ffc44b2c0ab0fe6ab3c83727ed5007}\label{ai_8c_a21ffc44b2c0ab0fe6ab3c83727ed5007}} 
+\index{ai.c@{ai.c}!detectSideCollideAi@{detectSideCollideAi}}
+\index{detectSideCollideAi@{detectSideCollideAi}!ai.c@{ai.c}}
+\subsubsection{\texorpdfstring{detectSideCollideAi()}{detectSideCollideAi()}}
+{\footnotesize\ttfamily int detect\+Side\+Collide\+Ai (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates side collision between A\+Is and blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of AI object \\
+\hline
+{\em dim} & Dimension of AI object \\
+\hline
+{\em speed} & Speed of AI object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns x coordinate of the collision 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8c_ad58515bfe5528d55ebf54b1757a325f7}\label{ai_8c_ad58515bfe5528d55ebf54b1757a325f7}} 
+\index{ai.c@{ai.c}!drawAI@{drawAI}}
+\index{drawAI@{drawAI}!ai.c@{ai.c}}
+\subsubsection{\texorpdfstring{drawAI()}{drawAI()}}
+{\footnotesize\ttfamily int draw\+AI (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+
+
+Function that draws A\+Is on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8c_a9162305385a83f6928e6d1929e4ec3c4}\label{ai_8c_a9162305385a83f6928e6d1929e4ec3c4}} 
+\index{ai.c@{ai.c}!projectileCollision@{projectileCollision}}
+\index{projectileCollision@{projectileCollision}!ai.c@{ai.c}}
+\subsubsection{\texorpdfstring{projectileCollision()}{projectileCollision()}}
+{\footnotesize\ttfamily int projectile\+Collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{dim,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{speed }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates collision between A\+Is and projectiles (turtle shell and \mbox{\hyperlink{struct_mario}{Mario}} fireball) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of AI object \\
+\hline
+{\em dim} & Dimension of AI object \\
+\hline
+{\em speed} & Speed of AI object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 1 if there is collision, otherwise 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8c_aa162324a3abeeac28e4aec1776808955}\label{ai_8c_aa162324a3abeeac28e4aec1776808955}} 
+\index{ai.c@{ai.c}!updateAI@{updateAI}}
+\index{updateAI@{updateAI}!ai.c@{ai.c}}
+\subsubsection{\texorpdfstring{updateAI()}{updateAI()}}
+{\footnotesize\ttfamily int update\+AI (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Function that updates all A\+Is. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return 0 
+\end{DoxyReturn}

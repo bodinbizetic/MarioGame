@@ -1,0 +1,75 @@
+\hypertarget{mario_8h}{}\section{Mario/mario.h File Reference}
+\label{mario_8h}\index{Mario/mario.h@{Mario/mario.h}}
+
+
+Contains game playing declarations and Mario-\/related constants.  
+
+
+{\ttfamily \#include \char`\"{}ai.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}map.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}all.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{mario_8h_a9f6b2894f12ed04b498c982012563dd0}\label{mario_8h_a9f6b2894f12ed04b498c982012563dd0}} 
+\#define \mbox{\hyperlink{mario_8h_a9f6b2894f12ed04b498c982012563dd0}{M\+A\+X\+\_\+\+J\+U\+MP}}~25
+\begin{DoxyCompactList}\small\item\em Maximum value for \mbox{\hyperlink{struct_mario}{Mario}} jump timer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_a63d65d4ba0834af8d82c3a29cf21eb9b}\label{mario_8h_a63d65d4ba0834af8d82c3a29cf21eb9b}} 
+\#define \mbox{\hyperlink{mario_8h_a63d65d4ba0834af8d82c3a29cf21eb9b}{M\+A\+X\+\_\+\+I\+M\+O\+R\+T\+AL}}~250
+\begin{DoxyCompactList}\small\item\em Maximum value for \mbox{\hyperlink{struct_mario}{Mario}} immoratility timer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_a7e49c0004749dd2461e791b4c4a97895}\label{mario_8h_a7e49c0004749dd2461e791b4c4a97895}} 
+\#define \mbox{\hyperlink{mario_8h_a7e49c0004749dd2461e791b4c4a97895}{M\+A\+X\+S\+P\+E\+ED}}~8
+\begin{DoxyCompactList}\small\item\em Maximum value for \mbox{\hyperlink{struct_mario}{Mario}} x speed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_a1d3fa368ec2a5811b11a38e22e438af1}\label{mario_8h_a1d3fa368ec2a5811b11a38e22e438af1}} 
+\#define \mbox{\hyperlink{mario_8h_a1d3fa368ec2a5811b11a38e22e438af1}{P\+R\+O\+J\+E\+C\+T\+I\+L\+E\+\_\+\+T\+I\+M\+ER}}~25
+\begin{DoxyCompactList}\small\item\em Maximum value for \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s projectile timer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_a05e99bfd606296983122fb8efa416471}\label{mario_8h_a05e99bfd606296983122fb8efa416471}} 
+\#define \mbox{\hyperlink{mario_8h_a05e99bfd606296983122fb8efa416471}{M\+A\+R\+I\+O\+\_\+\+S\+H\+R\+I\+NK}}~80
+\begin{DoxyCompactList}\small\item\em Reduction in \% for \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s y size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_aaf59bc9bf8a0cdd3d03c7626c6c21042}\label{mario_8h_aaf59bc9bf8a0cdd3d03c7626c6c21042}} 
+\#define \mbox{\hyperlink{mario_8h_aaf59bc9bf8a0cdd3d03c7626c6c21042}{M\+A\+R\+I\+O\+\_\+\+S\+H\+R\+I\+N\+K\+\_\+X}}~80
+\begin{DoxyCompactList}\small\item\em Reduction in \% for \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s x size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8h_aed9ea78689ecce0b7264c02c7f8a9a54}\label{mario_8h_aed9ea78689ecce0b7264c02c7f8a9a54}} 
+\#define \mbox{\hyperlink{mario_8h_aed9ea78689ecce0b7264c02c7f8a9a54}{G}}~1
+\begin{DoxyCompactList}\small\item\em Value of gravitational acceleration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{mario_8h_af2b2b7801eba2326d7b4dd787b1d0da8}{update\+Mario}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} update, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Function that updates Marios movement, and handles interactions between \mbox{\hyperlink{struct_mario}{Mario}} and other objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains game playing declarations and Mario-\/related constants. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{mario_8h_af2b2b7801eba2326d7b4dd787b1d0da8}\label{mario_8h_af2b2b7801eba2326d7b4dd787b1d0da8}} 
+\index{mario.h@{mario.h}!updateMario@{updateMario}}
+\index{updateMario@{updateMario}!mario.h@{mario.h}}
+\subsubsection{\texorpdfstring{updateMario()}{updateMario()}}
+{\footnotesize\ttfamily int update\+Mario (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{update,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Function that updates Marios movement, and handles interactions between \mbox{\hyperlink{struct_mario}{Mario}} and other objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em update} & Code of \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s movement update \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns y coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}

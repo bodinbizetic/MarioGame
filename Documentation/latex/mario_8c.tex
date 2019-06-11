@@ -1,0 +1,246 @@
+\hypertarget{mario_8c}{}\section{Mario/mario.c File Reference}
+\label{mario_8c}\index{Mario/mario.c@{Mario/mario.c}}
+
+
+Contains functions that control Marios movements.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}S\+D\+L\+\_\+ttf.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}map.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$S\+D\+L.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ai.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main\+\_\+menu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mario.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}game.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sound.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{mario_8c_a0fac621ec8b01d75fdaf6a78d54cd1d2}{lose\+\_\+\+Life}} (\mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Reduces \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s life by one. Also shrinks \mbox{\hyperlink{struct_mario}{Mario}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{mario_8c_a3d945a6e3bc6ce98740c44b1dc418e70}{gain\+Life}} (\mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Increses \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s life by one. Also magnifies \mbox{\hyperlink{struct_mario}{Mario}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_a9b1495c5ca9f4411af0a19f57913aa0a}{detect\+Ai\+Collide}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Detects and regulates collide between \mbox{\hyperlink{struct_mario}{Mario}} and other A\+Is. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_aedf33b445c5aab3c5ad8078ef690b5a5}{detect\+Gravity\+Collide}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Detects and regulates bottom collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_a41b45179a16366351ef4c11ab292d0b9}{detect\+Side\+Collide}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario)
+\begin{DoxyCompactList}\small\item\em Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_a3308665542f840371dc7fc8ddca1d788}{detect\+Celling\+Collide}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_a2d3dd02f30a6c094543ddf725c022ad6}{detect\+Reverse\+Celling\+Collide}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. Visits map in reverse order. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_af2b2b7801eba2326d7b4dd787b1d0da8}{update\+Mario}} (S\+D\+L\+\_\+\+Window $\ast$window, S\+D\+L\+\_\+\+Renderer $\ast$renderer, \mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{struct_mario}{Mario}} $\ast$mario, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} update, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Function that updates Marios movement, and handles interactions between \mbox{\hyperlink{struct_mario}{Mario}} and other objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{mario_8c_af9056a8b9c0395c37164fe89d628e616}\label{mario_8c_af9056a8b9c0395c37164fe89d628e616}} 
+short {\bfseries mario\+Character}
+\item 
+\mbox{\Hypertarget{mario_8c_a05ecbdc320b8b03d21b3c1339ec5f53c}\label{mario_8c_a05ecbdc320b8b03d21b3c1339ec5f53c}} 
+short {\bfseries back\+From\+Black}
+\item 
+int \mbox{\hyperlink{mario_8c_a0b8d47febe8a344e330b6fcd31e5bd51}{fly\+\_\+cheat}} = 0
+\begin{DoxyCompactList}\small\item\em If == 1, enables flying. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{mario_8c_af8a72e056f2a22d8779bcfe63ae94f44}{immortality\+\_\+cheat}} = 0
+\begin{DoxyCompactList}\small\item\em If == 1, enables immortality (cant get hit by enemies) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mario_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}\label{mario_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}} 
+\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} \mbox{\hyperlink{mario_8c_a4f57174d1f7ea0e75e1edb99e0ce7a57}{zero\+Speed}} = \{ 0,0 \}
+\begin{DoxyCompactList}\small\item\em Zero speed vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains functions that control Marios movements. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{mario_8c_a9b1495c5ca9f4411af0a19f57913aa0a}\label{mario_8c_a9b1495c5ca9f4411af0a19f57913aa0a}} 
+\index{mario.c@{mario.c}!detectAiCollide@{detectAiCollide}}
+\index{detectAiCollide@{detectAiCollide}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{detectAiCollide()}{detectAiCollide()}}
+{\footnotesize\ttfamily int detect\+Ai\+Collide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates collide between \mbox{\hyperlink{struct_mario}{Mario}} and other A\+Is. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 if there is no error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{mario_8c_a3308665542f840371dc7fc8ddca1d788}\label{mario_8c_a3308665542f840371dc7fc8ddca1d788}} 
+\index{mario.c@{mario.c}!detectCellingCollide@{detectCellingCollide}}
+\index{detectCellingCollide@{detectCellingCollide}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{detectCellingCollide()}{detectCellingCollide()}}
+{\footnotesize\ttfamily int detect\+Celling\+Collide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns y coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{mario_8c_aedf33b445c5aab3c5ad8078ef690b5a5}\label{mario_8c_aedf33b445c5aab3c5ad8078ef690b5a5}} 
+\index{mario.c@{mario.c}!detectGravityCollide@{detectGravityCollide}}
+\index{detectGravityCollide@{detectGravityCollide}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{detectGravityCollide()}{detectGravityCollide()}}
+{\footnotesize\ttfamily int detect\+Gravity\+Collide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates bottom collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns y coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{mario_8c_a2d3dd02f30a6c094543ddf725c022ad6}\label{mario_8c_a2d3dd02f30a6c094543ddf725c022ad6}} 
+\index{mario.c@{mario.c}!detectReverseCellingCollide@{detectReverseCellingCollide}}
+\index{detectReverseCellingCollide@{detectReverseCellingCollide}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{detectReverseCellingCollide()}{detectReverseCellingCollide()}}
+{\footnotesize\ttfamily int detect\+Reverse\+Celling\+Collide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. Visits map in reverse order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns y coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{mario_8c_a41b45179a16366351ef4c11ab292d0b9}\label{mario_8c_a41b45179a16366351ef4c11ab292d0b9}} 
+\index{mario.c@{mario.c}!detectSideCollide@{detectSideCollide}}
+\index{detectSideCollide@{detectSideCollide}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{detectSideCollide()}{detectSideCollide()}}
+{\footnotesize\ttfamily int detect\+Side\+Collide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Detects and regulates side collide between \mbox{\hyperlink{struct_mario}{Mario}} and blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns x coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{mario_8c_a3d945a6e3bc6ce98740c44b1dc418e70}\label{mario_8c_a3d945a6e3bc6ce98740c44b1dc418e70}} 
+\index{mario.c@{mario.c}!gainLife@{gainLife}}
+\index{gainLife@{gainLife}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{gainLife()}{gainLife()}}
+{\footnotesize\ttfamily void gain\+Life (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Increses \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s life by one. Also magnifies \mbox{\hyperlink{struct_mario}{Mario}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{mario_8c_a0fac621ec8b01d75fdaf6a78d54cd1d2}\label{mario_8c_a0fac621ec8b01d75fdaf6a78d54cd1d2}} 
+\index{mario.c@{mario.c}!lose\_Life@{lose\_Life}}
+\index{lose\_Life@{lose\_Life}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{lose\_Life()}{lose\_Life()}}
+{\footnotesize\ttfamily void lose\+\_\+\+Life (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario }\end{DoxyParamCaption})}
+
+
+
+Reduces \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s life by one. Also shrinks \mbox{\hyperlink{struct_mario}{Mario}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{mario_8c_af2b2b7801eba2326d7b4dd787b1d0da8}\label{mario_8c_af2b2b7801eba2326d7b4dd787b1d0da8}} 
+\index{mario.c@{mario.c}!updateMario@{updateMario}}
+\index{updateMario@{updateMario}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{updateMario()}{updateMario()}}
+{\footnotesize\ttfamily int update\+Mario (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Window $\ast$}]{window,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer,  }\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{struct_mario}{Mario}} $\ast$}]{mario,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{update,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Function that updates Marios movement, and handles interactions between \mbox{\hyperlink{struct_mario}{Mario}} and other objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Address of current active S\+D\+L\+\_\+\+Window \\
+\hline
+{\em renderer} & Address of main S\+D\+L\+\_\+\+Renderer \\
+\hline
+{\em mario} & Address of active \mbox{\hyperlink{struct_mario}{Mario}} struct \\
+\hline
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em update} & Code of \mbox{\hyperlink{struct_mario}{Mario}}\textquotesingle{}s movement update \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns y coordinate of the collision between \mbox{\hyperlink{struct_mario}{Mario}} and block 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{mario_8c_a0b8d47febe8a344e330b6fcd31e5bd51}\label{mario_8c_a0b8d47febe8a344e330b6fcd31e5bd51}} 
+\index{mario.c@{mario.c}!fly\_cheat@{fly\_cheat}}
+\index{fly\_cheat@{fly\_cheat}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{fly\_cheat}{fly\_cheat}}
+{\footnotesize\ttfamily int fly\+\_\+cheat = 0}
+
+
+
+If == 1, enables flying. 
+
+cheat for infinite flying \mbox{\Hypertarget{mario_8c_af8a72e056f2a22d8779bcfe63ae94f44}\label{mario_8c_af8a72e056f2a22d8779bcfe63ae94f44}} 
+\index{mario.c@{mario.c}!immortality\_cheat@{immortality\_cheat}}
+\index{immortality\_cheat@{immortality\_cheat}!mario.c@{mario.c}}
+\subsubsection{\texorpdfstring{immortality\_cheat}{immortality\_cheat}}
+{\footnotesize\ttfamily int immortality\+\_\+cheat = 0}
+
+
+
+If == 1, enables immortality (cant get hit by enemies) 
+
+cheat for infinite immortality 

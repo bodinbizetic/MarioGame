@@ -1,0 +1,128 @@
+\hypertarget{highscore_8c}{}\section{Mario/highscore.c File Reference}
+\label{highscore_8c}\index{Mario/highscore.c@{Mario/highscore.c}}
+
+
+Contains declarations and constants for higscore and end game menu.  
+
+
+{\ttfamily \#include \char`\"{}S\+D\+L.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L\+\_\+ttf.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}map.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mario.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main\+\_\+menu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}highscore.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{highscore_8c_af08ec37a8c99d747fb60fa15bc28678b}\label{highscore_8c_af08ec37a8c99d747fb60fa15bc28678b}} 
+\#define {\bfseries \+\_\+\+C\+R\+T\+\_\+\+S\+E\+C\+U\+R\+E\+\_\+\+N\+O\+\_\+\+W\+A\+R\+N\+I\+N\+GS}
+\item 
+\mbox{\Hypertarget{highscore_8c_aa8e022caf97b88b5a2255a2ae54d1f63}\label{highscore_8c_aa8e022caf97b88b5a2255a2ae54d1f63}} 
+\#define \mbox{\hyperlink{highscore_8c_aa8e022caf97b88b5a2255a2ae54d1f63}{N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+B\+E\+S\+T\+\_\+\+P\+L\+A\+Y\+E\+RS}}~5
+\begin{DoxyCompactList}\small\item\em Maximum number of players that can have a highscore. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{highscore_8c_a392fb874e547e582e9c66a08a1f23326}\label{highscore_8c_a392fb874e547e582e9c66a08a1f23326}} 
+\#define {\bfseries M\+AX}~50
+\item 
+\mbox{\Hypertarget{highscore_8c_a66a34ab290d5256ed45186c4a293ee18}\label{highscore_8c_a66a34ab290d5256ed45186c4a293ee18}} 
+\#define {\bfseries O\+P\+T\+I\+O\+N\+\_\+\+W\+I\+D\+T\+H2}~500
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{highscore_8c_acf0ab974dafdeb2c171651b8bbf15259}{final\+Score\+Screen}} (int curr\+Score, char $\ast$name, int $\ast$name\+Save, S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em Prints the final score screen and input of name for the highscore. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{highscore_8c_a5b6c125b92e118b0b80e549e627b4a60}\label{highscore_8c_a5b6c125b92e118b0b80e549e627b4a60}} 
+void \mbox{\hyperlink{highscore_8c_a5b6c125b92e118b0b80e549e627b4a60}{init\+Final\+Score\+Textures}} (S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em Initializes the textures for the final score screen. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{highscore_8c_ae9be5e7f49f512d4bd66d5081a2988cc}\label{highscore_8c_ae9be5e7f49f512d4bd66d5081a2988cc}} 
+void \mbox{\hyperlink{highscore_8c_ae9be5e7f49f512d4bd66d5081a2988cc}{destroy\+Final\+Score\+Textures}} ()
+\begin{DoxyCompactList}\small\item\em Destroys all end game textures. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{highscore_8c_aadbad5350d84f93675d81dcd996a7958}{score\+OK}} ()
+\begin{DoxyCompactList}\small\item\em checks for file corruption \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{highscore_8c_a0e75bc7163e0dc308af954630f789956}{update\+Highscore}} (int score, char $\ast$name, int a)
+\begin{DoxyCompactList}\small\item\em Update highscore text document after the game if the player scored enough points. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{highscore_8c_a9419b5f6d47e2c60419ce7987e1a50dd}{show\+Highscore}} (S\+D\+L\+\_\+\+Renderer $\ast$renderer)
+\begin{DoxyCompactList}\small\item\em show highscore of top 5 players \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains declarations and constants for higscore and end game menu. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{highscore_8c_acf0ab974dafdeb2c171651b8bbf15259}\label{highscore_8c_acf0ab974dafdeb2c171651b8bbf15259}} 
+\index{highscore.c@{highscore.c}!finalScoreScreen@{finalScoreScreen}}
+\index{finalScoreScreen@{finalScoreScreen}!highscore.c@{highscore.c}}
+\subsubsection{\texorpdfstring{finalScoreScreen()}{finalScoreScreen()}}
+{\footnotesize\ttfamily void final\+Score\+Screen (\begin{DoxyParamCaption}\item[{int}]{curr\+Score,  }\item[{char $\ast$}]{name,  }\item[{int $\ast$}]{name\+Save,  }\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer }\end{DoxyParamCaption})}
+
+
+
+Prints the final score screen and input of name for the highscore. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em curr\+Score} & final score which will be saved \\
+\hline
+{\em name} & name of the player \\
+\hline
+{\em name\+Save} & if name should be saved has value 1, otherwise 0 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{highscore_8c_aadbad5350d84f93675d81dcd996a7958}\label{highscore_8c_aadbad5350d84f93675d81dcd996a7958}} 
+\index{highscore.c@{highscore.c}!scoreOK@{scoreOK}}
+\index{scoreOK@{scoreOK}!highscore.c@{highscore.c}}
+\subsubsection{\texorpdfstring{scoreOK()}{scoreOK()}}
+{\footnotesize\ttfamily int score\+OK (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+checks for file corruption 
+
+\begin{DoxyReturn}{Returns}
+No return 
+\end{DoxyReturn}
+\mbox{\Hypertarget{highscore_8c_a9419b5f6d47e2c60419ce7987e1a50dd}\label{highscore_8c_a9419b5f6d47e2c60419ce7987e1a50dd}} 
+\index{highscore.c@{highscore.c}!showHighscore@{showHighscore}}
+\index{showHighscore@{showHighscore}!highscore.c@{highscore.c}}
+\subsubsection{\texorpdfstring{showHighscore()}{showHighscore()}}
+{\footnotesize\ttfamily int show\+Highscore (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Renderer $\ast$}]{renderer }\end{DoxyParamCaption})}
+
+
+
+show highscore of top 5 players 
+
+
+\begin{DoxyParams}{Parameters}
+{\em renderer} & for drawing on screen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{highscore_8c_a0e75bc7163e0dc308af954630f789956}\label{highscore_8c_a0e75bc7163e0dc308af954630f789956}} 
+\index{highscore.c@{highscore.c}!updateHighscore@{updateHighscore}}
+\index{updateHighscore@{updateHighscore}!highscore.c@{highscore.c}}
+\subsubsection{\texorpdfstring{updateHighscore()}{updateHighscore()}}
+{\footnotesize\ttfamily void update\+Highscore (\begin{DoxyParamCaption}\item[{int}]{score,  }\item[{char $\ast$}]{name,  }\item[{int}]{a }\end{DoxyParamCaption})}
+
+
+
+Update highscore text document after the game if the player scored enough points. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em score} & Player score after the game \\
+\hline
+{\em name} & Name of the player \\
+\hline
+{\em a} & check if the escape button is pressed and if it is pressed then dont update highscore text document \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}

@@ -1,0 +1,224 @@
+\hypertarget{map_8c}{}\section{Mario/map.c File Reference}
+\label{map_8c}\index{Mario/map.c@{Mario/map.c}}
+
+
+Contains functions that generate maps, demo map and A\+Is.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ai.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main\+\_\+menu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}game.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}map\+\_\+\+Segments.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}camera.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_map}{Map}} $\ast$ \mbox{\hyperlink{map_8c_af5ef4c9a4b89f06337dd52b7c3d79aaf}{init\+Map}} (S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]}, int demo)
+\begin{DoxyCompactList}\small\item\em Initializes \mbox{\hyperlink{struct_map}{Map}} structure, fills it with \char`\"{}sky\char`\"{} and adds one leyer of floor. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_a335a943e69df9fec472bdba216c43e54}{spawn\+Shroom}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]}, int lifes)
+\begin{DoxyCompactList}\small\item\em Spawns Shroom ai. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_a20ebd74f763c04f41b3568e295b9b634}{spawn\+Projectile}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, int orientation, int speed, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Spawns Shroom ai. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_a3e5cbd6fb5d0cdfb8d45b83a9ce39c29}{spawn\+Coin}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, S\+D\+L\+\_\+\+Texture $\ast$block\+\_\+\+Texture\mbox{[}\mbox{\hyperlink{all_8h_abe566baff0b290dc637bbc5114e7ce7b}{A\+I\+\_\+\+N\+U\+M\+B\+ER}}\mbox{]}\mbox{[}5\mbox{]})
+\begin{DoxyCompactList}\small\item\em Spawns coin when mario hit hidden block with head. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_a6c5247a8f90a515a5a9a017fe52128e6}{spawn\+Death\+Devil}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, \mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}} coord, S\+D\+L\+\_\+\+Texture $\ast$animation)
+\begin{DoxyCompactList}\small\item\em Spawns devil death animation. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_a5aea2d87e9dbb62afc43c876673177ff}{copy\+\_\+\+Map}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map, int x, int seg\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Function that copies map segment into map. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_ad36f7a667baa681c6a3ba0059cec40e8}{generate\+\_\+\+Map}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map)
+\begin{DoxyCompactList}\small\item\em Function that generetes whole map. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{map_8c_af305b69db4559f6087f1842aa9b2892a}{generate\+\_\+\+Demo\+\_\+\+Map}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map)
+\begin{DoxyCompactList}\small\item\em Function that generetes whole demo map. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{map_8c_a64df896c814cef549bef88fcd20d9a67}{destroy\+Map}} (\mbox{\hyperlink{struct_map}{Map}} $\ast$map)
+\begin{DoxyCompactList}\small\item\em Deletes \mbox{\hyperlink{struct_map}{Map}} structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains functions that generate maps, demo map and A\+Is. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{map_8c_a5aea2d87e9dbb62afc43c876673177ff}\label{map_8c_a5aea2d87e9dbb62afc43c876673177ff}} 
+\index{map.c@{map.c}!copy\_Map@{copy\_Map}}
+\index{copy\_Map@{copy\_Map}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{copy\_Map()}{copy\_Map()}}
+{\footnotesize\ttfamily int copy\+\_\+\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{int}]{x,  }\item[{int}]{seg\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Function that copies map segment into map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em int} & x Coordinate of top most left corner \\
+\hline
+{\em int} & seg\+\_\+id Id of source matrix in map\+\_\+\+Segment matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{map_8c_a64df896c814cef549bef88fcd20d9a67}\label{map_8c_a64df896c814cef549bef88fcd20d9a67}} 
+\index{map.c@{map.c}!destroyMap@{destroyMap}}
+\index{destroyMap@{destroyMap}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{destroyMap()}{destroyMap()}}
+{\footnotesize\ttfamily void destroy\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+
+
+Deletes \mbox{\hyperlink{struct_map}{Map}} structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{struct_map}{Map}}} & map Addres of map \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{map_8c_af305b69db4559f6087f1842aa9b2892a}\label{map_8c_af305b69db4559f6087f1842aa9b2892a}} 
+\index{map.c@{map.c}!generate\_Demo\_Map@{generate\_Demo\_Map}}
+\index{generate\_Demo\_Map@{generate\_Demo\_Map}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{generate\_Demo\_Map()}{generate\_Demo\_Map()}}
+{\footnotesize\ttfamily int generate\+\_\+\+Demo\+\_\+\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+
+
+Function that generetes whole demo map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{map_8c_ad36f7a667baa681c6a3ba0059cec40e8}\label{map_8c_ad36f7a667baa681c6a3ba0059cec40e8}} 
+\index{map.c@{map.c}!generate\_Map@{generate\_Map}}
+\index{generate\_Map@{generate\_Map}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{generate\_Map()}{generate\_Map()}}
+{\footnotesize\ttfamily int generate\+\_\+\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+
+
+Function that generetes whole map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{map_8c_af5ef4c9a4b89f06337dd52b7c3d79aaf}\label{map_8c_af5ef4c9a4b89f06337dd52b7c3d79aaf}} 
+\index{map.c@{map.c}!initMap@{initMap}}
+\index{initMap@{initMap}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{initMap()}{initMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_map}{Map}}$\ast$ init\+Map (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]},  }\item[{int}]{demo }\end{DoxyParamCaption})}
+
+
+
+Initializes \mbox{\hyperlink{struct_map}{Map}} structure, fills it with \char`\"{}sky\char`\"{} and adds one leyer of floor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+{\em demo} & If demo == 1, function will generate demo map, otherwise function will generate regular map \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns Address of generated map 
+\end{DoxyReturn}
+\mbox{\Hypertarget{map_8c_a3e5cbd6fb5d0cdfb8d45b83a9ce39c29}\label{map_8c_a3e5cbd6fb5d0cdfb8d45b83a9ce39c29}} 
+\index{map.c@{map.c}!spawnCoin@{spawnCoin}}
+\index{spawnCoin@{spawnCoin}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{spawnCoin()}{spawnCoin()}}
+{\footnotesize\ttfamily int spawn\+Coin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Spawns coin when mario hit hidden block with head. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of object which spawns the coin -\/ coin is spawned above him \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{map_8c_a6c5247a8f90a515a5a9a017fe52128e6}\label{map_8c_a6c5247a8f90a515a5a9a017fe52128e6}} 
+\index{map.c@{map.c}!spawnDeathDevil@{spawnDeathDevil}}
+\index{spawnDeathDevil@{spawnDeathDevil}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{spawnDeathDevil()}{spawnDeathDevil()}}
+{\footnotesize\ttfamily int spawn\+Death\+Devil (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{animation }\end{DoxyParamCaption})}
+
+
+
+Spawns devil death animation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of object which spawns the animation \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{map_8c_a20ebd74f763c04f41b3568e295b9b634}\label{map_8c_a20ebd74f763c04f41b3568e295b9b634}} 
+\index{map.c@{map.c}!spawnProjectile@{spawnProjectile}}
+\index{spawnProjectile@{spawnProjectile}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{spawnProjectile()}{spawnProjectile()}}
+{\footnotesize\ttfamily int spawn\+Projectile (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{int}]{orientation,  }\item[{int}]{speed,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Spawns Shroom ai. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of object which spawns the projectile \\
+\hline
+{\em orientation} & Direction at which the projectile will go \\
+\hline
+{\em speed} & Speed at wich the projectile is spawned \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
+\mbox{\Hypertarget{map_8c_a335a943e69df9fec472bdba216c43e54}\label{map_8c_a335a943e69df9fec472bdba216c43e54}} 
+\index{map.c@{map.c}!spawnShroom@{spawnShroom}}
+\index{spawnShroom@{spawnShroom}!map.c@{map.c}}
+\subsubsection{\texorpdfstring{spawnShroom()}{spawnShroom()}}
+{\footnotesize\ttfamily int spawn\+Shroom (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_map}{Map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{all_8h_a9a35f73dcc6cf9a466e6542847bd8882}{Pair\+\_\+xy}}}]{coord,  }\item[{S\+D\+L\+\_\+\+Texture $\ast$}]{block\+\_\+\+Texture\mbox{[}\+A\+I\+\_\+\+N\+U\+M\+B\+E\+R\mbox{]}\mbox{[}5\mbox{]},  }\item[{int}]{lifes }\end{DoxyParamCaption})}
+
+
+
+Spawns Shroom ai. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em map} & Address of map structure on which the game is played \\
+\hline
+{\em coord} & Coordinates of location where Shroom will be spawned \\
+\hline
+{\em block\+Textures} & S\+D\+L\+\_\+\+Textures for all A\+Is \\
+\hline
+{\em lifes} & if == 1 will spawn red Shroom, otherwise will spawn green \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns 0 
+\end{DoxyReturn}
