@@ -28,6 +28,7 @@ int isFileOK(char *Name2) {
 		e = d;
 	}
 	fclose(saved);
+	brojac -= 2;
 	if (e == XOR_2 && f == brojac)
 		return 0;
 	return 1;
@@ -1025,16 +1026,6 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 			}
 		}
 	}
-	/*for (i = 0; i < MAP_HEIGHT; i++) {
-		for (j = 0; j < MAP_WIDTH * MAP_SEGMENTS_NUMBER; j++) {
-			if (j == MAP_WIDTH * MAP_SEGMENTS_NUMBER - 1)
-				fprintf(saved, "%d ", map->map_Matrix[i][j]);
-			else
-				fprintf(saved, "%d ", map->map_Matrix[i][j]);
-			XOR = XOR ^ map->map_Matrix[i][j];
-		}
-		fprintf(saved, "\n");
-	}*/
 	fprintf(saved, "%d\n", map->x_score);
 	XOR = XOR ^ map->x_score;
 	fprintf(saved, "%d\n", map->score);
@@ -1091,9 +1082,8 @@ void saveGame(Mario *mario, Map *map, char *Name2) {
 	fprintf(saved, "%d ", backFromBlack);
 	XOR ^= backFromBlack;
 	counter += 4;
-	/*SDL_Texture *animation[3][2][3];*/
-	counter += 2;
-	fprintf(saved, "%d ", saved);
+
+	fprintf(saved, "%d ", counter);
 	XOR ^= counter;
 	fprintf(saved, "%d ", XOR);
 	fclose(saved);
