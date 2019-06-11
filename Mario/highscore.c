@@ -9,10 +9,23 @@
 #include "mario.h"
 #include "main_menu.h"
 #include "highscore.h"
-//ispis Highscore,vraca 0 za povratak u meni,5
+
+/*!	\file highscore.c
+*	\brief Contains declarations and constants for higscore and end game menu
+*/
+
+/*!	
+*	\brief Maximum number of players that can have a highscore
+*/
 #define NUMBER_OF_BEST_PLAYERS 5
 #define MAX 50
 
+/*!
+*	\brief Prints the final score screen and input of name for the highscore
+*	\param currScore final score which will be saved
+*	\param name name of the player
+*	\param nameSave if name should be saved has value 1, otherwise 0
+*/
 void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *renderer) {
 	int currPos = 0, finalScoreActive = 1, i;
 	SDL_Event event;
@@ -107,6 +120,10 @@ void finalScoreScreen(int currScore, char * name, int * nameSave, SDL_Renderer *
 	TTF_CloseFont(font);
 	return;
 }
+
+/*!
+*	\brief Initializes the textures for the final score screen
+*/
 void initFinalScoreTextures(SDL_Renderer *renderer) {
 	char temp[2], c;
 	extern FinalScoreTextures finalScoreTextureManager;
@@ -138,6 +155,10 @@ void initFinalScoreTextures(SDL_Renderer *renderer) {
 	TTF_CloseFont(font);
 	return;
 }
+
+/*!
+*	\brief Destroys all end game textures
+*/
 void destroyFinalScoreTextures() {
 	char c;
 	extern FinalScoreTextures finalScoreTextureManager;
