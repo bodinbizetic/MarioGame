@@ -113,6 +113,7 @@ int detectAiCollide(Map *map, Mario *mario) {
 						playKill();
 						map->ai_Matrix[ai_id[j]][i] = map->ai_Matrix[ai_id[j]][--map->ai_counter[ai_id[j]]];
 						g->isAlive = 0;
+						spawnDeathDevil(map, g->coordinate, g->animation[2]);
 						/*g->animation_Stage = 2; ne radi ovo kad umre
 						if(g->time%50==0)*/
 						free(g);
@@ -339,7 +340,7 @@ int detectCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Texture[AI_N
 						spawnCoin(map, temp_coord, block_Texture);
 					}
 					if (g->coins_Left == 0)
-						g->animation_Stage = 0;
+						g->animation_Stage = 1;
 					return new_coordinates.y;
 				}
 					
@@ -421,7 +422,7 @@ int detectReverseCellingCollide(Map *map, Mario *mario, SDL_Texture *block_Textu
 						g->coins_Left--;
 					}
 					if (g->coins_Left == 0)
-						g->animation_Stage = 0;
+						g->animation_Stage = 1;
 					return new_coordinates.y;
 				}
 

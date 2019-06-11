@@ -124,7 +124,9 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 				temp->coordinate.y = i * blok.y;
 				temp->dimension = blok;
 				temp->coins_Left = 10;
-				temp->animation_Stage = 1;
+				temp->animation_Stage = 0;
+				temp->animation[0] = block_Texture[basic][0];
+				temp->animation[1] = block_Texture[question][1];
 				map->ai_Matrix[hidden][map->ai_counter[hidden]++] = temp;
 			}
 			else if (map->map_Matrix[i][j] == pikes) {
@@ -207,6 +209,18 @@ int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5])
 	return 0;
 }
 
+int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation)
+{
+	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
+	temp->coordinate = coord;
+	temp->dimension.y = blok.y;
+	temp->dimension.x = blok.x;
+	temp->animation = animation;
+	temp->isAlive = 1;
+	
+	map->ai_Matrix[shroom][map->ai_counter[shroom]++] = temp;
+	return 0;
+}
 
 Map* LoadMap() {
 	/*FILE *save = fopen("Savegame.bin", "rb");
