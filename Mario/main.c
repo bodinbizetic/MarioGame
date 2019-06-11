@@ -33,7 +33,16 @@ int main(int argc, char *argv[]) {
 		return EXIT_FAILURE;
 	}
 	//Init window
-	SDL_Window *window = SDL_CreateWindow("Procedural", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,	SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Window *window = SDL_CreateWindow("Mario", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,	SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Surface *surface = IMG_Load("Slike/marioDeathRed.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	SDL_SetWindowIcon(window, surface);
+	SDL_FreeSurface(surface);
+
 	//Window error check
 	if (window == NULL) {
 		fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
