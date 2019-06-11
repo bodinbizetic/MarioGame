@@ -20,7 +20,8 @@ int isFileOK(char *Name2) {
 	int e = 0,f=0;
 	int brojac = 0;
 	FILE *saved = fopen(Name2, "r");
-	while (fscanf(saved, "%d ", &d) != 0) {
+	fseek(saved, 0, SEEK_SET);
+	while (fscanf(saved, "%d ", &d) != EOF) {
 		XOR_2 ^= d;
 		brojac++;
 		f = e;
@@ -35,6 +36,7 @@ Map* loadMap(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture[AI_
 	mario = malloc(sizeof(Mario));
 	map = malloc(sizeof(Map));
 	FILE *saved = fopen(Name2, "r");
+	fseek(saved, 0, SEEK_SET);
 	int i, j, n, m, XOR = 0, XOR_IN;
 	if (saved == NULL)
 		return 0;
@@ -459,6 +461,7 @@ Mario* loadMario(Mario *mario, Map *map, char *Name2, SDL_Texture *block_Texture
 	mario = malloc(sizeof(Mario));
 	map = malloc(sizeof(Map));
 	FILE *saved = fopen(Name2, "r");
+	fseek(saved, 0, SEEK_SET);
 	int i, j, n, m, XOR = 0, XOR_IN;
 	if (saved == NULL)
 		return 0;
