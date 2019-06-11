@@ -172,6 +172,10 @@ void destroyFinalScoreTextures() {
 	SDL_DestroyTexture(finalScoreTextureManager.typeInYourNameTexture);
 }
 
+/*!
+*		\brief checks for file corruption
+*		\return No return
+*/
 
 int scoreOK()
 {
