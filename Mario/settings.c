@@ -10,6 +10,10 @@
 #include "main_menu.h"
 //#include "settings.h"
 
+/*!	\file settings.c
+*	\brief Contains functions which control settings menu
+*/
+
 //za settings
 #define NUMBER_OF_SETTINGS_OPTIONS 3 
 short sound = 1; // GAME SOUND
