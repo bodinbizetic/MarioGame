@@ -183,6 +183,13 @@ int show_menu(SDL_Window *window, SDL_Renderer *renderer) {
 }
 
 // pause game
+
+/*!
+*		\brief pauses the game when you press p and if you want to unpause press p again
+*		\return no return
+*/
+
+
 void pause_game() // pauzira igricu pritiskom na p 
 {
 	SDL_Event event;
