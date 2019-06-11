@@ -125,7 +125,7 @@ Map* initMap(SDL_Texture *block_Texture[AI_NUMBER][5], int demo) {
 				temp->dimension = blok;
 				temp->coins_Left = 10;
 				temp->animation_Stage = 0;
-				temp->animation[0] = block_Texture[basic][0];
+				temp->animation[0] = block_Texture[ground][0];
 				temp->animation[1] = block_Texture[question][1];
 				map->ai_Matrix[hidden][map->ai_counter[hidden]++] = temp;
 			}
