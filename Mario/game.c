@@ -859,12 +859,14 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 				rect.y = g->coordinate.y;
 				rect.w = g->dimension.x;
 				rect.h = g->dimension.y;
-				if(g->animation_Stage == 1)//nije skroz ispraznjen
-					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-				else
-					SDL_SetRenderDrawColor(renderer, 0, 0, 50, 255);
+				if (g->animation_Stage == 0 && g->coins_Left<10)//nije skroz ispraznjen
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+				else if(g->animation_Stage==1)
+					SDL_RenderCopy(renderer, g->animation[g->animation_Stage], NULL, &rect);
+				//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+					//SDL_SetRenderDrawColor(renderer, 0, 0, 50, 255);
 				
-				SDL_RenderFillRect(renderer, &rect);
+				//SDL_RenderFillRect(renderer, &rect);
 				break;
 			}
 			case pipe: {
@@ -937,6 +939,7 @@ void drawScreen(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mar
 
 //igranje igre
 extern int marioCharacter;
+extern int backFromBlack;
 int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int New, int demo,char *Name2) {
 	//FILE *demo_Command = fopen("demo.txt", "w");
 	int demo_counter = 0;
@@ -1290,6 +1293,8 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		block_Texture[question][1] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
+		// hidden block - same as basic[0] and question[1]
+
 		// pipe
 		surface = IMG_Load("Slike/pipe.png");
 		if (surface == NULL) {
@@ -1504,7 +1509,8 @@ mapa = initMap(block_Texture, demo);
 		SDL_Rect rect = { probni_mario->coordinates.x + mapa->x_passed + blok.x * FLAG_SHRINK / 200,probni_mario->coordinates.y,probni_mario->size.x,probni_mario->size.y };
 		SDL_Surface *sur = NULL;
 		if (marioCharacter == 0) sur = IMG_Load("Slike/marioDeathRed.png");
-		else sur = IMG_Load("Slike/marioDeathGreen.png");
+		else if(marioCharacter==1) sur = IMG_Load("Slike/marioDeathGreen.png");
+		else sur = IMG_Load("Slike/marioDeathBlack.png");
 		SDL_Texture *death = SDL_CreateTextureFromSurface(renderer, sur);
 		SDL_FreeSurface(sur);
 		playFlagPole();
@@ -1548,7 +1554,7 @@ mapa = initMap(block_Texture, demo);
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
-
+	// free texture
 	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == devil) {
 			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
@@ -1571,10 +1577,49 @@ mapa = initMap(block_Texture, demo);
 	SDL_DestroyTexture(block_Texture[flag][0]);
 	SDL_DestroyTexture(block_Texture[projectile][0]);
 
+
+	// free ai
+	for (int i = 0; i < AI_NUMBER; i++) {
+		if (i == ground) {
+			for (int j = 0; j < map->ai_counter[ground]; j++) free(map->ai_Matrix[ground][j]);
+		}
+		if (i == basic) {
+			for (int j = 0; j < map->ai_counter[basic]; j++) free(map->ai_Matrix[basic][j]);
+		}
+		if (i == devil) {
+			for (int j = 0; j < map->ai_counter[devil]; j++) free(map->ai_Matrix[devil][j]);
+		}
+		if (i == turtle) {
+			for (int j = 0; j < map->ai_counter[turtle]; j++) free(map->ai_Matrix[turtle][j]);
+		}
+		if (i == pipe) {
+			for (int j = 0; j < map->ai_counter[pipe]; j++) free(map->ai_Matrix[pipe][j]);
+		}
+		if (i == plantie) {
+			for (int j = 0; j < map->ai_counter[plantie]; j++) free(map->ai_Matrix[plantie][j]);
+		}
+		if (i == question) {
+			for (int j = 0; j < map->ai_counter[question]; j++) free(map->ai_Matrix[question][j]);
+		}
+		if (i == hidden) {
+			for (int j = 0; j < map->ai_counter[hidden]; j++) free(map->ai_Matrix[hidden][j]);
+		}
+		if (i == pikes) {
+			for (int j = 0; j < map->ai_counter[pikes]; j++) free(map->ai_Matrix[pikes][j]);
+		}
+		if (i == flag) {
+			for (int j = 0; j < map->ai_counter[flag]; j++) free(map->ai_Matrix[flag][j]);
+		}
+	}
+	// free mario
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
 	// treba AI free da se doda !!!
 	// mapa - pomocna mapa , treba da se zameni u free(map)
+	// free map
+	marioCharacter = 0;
+	selectedBackground = 0;
+	backFromBlack = 0;
 	destroyMap(mapa);
 	return 0;
 }

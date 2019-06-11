@@ -30,6 +30,7 @@ void  destroyMap(Map *map);
 int spawnShroom(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5], int lifes);
 int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed, SDL_Texture *block_Texture[AI_NUMBER][5]);
 int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5]);
+int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation);
 
 
 
