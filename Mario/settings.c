@@ -15,11 +15,23 @@
 */
 
 //za settings
+
+/*!
+*	\brief Number of settings options in settings menu
+*/
+
 #define NUMBER_OF_SETTINGS_OPTIONS 3 
 short sound = 1; // GAME SOUND
 short marioCharacter = 0; // green or red character
 short selectedBackground = 0;
 short backFromBlack = 0; // 
+
+
+/*!
+*		\brief show settings menu and choose option you want to change
+*		\param renderer for drawing on screen
+*		\return returns 0
+*/
 
 int showSettings(SDL_Renderer *renderer) {
 	if (TTF_Init() < 0) {

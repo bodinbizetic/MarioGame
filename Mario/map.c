@@ -219,6 +219,15 @@ int spawnProjectile(Map *map, Pair_xy coord, int orientation, int speed,SDL_Text
 	return 0;
 }
 
+/*!
+*		\brief Spawns coin when mario hit hidden block with head
+*		\param map Address of map structure on which the game is played
+*		\param coord Coordinates of object which spawns the coin - coin is spawned above him
+*		\param blockTextures SDL_Textures for all AIs
+*		\return returns 0
+*/
+
+
 int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5])
 {
 	ai_Shroom *temp = malloc(sizeof(ai_Shroom));
@@ -232,6 +241,14 @@ int spawnCoin(Map *map, Pair_xy coord, SDL_Texture *block_Texture[AI_NUMBER][5])
 	map->ai_Matrix[shroom][map->ai_counter[shroom]++] = temp;
 	return 0;
 }
+
+/*!
+*		\brief Spawns devil death animation
+*		\param map Address of map structure on which the game is played
+*		\param coord Coordinates of object which spawns the animation
+*		\param blockTextures SDL_Textures for all AIs
+*		\return returns 0
+*/
 
 
 int spawnDeathDevil(Map *map, Pair_xy coord, SDL_Texture *animation)

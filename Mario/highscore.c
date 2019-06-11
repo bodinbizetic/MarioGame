@@ -199,6 +199,14 @@ int scoreOK()
 	return 0;
 }
 
+/*!
+*		\brief Update highscore text document after the game if the player scored enough points
+*		\param score Player score after the game
+*		\param name Name of the player 
+*		\param a check if the escape button is pressed and if it is pressed then dont update highscore text document 
+*		\return returns 0
+*/
+
 void updateHighscore(int score, char *name, int a)
 {
 	if (a)
@@ -269,6 +277,13 @@ void updateHighscore(int score, char *name, int a)
 		}
 	}
 }
+
+
+/*!
+*		\brief show highscore of top 5 players
+*		\param renderer for drawing on screen
+*		\return returns 0
+*/
 
 int showHighscore(SDL_Renderer *renderer) {
 	if (scoreOK() == 0) {
