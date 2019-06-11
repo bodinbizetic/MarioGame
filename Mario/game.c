@@ -1988,15 +1988,20 @@ mapa = initMap(block_Texture, demo);
 			SDL_DestroyTexture(death);
 			extern FinalScoreTextures finalScoreTextureManager;
 			destroyFinalScoreTextures(finalScoreTextureManager);
+			printf("%d", mapa->score + mapa->x_score / 10);
+			// update highscore.txt
+			updateHighscore(mapa->score + mapa->x_score / 10, name, a);
 		}
 	}
 
 	// free memory 
+
+	// free mario textures
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
-	// free texture
+	// free ai and block textures
 	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == devil) {
 			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
@@ -2004,24 +2009,54 @@ mapa = initMap(block_Texture, demo);
 		else if (i == turtle) {
 			for (int j = 0; j < 5; j++) SDL_DestroyTexture(block_Texture[i][j]);
 		}
+		else if (i == plantie) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == shroom) {
+			for (int j = 0; j < 3; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == basic) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == ground) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == question) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == pipe) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
+		else if (i == pikes) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == projectile) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == flag) {
+			SDL_DestroyTexture(block_Texture[i][0]);
+		}
+		else if (i == sky) {
+			for (int j = 0; j < 2; j++) SDL_DestroyTexture(block_Texture[i][j]);
+		}
 	}
-	SDL_DestroyTexture(block_Texture[sky][0]);
-	SDL_DestroyTexture(block_Texture[sky][1]);
-	SDL_DestroyTexture(block_Texture[ground][0]);
-	SDL_DestroyTexture(block_Texture[basic][0]); // ovo ubaciti gore u for kad se naprave svi blokovi i ai-ovi
-	SDL_DestroyTexture(block_Texture[question][0]);
-	SDL_DestroyTexture(block_Texture[shroom][0]);
+	//SDL_DestroyTexture(block_Texture[sky][0]);
+	//SDL_DestroyTexture(block_Texture[sky][1]);
+	//SDL_DestroyTexture(block_Texture[ground][0]);
+	//SDL_DestroyTexture(block_Texture[basic][0]); // ovo ubaciti gore u for kad se naprave svi blokovi i ai-ovi
+	//SDL_DestroyTexture(block_Texture[question][0]);
+	/*SDL_DestroyTexture(block_Texture[shroom][0]);
 	SDL_DestroyTexture(block_Texture[shroom][1]);
-	SDL_DestroyTexture(block_Texture[shroom][2]);
-	SDL_DestroyTexture(block_Texture[pipe][0]);
-	SDL_DestroyTexture(block_Texture[pipe][1]);
-	SDL_DestroyTexture(block_Texture[pikes][0]);
-	SDL_DestroyTexture(block_Texture[flag][0]);
-	SDL_DestroyTexture(block_Texture[projectile][0]);
+	SDL_DestroyTexture(block_Texture[shroom][2]);*/
+	/*SDL_DestroyTexture(block_Texture[pipe][0]);
+	SDL_DestroyTexture(block_Texture[pipe][1]);*/
+	//SDL_DestroyTexture(block_Texture[pikes][0]);
+	/*SDL_DestroyTexture(block_Texture[flag][0]);
+	SDL_DestroyTexture(block_Texture[projectile][0]);*/
 
 
 	// free ai
-	/*
+	
 	for (int i = 0; i < AI_NUMBER; i++) {
 		if (i == ground) {
 			for (int j = 0; j < mapa->ai_counter[ground]; j++) free(mapa->ai_Matrix[ground][j]); 
@@ -2054,7 +2089,7 @@ mapa = initMap(block_Texture, demo);
 			for (int j = 0; j < mapa->ai_counter[flag]; j++) free(mapa->ai_Matrix[flag][j]);
 		}
 	}
-	*/
+	
 	// free mario
 	free(probni_mario);
 	//SDL_DestroyTexture(object_Ground);
