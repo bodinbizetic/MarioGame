@@ -13,7 +13,7 @@
 #define MAX_MAP_WIDTH 100000
 
 /*!	\file game.c
-*	\brief Contains declarations and constants for game.c
+*	\brief Contains game loop, save/load and encypt functions
 */
 extern int fly_cheat;
 extern int immortality_cheat;

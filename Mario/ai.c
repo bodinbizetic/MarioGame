@@ -2,7 +2,20 @@
 #include "ai.h"
 #include "game.h"
 #include "main_menu.h"
+
+/*!	\file ai.c
+*	\brief Contains functions which handles ai behavior
+*/
 extern Pair_xy zeroSpeed;
+
+/*!
+*	\brief Detects and regulates bottom collision between AIs and blocks
+*	\param map Address of map structure on which the game is played
+*	\param coord Coordinates of AI object
+*	\param dim Dimension of AI object
+*	\param speed Speed of AI object
+*	\return Returns y coordinate of the collision
+*/
 int detectGravityCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -53,6 +66,14 @@ int detectGravityCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) 
 	return NO_COLLISION;
 }
 
+/*!
+*	\brief Detects and regulates side collision between AIs and blocks
+*	\param map Address of map structure on which the game is played
+*	\param coord Coordinates of AI object
+*	\param dim Dimension of AI object
+*	\param speed Speed of AI object
+*	\return Returns x coordinate of the collision
+*/
 int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	for (int j = 0; j < sizeof(gravity_Blocks) / sizeof(gravity_Blocks[0]); j++)
 		for (int i = 0; i < map->ai_counter[gravity_Blocks[j]]; i++) {
@@ -109,6 +130,14 @@ int detectSideCollideAi(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	return -1;
 }
 
+/*!
+*	\brief Detects and regulates collision between AIs and projectiles (turtle shell and Mario fireball)
+*	\param map Address of map structure on which the game is played
+*	\param coord Coordinates of AI object
+*	\param dim Dimension of AI object
+*	\param speed Speed of AI object
+*	\return Returns 1 if there is collision, otherwise 0
+*/
 int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	for (int j = 1; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -183,6 +212,13 @@ int projectileCollision(Map *map, Pair_xy coord, Pair_xy dim, Pair_xy speed) {
 	return 0;
 }
 
+/*!
+*	\brief Function that draws AIs on the screen
+*	\param window Address of current active SDL_Window
+*	\param renderer Address of main SDL_Renderer
+*	\param map Address of map structure on which the game is played
+*	\return Returns 0
+*/
 int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -303,6 +339,12 @@ int drawAI(SDL_Window *window, SDL_Renderer *renderer, Map *map) {
 	return 0;
 }
 
+/*!
+*	\brief Function that updates all AIs
+*	\param map Address of map structure on which the game is played
+*	\param mario Address of active Mario struct
+*	\return Return 0
+*/
 int updateAI(Map *map, Mario *mario) {
 	for (int j = 0; j < sizeof(ai_id) / sizeof(ai_id[0]); j++)
 		for (int i = 0; i < map->ai_counter[ai_id[j]]; i++) {
@@ -483,4 +525,5 @@ int updateAI(Map *map, Mario *mario) {
 			}
 
 		}
+		return 0;
 }
