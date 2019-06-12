@@ -5,7 +5,7 @@
 #include "main_menu.h"
 #include "game.h"
 #include "map_Segments.h"
-#include "camera.h"
+
 
 /*!		\file map.c
 *		\brief Contains functions that generate maps, demo map and AIs
