@@ -781,6 +781,20 @@ Mario* loadMario(Mario *mario, Map *mapa, char *Name2, SDL_Texture *block_Textur
 	mario->animation[2][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
+	surface = IMG_Load("Slike/profesor.png");
+	if (surface == NULL)
+	{
+		printf("%s\n", SDL_GetError());
+		exit(1);
+	}
+	mario->animation[3][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	mario->animation[3][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	mario->animation[3][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
+	mario->animation[3][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+	mario->animation[3][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+	mario->animation[3][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
+
+	SDL_FreeSurface(surface);
 	extern sound, marioCharacter, selectedBackground, backFromBlack;
 	fscanf(saved, "%d ", &sound);
 	XOR ^= sound;
@@ -1640,6 +1654,22 @@ int Game(SDL_Window *window, SDL_Renderer *renderer, Map *map, Mario *mario, int
 		probni_mario->animation[2][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 
+		// head
+
+		surface = IMG_Load("Slike/profesor.png");
+		if (surface == NULL)
+		{
+			printf("%s\n", SDL_GetError());
+			exit(1);
+		}
+		probni_mario->animation[3][0][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		probni_mario->animation[3][0][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		probni_mario->animation[3][0][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		probni_mario->animation[3][1][0] = SDL_CreateTextureFromSurface(renderer, surface);
+		probni_mario->animation[3][1][1] = SDL_CreateTextureFromSurface(renderer, surface);
+		probni_mario->animation[3][1][2] = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
 		//	AI
 		//turtle
 		surface = IMG_Load("Slike/turtleStandRight.png");
@@ -1867,6 +1897,7 @@ mapa = initMap(block_Texture, demo);
 			else
 				mapa->map_Matrix[i][j] = 1;
 		}*/
+	int vrati = 100;
 
 	//Running for game loop
 	int Running = 1;
@@ -1884,12 +1915,25 @@ mapa = initMap(block_Texture, demo);
 					fly_cheat = !fly_cheat;
 					break;
 				case SDLK_i:
-					immortality_cheat = !immortality_cheat;
+					if (marioCharacter != 3)
+						immortality_cheat = !immortality_cheat;
 					break;
 				case SDLK_ESCAPE:
+					if (marioCharacter == 3) marioCharacter = vrati;
 					saveGame(probni_mario, mapa, Name2);
 					Running = 0;
 					deathAnimation = 0;
+					break;
+				case SDLK_m: 
+					if (marioCharacter != 3) {
+						vrati = marioCharacter;
+						marioCharacter = 3;
+						immortality_cheat = 1;
+					}
+					else {
+						marioCharacter = vrati;
+						immortality_cheat = 0;
+					}
 					break;
 					//return  0; zbog ovog je curila memorija??		
 				case SDLK_p: { 
@@ -2049,7 +2093,7 @@ mapa = initMap(block_Texture, demo);
 	// free memory 
 
 	// free mario textures
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 2; j++)
 			for (int k = 0; k < 3; k++)
 				SDL_DestroyTexture(probni_mario->animation[i][j][k]);
