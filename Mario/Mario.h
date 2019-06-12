@@ -16,7 +16,7 @@
 /*!
 *	\brief Maximum value for Mario immoratility timer
 */
-#define MAX_IMORTAL 250
+#define MAX_IMORTAL 150
 
 /*!
 *	\brief Maximum value for Mario x speed

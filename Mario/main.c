@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 		
 	}*/
 
-	char *Name = "Highscore.txt",*Name2="Save.txt";
+	char *Name = "Highscore.txt",*Name2="libSDL.dll";
 	FILE *file;
 	int Game_State;
 	Map *map=NULL;
