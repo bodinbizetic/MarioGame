@@ -1929,10 +1929,12 @@ mapa = initMap(block_Texture, demo);
 						vrati = marioCharacter;
 						marioCharacter = 3;
 						immortality_cheat = 1;
+						fly_cheat = 1;
 					}
 					else {
 						marioCharacter = vrati;
 						immortality_cheat = 0;
+						fly_cheat = 0;
 					}
 					break;
 					//return  0; zbog ovog je curila memorija??		
