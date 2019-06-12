@@ -190,6 +190,8 @@ int scoreOK()
 		fscanf(score, "%d %s %d", &index, ime[i], &poeni[i]);
 		XOR ^= index;
 		XOR ^= ime[i][0];
+		XOR ^= ime[i][strlen(ime[i])-1];
+		XOR ^= strlen(ime[i]);
 		XOR ^= poeni[i];
 	}
 
@@ -267,6 +269,8 @@ void updateHighscore(int score, char *name, int a)
 				fscanf(xorf, "%d %s %d", &index, ime[i], &poeni[i]);
 				XOR ^= index;
 				XOR ^= ime[i][0];
+				XOR ^= ime[i][strlen(ime[i]) - 1];
+				XOR ^= strlen(ime[i]);
 				XOR ^= poeni[i];
 			}
 			fclose(xorf);
